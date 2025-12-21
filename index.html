@@ -6,42 +6,60 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
+    /* ===== ОСНОВА ===== */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background:
-        radial-gradient(circle at 50% 0%, rgba(60,100,80,0.25), transparent 60%),
-        linear-gradient(180deg, #0d1a14 0%, #050807 100%);
+        radial-gradient(circle at 50% 0%, rgba(70,120,95,0.35), transparent 60%),
+        linear-gradient(180deg, #0a1511 0%, #030504 100%);
       color: #e6e6e6;
       line-height: 1.6;
-      animation: fogMove 18s ease-in-out infinite alternate;
+      overflow-x: hidden;
     }
 
-    @keyframes fogMove {
-      from { background-position: 50% 0%, 0 0; }
-      to   { background-position: 48% 3%, 0 0; }
-    }
-
-    .fog-layer {
+    /* ===== ШУМ / ЗЕРНО ===== */
+    body::after {
+      content: "";
       position: fixed;
-      inset: -10%;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
       pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ===== ТУМАН СЛОЙ 1 ===== */
+    .fog {
+      position: fixed;
+      inset: -20%;
       background:
-        radial-gradient(circle at 30% 40%, rgba(255,255,255,0.06), transparent 40%),
-        radial-gradient(circle at 70% 60%, rgba(255,255,255,0.04), transparent 45%);
-      animation: fogFloat 22s ease-in-out infinite alternate;
+        radial-gradient(circle at 30% 40%, rgba(255,255,255,0.07), transparent 45%),
+        radial-gradient(circle at 70% 60%, rgba(255,255,255,0.05), transparent 50%);
+      animation: fogSlow 26s ease-in-out infinite alternate;
+      pointer-events: none;
       z-index: 0;
     }
 
-    @keyframes fogFloat {
-      from { transform: translate(0, 0); }
-      to   { transform: translate(-3%, 2%); }
+    /* ===== ТУМАН СЛОЙ 2 ===== */
+    .fog.deep {
+      animation: fogFast 18s ease-in-out infinite alternate;
+      opacity: 0.7;
+    }
+
+    @keyframes fogSlow {
+      from { transform: translate(0,0); }
+      to   { transform: translate(-4%,3%); }
+    }
+
+    @keyframes fogFast {
+      from { transform: translate(0,0); }
+      to   { transform: translate(3%,-2%); }
     }
 
     .container {
       max-width: 820px;
       margin: 0 auto;
-      padding: 70px 20px;
+      padding: 80px 20px;
       text-align: center;
       position: relative;
       z-index: 2;
@@ -49,123 +67,118 @@
 
     /* ===== СИМВОЛ ===== */
     .symbol-wrap {
-      height: 240px;
+      height: 260px;
       display: flex;
       justify-content: center;
       align-items: center;
+      margin-bottom: 20px;
       pointer-events: none;
     }
 
     .symbol {
-      width: 150px;
-      height: 150px;
+      width: 160px;
+      height: 160px;
       border-radius: 50%;
-      border: 1px solid rgba(150,200,170,0.35);
+      border: 1px solid rgba(160,220,190,0.35);
       box-shadow:
-        0 0 40px rgba(120,180,150,0.25),
-        inset 0 0 25px rgba(120,180,150,0.25);
+        0 0 60px rgba(120,200,160,0.35),
+        inset 0 0 30px rgba(120,200,160,0.35);
       position: relative;
-      animation: symbolFloat 6s ease-in-out infinite;
+      animation: symbolFloat 7s ease-in-out infinite;
     }
 
+    /* ВНУТРЕННЯЯ ЭНЕРГИЯ */
     .symbol::before {
       content: "";
       position: absolute;
-      inset: 18px;
+      inset: 20px;
       border-radius: 50%;
-      background: radial-gradient(
-        circle,
-        rgba(140,200,170,0.35),
-        transparent 70%
-      );
-      animation: symbolPulse 4s ease-in-out infinite;
+      background: radial-gradient(circle,
+        rgba(150,220,180,0.45),
+        transparent 70%);
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    /* ВРАЩАЮЩЕЕСЯ КОЛЬЦО */
+    .symbol::after {
+      content: "";
+      position: absolute;
+      inset: -12px;
+      border-radius: 50%;
+      border: 1px dashed rgba(140,210,180,0.25);
+      animation: rotate 18s linear infinite;
     }
 
     @keyframes symbolFloat {
-      0%   { transform: translateY(0); }
-      50%  { transform: translateY(-14px); }
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-18px); }
       100% { transform: translateY(0); }
     }
 
-    @keyframes symbolPulse {
-      0%   { opacity: 0.4; }
-      50%  { opacity: 0.85; }
+    @keyframes pulse {
+      0% { opacity: 0.4; }
+      50% { opacity: 0.9; }
       100% { opacity: 0.4; }
     }
 
-    h1 {
-      font-size: 40px;
-      margin-bottom: 14px;
-      letter-spacing: 2px;
-      text-shadow: 0 0 14px rgba(120,180,150,0.25);
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
     }
 
-    h2 {
-      font-size: 24px;
-      margin-bottom: 20px;
+    h1 {
+      font-size: 42px;
+      letter-spacing: 2px;
+      text-shadow: 0 0 18px rgba(140,220,180,0.35);
     }
 
     p {
-      color: #cfcfcf;
       max-width: 640px;
-      margin: 0 auto 18px;
-    }
-
-    .trust {
-      font-style: italic;
-      color: #b8c9be;
+      margin: 18px auto;
+      color: #cfd8d3;
     }
 
     .btn {
       display: inline-block;
-      margin-top: 30px;
-      padding: 16px 34px;
-      border: 1px solid #6fa68b;
-      background: rgba(111,166,139,0.08);
-      color: #e6e6e6;
-      text-decoration: none;
+      margin-top: 35px;
+      padding: 16px 36px;
       border-radius: 6px;
-      font-size: 16px;
-      animation: pulse 4.5s ease-in-out infinite;
+      border: 1px solid #7fbfa2;
+      background: rgba(127,191,162,0.12);
+      color: #fff;
+      text-decoration: none;
+      animation: btnPulse 4.5s ease-in-out infinite;
     }
 
-    @keyframes pulse {
-      0%   { box-shadow: 0 0 0 rgba(111,166,139,0); }
-      50%  { box-shadow: 0 0 18px rgba(111,166,139,0.25); }
-      100% { box-shadow: 0 0 0 rgba(111,166,139,0); }
+    @keyframes btnPulse {
+      0% { box-shadow: 0 0 0 rgba(127,191,162,0); }
+      50% { box-shadow: 0 0 28px rgba(127,191,162,0.45); }
+      100% { box-shadow: 0 0 0 rgba(127,191,162,0); }
     }
 
-    .cta {
-      margin-top: 90px;
-      padding-top: 50px;
-      border-top: 1px solid rgba(255,255,255,0.15);
-    }
-
-    footer {
-      margin-top: 90px;
-      padding-top: 25px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      font-size: 12px;
-      color: #8a8a8a;
-    }
-
-    /* ===== reveal при скролле ===== */
     .reveal {
       opacity: 0;
-      transform: translateY(40px);
-      transition: all 1.2s ease;
+      transform: translateY(50px);
+      transition: all 1.4s ease;
     }
 
     .reveal.active {
       opacity: 1;
       transform: translateY(0);
     }
+
+    footer {
+      margin-top: 100px;
+      font-size: 12px;
+      opacity: 0.7;
+    }
   </style>
 </head>
 
 <body>
 
-  <div class="fog-layer"></div>
+  <div class="fog"></div>
+  <div class="fog deep"></div>
 
   <div class="container">
 
@@ -176,15 +189,8 @@
     <h1 class="reveal">Forest Magic</h1>
 
     <p class="reveal">
-      Осознанный проект из глубины Алтая  
-      о природе, тишине и личном опыте.
-    </p>
-
-    <p class="trust reveal">
-      Сбор производится в экологически чистых лесах Алтая,  
-      в глубине Сибири.  
-      Бережная сушка в специализированных сушилках  
-      при температуре до 40°C.
+      Осознанный проект из глубины Алтая.  
+      Тишина, лес и личный опыт.
     </p>
 
     <a class="btn reveal"
@@ -193,62 +199,36 @@
       Перейти в Telegram‑бот
     </a>
 
-    <div class="cta reveal">
-      <h2>Каталог и наличие</h2>
-
-      <p>
-        Все позиции и оплата  
-        доступны только в Telegram‑боте.
-      </p>
-
-      <a class="btn"
-         href="#"
-         onclick="window.open('https://t.me/Altai_Amanita_bot','_blank')">
-        Открыть каталог
-      </a>
-
-      <p style="margin-top:20px;">
-        <a href="#"
-           onclick="window.open('https://t.me/Konstantin_krohin','_blank')"
-           style="color:#8fbfa4;text-decoration:none;">
-          Написать в личные сообщения
-        </a>
-      </p>
-    </div>
-
     <footer class="reveal">
       Информация носит ознакомительный характер.  
-      Продукция не является лекарственным средством  
+      Не является лекарственным средством  
       и не предназначена для медицинского применения.
     </footer>
 
   </div>
 
   <script>
-    /* reveal при скролле */
-    const reveals = document.querySelectorAll('.reveal');
-    function revealOnScroll() {
+    /* reveal */
+    const els = document.querySelectorAll('.reveal');
+    function onScroll() {
       const h = window.innerHeight;
-      reveals.forEach(el => {
-        if (el.getBoundingClientRect().top < h - 80) {
-          el.classList.add('active');
+      els.forEach(e => {
+        if (e.getBoundingClientRect().top < h - 100) {
+          e.classList.add('active');
         }
       });
     }
-    window.addEventListener('scroll', revealOnScroll);
-    revealOnScroll();
+    window.addEventListener('scroll', onScroll);
+    onScroll();
 
     /* параллакс символа */
-    document.addEventListener("mousemove", e => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 20;
-      const y = (e.clientY / window.innerHeight - 0.5) * 20;
-      const symbol = document.querySelector('.symbol');
-      if (symbol) {
-        symbol.style.transform = `translate(${x}px, ${y}px)`;
-      }
+    document.addEventListener('mousemove', e => {
+      const x = (e.clientX / innerWidth - 0.5) * 25;
+      const y = (e.clientY / innerHeight - 0.5) * 25;
+      const s = document.querySelector('.symbol');
+      if (s) s.style.transform = `translate(${x}px, ${y}px)`;
     });
   </script>
 
 </body>
 </html>
-
