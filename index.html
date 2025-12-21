@@ -11,7 +11,6 @@
   --my: 0px;
 }
 
-/* ОСНОВА */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -22,7 +21,6 @@ body {
   overflow-x: hidden;
 }
 
-/* ЗЕРНО */
 body::after {
   content: "";
   position: fixed;
@@ -32,7 +30,6 @@ body::after {
   z-index: 1;
 }
 
-/* ТУМАН */
 .fog {
   position: fixed;
   inset: -20%;
@@ -58,6 +55,44 @@ body::after {
   z-index: 2;
 }
 
+section {
+  margin-top: 120px;
+}
+
+h1 {
+  font-size: 42px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 18px rgba(140,220,180,0.35);
+}
+
+h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  text-shadow: 0 0 12px rgba(140,220,180,0.25);
+}
+
+p {
+  max-width: 640px;
+  margin: 12px auto;
+  color: #cfd8d3;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 14px 32px;
+  border-radius: 6px;
+  border: 1px solid #7fbfa2;
+  background: rgba(127,191,162,0.12);
+  color: #fff;
+  text-decoration: none;
+  animation: glow 4.5s ease-in-out infinite;
+}
+
+@keyframes glow {
+  50% { box-shadow: 0 0 28px rgba(127,191,162,0.45); }
+}
+
 /* СИМВОЛ */
 .symbol-wrap {
   height: 260px;
@@ -76,10 +111,9 @@ body::after {
     inset 0 0 30px rgba(120,200,160,0.35);
   position: relative;
   animation: float 7s ease-in-out infinite;
-  transform: translate(calc(var(--mx)), calc(var(--my)));
+  transform: translate(var(--mx), var(--my));
 }
 
-/* ЭНЕРГИЯ */
 .symbol::before {
   content: "";
   position: absolute;
@@ -89,7 +123,6 @@ body::after {
   animation: pulse 4s ease-in-out infinite;
 }
 
-/* КОЛЬЦО */
 .symbol::after {
   content: "";
   position: absolute;
@@ -100,9 +133,7 @@ body::after {
 }
 
 @keyframes float {
-  0% { transform: translate(var(--mx), var(--my)); }
   50% { transform: translate(var(--mx), calc(var(--my) - 18px)); }
-  100% { transform: translate(var(--mx), var(--my)); }
 }
 
 @keyframes pulse {
@@ -115,36 +146,8 @@ body::after {
   to { transform: rotate(360deg); }
 }
 
-h1 {
-  font-size: 42px;
-  letter-spacing: 2px;
-  text-shadow: 0 0 18px rgba(140,220,180,0.35);
-}
-
-p {
-  max-width: 640px;
-  margin: 18px auto;
-  color: #cfd8d3;
-}
-
-.btn {
-  display: inline-block;
-  margin-top: 35px;
-  padding: 16px 36px;
-  border-radius: 6px;
-  border: 1px solid #7fbfa2;
-  background: rgba(127,191,162,0.12);
-  color: #fff;
-  text-decoration: none;
-  animation: glow 4.5s ease-in-out infinite;
-}
-
-@keyframes glow {
-  50% { box-shadow: 0 0 28px rgba(127,191,162,0.45); }
-}
-
 footer {
-  margin-top: 100px;
+  margin-top: 120px;
   font-size: 12px;
   opacity: 0.7;
 }
@@ -155,6 +158,8 @@ footer {
 <div class="fog"></div>
 
 <div class="container">
+
+  <!-- HERO -->
   <div class="symbol-wrap">
     <div class="symbol"></div>
   </div>
@@ -162,18 +167,72 @@ footer {
   <h1>Forest Magic</h1>
   <p>
     Осознанный проект из глубины Алтая.  
-    Тишина, лес и личный опыт.
+    Лес, тишина и личный опыт.
   </p>
 
   <a class="btn" href="https://t.me/Altai_Amanita_bot" target="_blank">
     Перейти в Telegram‑бот
   </a>
 
+  <!-- КАТАЛОГ -->
+  <section>
+    <h2>Каталог</h2>
+    <p>
+      Все позиции, наличие и оплата  
+      доступны только через Telegram‑бот.
+    </p>
+    <a class="btn" href="https://t.me/Altai_Amanita_bot" target="_blank">
+      Открыть каталог
+    </a>
+  </section>
+
+  <!-- ПРОИЗВОДСТВО -->
+  <section>
+    <h2>Производство</h2>
+    <p>
+      Сбор осуществляется вручную  
+      в экологически чистых лесах Алтая,  
+      вдали от дорог и населённых пунктов.
+    </p>
+    <p>
+      Сушка — в специализированных сушильных камерах  
+      при температуре до 40°C  
+      для сохранения природных свойств.
+    </p>
+  </section>
+
+  <!-- ДОСТАВКА И ОПЛАТА -->
+  <section>
+    <h2>Доставка и оплата</h2>
+    <p>
+      Оплата и оформление заказа  
+      происходят напрямую через бота.
+    </p>
+    <p>
+      Доставка осуществляется  
+      по согласованию после оформления.
+    </p>
+  </section>
+
+  <!-- ПОДДЕРЖКА -->
+  <section>
+    <h2>Поддержка</h2>
+    <p>
+      Если у вас есть вопросы  
+      или вы хотите что‑то уточнить —  
+      напишите нам напрямую.
+    </p>
+    <a class="btn" href="https://t.me/Konstantin_krohin" target="_blank">
+      Написать в поддержку
+    </a>
+  </section>
+
   <footer>
     Информация носит ознакомительный характер.  
     Не является лекарственным средством  
     и не предназначена для медицинского применения.
   </footer>
+
 </div>
 
 <script>
@@ -184,5 +243,6 @@ document.addEventListener('mousemove', e => {
   document.documentElement.style.setProperty('--my', y + 'px');
 });
 </script>
+
 </body>
 </html>
