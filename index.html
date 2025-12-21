@@ -21,6 +21,8 @@ body::before{
   pointer-events:none;
   z-index:1;
 }
+
+/* ===== MENU ===== */
 nav{
   position:fixed;
   top:0;width:100%;
@@ -38,6 +40,7 @@ nav ul{
 }
 nav a{color:#cfe6dc;text-decoration:none;font-size:14px}
 
+/* ===== LAYOUT ===== */
 .container{
   max-width:1100px;
   margin:auto;
@@ -55,10 +58,12 @@ section::before{
   background:radial-gradient(circle,rgba(120,220,180,.25),transparent 70%);
   opacity:.6;
 }
+
 h1{font-size:46px;letter-spacing:3px}
 h2{font-size:34px;margin-bottom:30px}
 p{max-width:760px;margin:16px auto;color:#cddfd7}
 
+/* ===== SYMBOL ===== */
 .symbol{
   width:180px;height:220px;
   margin:auto;
@@ -70,6 +75,7 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 @keyframes float{50%{transform:translateY(-18px)}}
 @keyframes pulse{50%{box-shadow:0 0 140px rgba(120,220,180,.8)}}
 
+/* ===== BUTTON ===== */
 .btn{
   display:inline-block;
   margin-top:40px;
@@ -80,8 +86,10 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   border-radius:8px;
   background:rgba(127,191,162,.12);
   box-shadow:0 0 40px rgba(127,191,162,.4);
+  cursor:pointer;
 }
 
+/* ===== GRID ===== */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
@@ -110,6 +118,7 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   font-size:22px;
 }
 
+/* ===== CATALOG ===== */
 .catalog{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
@@ -129,11 +138,10 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 }
 .product:hover{box-shadow:0 0 60px rgba(120,220,180,.6)}
 
-.review{
-  font-size:14px;
-  line-height:1.6;
-}
+/* ===== REVIEWS ===== */
+.review{font-size:14px;line-height:1.6}
 
+/* ===== SPORES ===== */
 .spore{
   position:fixed;
   width:2px;height:2px;
@@ -144,6 +152,49 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 @keyframes spore{
   from{transform:translateY(110vh);opacity:0}
   to{transform:translateY(-10vh);opacity:1}
+}
+
+/* ===== PORTAL ===== */
+.portal-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .6s ease;
+  z-index:999;
+}
+.portal-overlay.active{
+  opacity:1;
+  pointer-events:all;
+}
+.portal-circle{
+  width:140px;height:140px;
+  border-radius:50%;
+  border:2px solid rgba(140,220,180,.7);
+  box-shadow:0 0 40px rgba(140,220,180,.6),
+             0 0 90px rgba(140,220,180,.4);
+  animation:portalPulse 1.2s ease-in-out infinite;
+}
+.portal-text{
+  margin-top:26px;
+  font-size:14px;
+  letter-spacing:2px;
+  opacity:0;
+  animation:textFade 1.2s ease forwards;
+}
+@keyframes portalPulse{
+  0%{transform:scale(.8);opacity:.6}
+  50%{transform:scale(1.1);opacity:1}
+  100%{transform:scale(1.6);opacity:0}
+}
+@keyframes textFade{
+  from{opacity:0}
+  to{opacity:.8}
 }
 </style>
 </head>
@@ -163,45 +214,35 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 <div class="symbol"></div>
 <h1>Forest Magic</h1>
 <p>Осознанный проект из глубины Алтая. Лес. Тишина. Личный опыт.</p>
-<a class="btn" href="https://t.me/Altai_Amanita_bot" target="_blank">Перейти в Telegram‑бот</a>
+<div class="btn" onclick="openTelegram()">Перейти в Telegram‑бот</div>
 
 <section id="effects">
 <h2>Мухомор — природный союзник</h2>
 <div class="grid">
 <div class="card"><div class="icon">☽</div>Глубокое расслабление и восстановление сна</div>
 <div class="card"><div class="icon">✦</div>Снижение тяги к навязчивым привычкам</div>
-<div class="card"><div class="icon">◉</div>Устойчивость к стрессу и перегрузкам</div>
-<div class="card"><div class="icon">❍</div>Внутреннее равновесие и спокойствие</div>
+<div class="card"><div class="icon">◉</div>Устойчивость к стрессу</div>
+<div class="card"><div class="icon">❍</div>Внутреннее равновесие</div>
 </div>
 </section>
 
 <section>
 <h2>Два уровня взаимодействия</h2>
 <div class="grid">
-<div class="card">
-<strong>Психоэмоциональный</strong><br><br>
-Ясность мышления<br>
-Снижение внутреннего шума<br>
-Креативность и уверенность
-</div>
-<div class="card">
-<strong>Телесный</strong><br><br>
-Поддержка сна<br>
-Энергия и тонус<br>
-Расслабление тела
-</div>
+<div class="card">Ясность мышления<br>Снижение внутреннего шума<br>Креативность</div>
+<div class="card">Поддержка сна<br>Энергия<br>Расслабление тела</div>
 </div>
 </section>
 
 <section id="catalog">
 <h2>Каталог</h2>
 <div class="catalog">
-<div class="product" onclick="window.open('https://t.me/Altai_Amanita_bot','_blank')">Мухомор цельный</div>
-<div class="product">Резаный мухомор</div>
-<div class="product">Микродозинг</div>
-<div class="product">Пантерный</div>
-<div class="product">Экстракт</div>
-<div class="product">Сбор «Лесная тишина»</div>
+<div class="product" onclick="openTelegram()">Мухомор цельный</div>
+<div class="product" onclick="openTelegram()">Резаный мухомор</div>
+<div class="product" onclick="openTelegram()">Микродозинг</div>
+<div class="product" onclick="openTelegram()">Пантерный</div>
+<div class="product" onclick="openTelegram()">Экстракт</div>
+<div class="product" onclick="openTelegram()">Сбор «Лесная тишина»</div>
 </div>
 </section>
 
@@ -209,13 +250,13 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 <h2>Отзывы</h2>
 <p>Люди у нас покупают — и вот что они говорят:</p>
 <div class="grid">
-<div class="card review">«Очень мягкое и глубокое состояние. Сон стал лучше уже через несколько дней.»</div>
-<div class="card review">«Чувствуется бережный подход. Не про хайп — про опыт.»</div>
-<div class="card review">«Помогло снизить внутреннее напряжение и суету.»</div>
-<div class="card review">«Качество и атмосфера — на другом уровне.»</div>
-<div class="card review">«Редко пишу отзывы, но тут захотелось поблагодарить.»</div>
+<div class="card review">«Очень мягкое и глубокое состояние.»</div>
+<div class="card review">«Чувствуется бережный подход.»</div>
+<div class="card review">«Спокойствие и тишина внутри.»</div>
+<div class="card review">«Качество на другом уровне.»</div>
+<div class="card review">«Вернусь ещё.»</div>
 </div>
-<a class="btn" href="https://t.me/REVIEWS_ForestMagic" target="_blank">Больше отзывов</a>
+<div class="btn" onclick="window.open('https://t.me/REVIEWS_ForestMagic','_blank')">Больше отзывов</div>
 </section>
 
 <footer style="margin-top:140px;font-size:12px;opacity:.7">
@@ -223,7 +264,22 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 </footer>
 </div>
 
+<!-- PORTAL -->
+<div class="portal-overlay" id="portal">
+  <div class="portal-circle"></div>
+  <div class="portal-text">Переход…</div>
+</div>
+
 <script>
+function openTelegram(){
+  const portal=document.getElementById('portal');
+  portal.classList.add('active');
+  setTimeout(()=>{
+    window.open('https://t.me/Altai_Amanita_bot','_blank');
+    portal.classList.remove('active');
+  },1200);
+}
+
 for(let i=0;i<25;i++){
  let s=document.createElement('div');
  s.className='spore';
