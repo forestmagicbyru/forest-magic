@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -6,8 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-html{scroll-behavior:smooth}
-
 body{
   margin:0;
   font-family:Arial,sans-serif;
@@ -57,51 +55,24 @@ nav a{
   z-index:3;
 }
 section{margin-top:150px;position:relative}
+section::before{
+  content:"";
+  position:absolute;
+  top:-90px;left:0;right:0;
+  height:90px;
+  background:radial-gradient(circle,rgba(120,220,180,.25),transparent 70%);
+}
 h1{font-size:46px;letter-spacing:3px}
 h2{font-size:34px;margin-bottom:30px}
 p{max-width:760px;margin:16px auto;color:#cddfd7}
 
-/* ===== SYMBOL ===== */
+/* ===== REALISTIC MUSHROOM SYMBOL ===== */
 .symbol{
   position:relative;
   width:200px;
   height:260px;
   margin:40px auto;
-  cursor:pointer;
   animation:float 7s ease-in-out infinite;
-  transform-style:preserve-3d;
-  transition:transform .15s ease-out;
-}
-
-/* fog */
-.symbol::before{
-  content:"";
-  position:absolute;
-  inset:-80px;
-  background:
-    radial-gradient(circle at 30% 30%,rgba(200,255,240,.15),transparent 60%),
-    radial-gradient(circle at 70% 60%,rgba(160,220,255,.12),transparent 65%);
-  filter:blur(30px);
-  animation:fogMove 18s ease-in-out infinite;
-  z-index:-2;
-}
-
-/* aura */
-.aura{
-  position:absolute;
-  inset:-60px;
-  border-radius:50%;
-  background:
-    conic-gradient(
-      transparent,
-      rgba(140,220,180,.25),
-      transparent,
-      rgba(255,120,120,.25),
-      transparent
-    );
-  filter:blur(18px);
-  animation:auraSpin 12s linear infinite;
-  z-index:-1;
 }
 
 /* cap */
@@ -115,8 +86,9 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   background:radial-gradient(circle at 50% 30%,#ff5a5a,#8b0d0d);
   border-radius:100% 100% 70% 70%;
   box-shadow:0 0 120px rgba(255,80,80,.6);
-  animation:capGlow 6s ease-in-out infinite;
 }
+
+/* white dots */
 .cap::before{
   content:"";
   position:absolute;
@@ -124,7 +96,10 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   background:
     radial-gradient(circle at 20% 40%,#fff 6px,transparent 7px),
     radial-gradient(circle at 45% 25%,#fff 5px,transparent 6px),
-    radial-gradient(circle at 70% 45%,#fff 7px,transparent 8px);
+    radial-gradient(circle at 70% 45%,#fff 7px,transparent 8px),
+    radial-gradient(circle at 35% 60%,#fff 4px,transparent 5px),
+    radial-gradient(circle at 60% 65%,#fff 5px,transparent 6px);
+  opacity:.9;
 }
 
 /* stem */
@@ -140,12 +115,32 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   box-shadow:0 0 40px rgba(200,220,200,.4);
 }
 
-/* explode */
-.symbol.open{
-  animation:explode 1.2s ease forwards;
+/* glow pulse */
+.symbol::after{
+  content:"";
+  position:absolute;
+  inset:-40px;
+  background:radial-gradient(circle,rgba(140,220,180,.25),transparent 70%);
+  animation:pulse 4s infinite;
 }
 
-/* ===== GRID / CARDS ===== */
+@keyframes float{50%{transform:translateY(-18px)}}
+@keyframes pulse{50%{opacity:.7}}
+
+/* ===== BUTTON ===== */
+.btn{
+  display:inline-block;
+  margin-top:40px;
+  padding:16px 40px;
+  border:1px solid #7fbfa2;
+  color:#fff;
+  border-radius:10px;
+  background:rgba(127,191,162,.12);
+  box-shadow:0 0 40px rgba(127,191,162,.45);
+  cursor:pointer;
+}
+
+/* ===== GRID ===== */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
@@ -194,17 +189,20 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 }
 .product:hover{box-shadow:0 0 70px rgba(120,220,180,.6)}
 
-/* ===== BUTTON ===== */
-.btn{
-  display:inline-block;
-  margin-top:40px;
-  padding:16px 40px;
-  border:1px solid #7fbfa2;
-  color:#fff;
-  border-radius:10px;
-  background:rgba(127,191,162,.12);
-  box-shadow:0 0 40px rgba(127,191,162,.45);
-  cursor:pointer;
+/* ===== REVIEWS ===== */
+.review{font-size:14px;line-height:1.6}
+
+/* ===== SPORES ===== */
+.spore{
+  position:fixed;
+  width:2px;height:2px;
+  background:rgba(200,255,230,.7);
+  border-radius:50%;
+  animation:spore 14s linear infinite;
+}
+@keyframes spore{
+  from{transform:translateY(110vh);opacity:0}
+  to{transform:translateY(-10vh);opacity:1}
 }
 
 /* ===== PORTAL ===== */
@@ -218,7 +216,7 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   flex-direction:column;
   opacity:0;
   pointer-events:none;
-  transition:.6s;
+  transition:opacity .6s ease;
   z-index:999;
 }
 .portal.active{opacity:1;pointer-events:all}
@@ -226,33 +224,21 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   width:150px;height:150px;
   border-radius:50%;
   border:2px solid rgba(140,220,180,.8);
-  box-shadow:0 0 120px rgba(140,220,180,.8);
-  animation:portalPulse 1.2s infinite;
+  box-shadow:0 0 50px rgba(140,220,180,.6),
+             0 0 120px rgba(140,220,180,.5);
+  animation:portalPulse 1.2s ease-in-out infinite;
 }
-
-/* ===== PARTICLES ===== */
-.spore{
-  position:fixed;
-  width:3px;height:3px;
-  background:rgba(230,255,255,.8);
-  border-radius:50%;
-  box-shadow:0 0 6px rgba(200,255,255,.8);
-  animation:spore 14s linear infinite;
+.portal-text{
+  margin-top:28px;
+  font-size:14px;
+  letter-spacing:3px;
+  opacity:.8;
 }
-
-/* ===== ANIMATIONS ===== */
-@keyframes float{
-  50%{transform:translateY(-22px) scale(1.04);filter:brightness(1.15)}
+@keyframes portalPulse{
+  0%{transform:scale(.8);opacity:.6}
+  50%{transform:scale(1.1);opacity:1}
+  100%{transform:scale(1.6);opacity:0}
 }
-@keyframes fogMove{50%{transform:translateX(20px)}}
-@keyframes auraSpin{to{transform:rotate(360deg)}}
-@keyframes capGlow{50%{filter:hue-rotate(12deg)}}
-@keyframes explode{100%{transform:scale(0);opacity:0}}
-@keyframes spore{
-  from{transform:translateY(110vh);opacity:0}
-  to{transform:translateY(-10vh);opacity:1}
-}
-@keyframes portalPulse{50%{transform:scale(1.2)}}
 </style>
 </head>
 
@@ -270,85 +256,99 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 
 <div class="container" id="home">
 
-<div class="symbol" onclick="enterPortal()">
-  <div class="aura"></div>
+<div class="symbol">
   <div class="cap"></div>
   <div class="stem"></div>
 </div>
 
 <h1>Forest Magic</h1>
 <p>Осознанный проект из глубины Алтая. Лес. Тишина. Личный опыт.</p>
-
-<div class="btn" onclick="enterPortal()">Перейти в Telegram</div>
+<div class="btn" onclick="portalTelegram()">Перейти в Telegram‑бот</div>
 
 <section id="effects">
 <h2>Мухомор — природный союзник</h2>
 <div class="grid">
-<div class="card"><div class="icon">☽</div>Глубокое расслабление и сон</div>
-<div class="card"><div class="icon">✦</div>Снижение привычек</div>
-<div class="card"><div class="icon">◉</div>Устойчивость</div>
-<div class="card"><div class="icon">❍</div>Равновесие</div>
+<div class="card"><div class="icon">☽</div>Глубокое расслабление и восстановление сна</div>
+<div class="card"><div class="icon">✦</div>Снижение тяги к навязчивым привычкам</div>
+<div class="card"><div class="icon">◉</div>Устойчивость к стрессу</div>
+<div class="card"><div class="icon">❍</div>Внутреннее равновесие</div>
 </div>
 </section>
 
 <section id="catalog">
 <h2>Каталог</h2>
 <div class="catalog">
-<div class="product" onclick="enterPortal()">Мухомор цельный</div>
-<div class="product" onclick="enterPortal()">Микродозинг</div>
-<div class="product" onclick="enterPortal()">Экстракт</div>
+<div class="product" onclick="portalTelegram()">Мухомор цельный</div>
+<div class="product" onclick="portalTelegram()">Резаный мухомор</div>
+<div class="product" onclick="portalTelegram()">Микродозинг</div>
+<div class="product" onclick="portalTelegram()">Пантерный</div>
+<div class="product" onclick="portalTelegram()">Экстракт</div>
+<div class="product" onclick="portalTelegram()">Сбор «Лесная тишина»</div>
 </div>
 </section>
 
 <section id="reviews">
 <h2>Отзывы</h2>
+<p>Люди у нас покупают — и вот что они говорят:</p>
 <div class="grid">
-<div class="card">«Очень мягкое состояние»</div>
-<div class="card">«Чувствуется глубина»</div>
+<div class="card review">«Очень мягкое и глубокое состояние.»</div>
+<div class="card review">«Чувствуется бережный подход.»</div>
+<div class="card review">«Спокойствие и тишина внутри.»</div>
+<div class="card review">«Качество на другом уровне.»</div>
 </div>
+<div class="btn" onclick="portalReviews()">Больше отзывов</div>
 </section>
 
 <section id="promo">
 <h2>Особое предложение</h2>
-<p>Ограниченные наборы. Доступ по запросу.</p>
-<div class="btn" onclick="enterPortal()">Узнать условия</div>
+<p>Время от времени мы открываем доступ к ограниченным наборам для своих.</p>
+<div class="grid">
+<div class="card">
+<div class="icon">✶</div>
+<strong>Лесной набор</strong><br><br>
+Ограниченная партия<br>Ручная сборка<br>Доступ по запросу
+</div>
+<div class="card">
+<div class="icon">☾</div>
+<strong>Тихий путь</strong><br><br>
+Для вечернего ритма<br>Осознанный формат
+</div>
+</div>
+<div class="btn" onclick="portalTelegram()">Узнать условия</div>
 </section>
 
 <footer style="margin-top:160px;font-size:12px;opacity:.7">
-Информация не является медицинской рекомендацией
+Информация носит ознакомительный характер и не является медицинской.
 </footer>
 
 </div>
 
 <div class="portal" id="portal">
   <div class="portal-circle"></div>
-  <div style="margin-top:20px;letter-spacing:3px">Переход…</div>
+  <div class="portal-text">Переход…</div>
 </div>
 
 <script>
-const symbol=document.querySelector('.symbol');
-
-document.addEventListener('mousemove',e=>{
-  const x=(e.clientX/window.innerWidth-.5)*20;
-  const y=(e.clientY/window.innerHeight-.5)*20;
-  symbol.style.transform=`rotateX(${-y}deg) rotateY(${x}deg)`;
-});
-
-function enterPortal(){
-  symbol.classList.add('open');
-  document.getElementById('portal').classList.add('active');
+function portalTelegram(){
+  showPortal(()=>window.open('https://t.me/Altai_Amanita_bot','_blank'));
+}
+function portalReviews(){
+  showPortal(()=>window.open('https://t.me/REVIEWS_ForestMagic','_blank'));
+}
+function showPortal(action){
+  const p=document.getElementById('portal');
+  p.classList.add('active');
   setTimeout(()=>{
-    window.open('https://t.me/Altai_Amanita_bot','_blank');
+    action();
+    p.classList.remove('active');
   },1200);
 }
-
-for(let i=0;i<40;i++){
-  let s=document.createElement('div');
-  s.className='spore';
-  s.style.left=Math.random()*100+'vw';
-  s.style.animationDuration=12+Math.random()*12+'s';
-  s.style.opacity=Math.random();
-  document.body.appendChild(s);
+for(let i=0;i<28;i++){
+ let s=document.createElement('div');
+ s.className='spore';
+ s.style.left=Math.random()*100+'vw';
+ s.style.animationDelay=Math.random()*14+'s';
+ document.body.appendChild(s);
 }
 </script>
 
