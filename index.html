@@ -1,234 +1,188 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Forest Magic — Алтай</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Forest Magic — Алтай</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    /* ===== ОСНОВА ===== */
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background:
-        radial-gradient(circle at 50% 0%, rgba(70,120,95,0.35), transparent 60%),
-        linear-gradient(180deg, #0a1511 0%, #030504 100%);
-      color: #e6e6e6;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+<style>
+:root {
+  --mx: 0px;
+  --my: 0px;
+}
 
-    /* ===== ШУМ / ЗЕРНО ===== */
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 1;
-    }
+/* ОСНОВА */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(70,120,95,0.35), transparent 60%),
+    linear-gradient(180deg, #0a1511 0%, #030504 100%);
+  color: #e6e6e6;
+  overflow-x: hidden;
+}
 
-    /* ===== ТУМАН СЛОЙ 1 ===== */
-    .fog {
-      position: fixed;
-      inset: -20%;
-      background:
-        radial-gradient(circle at 30% 40%, rgba(255,255,255,0.07), transparent 45%),
-        radial-gradient(circle at 70% 60%, rgba(255,255,255,0.05), transparent 50%);
-      animation: fogSlow 26s ease-in-out infinite alternate;
-      pointer-events: none;
-      z-index: 0;
-    }
+/* ЗЕРНО */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
 
-    /* ===== ТУМАН СЛОЙ 2 ===== */
-    .fog.deep {
-      animation: fogFast 18s ease-in-out infinite alternate;
-      opacity: 0.7;
-    }
+/* ТУМАН */
+.fog {
+  position: fixed;
+  inset: -20%;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(255,255,255,0.06), transparent 45%),
+    radial-gradient(circle at 70% 60%, rgba(255,255,255,0.05), transparent 50%);
+  animation: fog 30s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
+}
 
-    @keyframes fogSlow {
-      from { transform: translate(0,0); }
-      to   { transform: translate(-4%,3%); }
-    }
+@keyframes fog {
+  from { transform: translate(0,0); }
+  to { transform: translate(-4%,3%); }
+}
 
-    @keyframes fogFast {
-      from { transform: translate(0,0); }
-      to   { transform: translate(3%,-2%); }
-    }
+.container {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 90px 20px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
 
-    .container {
-      max-width: 820px;
-      margin: 0 auto;
-      padding: 80px 20px;
-      text-align: center;
-      position: relative;
-      z-index: 2;
-    }
+/* СИМВОЛ */
+.symbol-wrap {
+  height: 260px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    /* ===== СИМВОЛ ===== */
-    .symbol-wrap {
-      height: 260px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 20px;
-      pointer-events: none;
-    }
+.symbol {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 1px solid rgba(160,220,190,0.35);
+  box-shadow:
+    0 0 60px rgba(120,200,160,0.35),
+    inset 0 0 30px rgba(120,200,160,0.35);
+  position: relative;
+  animation: float 7s ease-in-out infinite;
+  transform: translate(calc(var(--mx)), calc(var(--my)));
+}
 
-    .symbol {
-      width: 160px;
-      height: 160px;
-      border-radius: 50%;
-      border: 1px solid rgba(160,220,190,0.35);
-      box-shadow:
-        0 0 60px rgba(120,200,160,0.35),
-        inset 0 0 30px rgba(120,200,160,0.35);
-      position: relative;
-      animation: symbolFloat 7s ease-in-out infinite;
-    }
+/* ЭНЕРГИЯ */
+.symbol::before {
+  content: "";
+  position: absolute;
+  inset: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(150,220,180,0.5), transparent 70%);
+  animation: pulse 4s ease-in-out infinite;
+}
 
-    /* ВНУТРЕННЯЯ ЭНЕРГИЯ */
-    .symbol::before {
-      content: "";
-      position: absolute;
-      inset: 20px;
-      border-radius: 50%;
-      background: radial-gradient(circle,
-        rgba(150,220,180,0.45),
-        transparent 70%);
-      animation: pulse 4s ease-in-out infinite;
-    }
+/* КОЛЬЦО */
+.symbol::after {
+  content: "";
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  border: 1px dashed rgba(140,210,180,0.3);
+  animation: rotate 18s linear infinite;
+}
 
-    /* ВРАЩАЮЩЕЕСЯ КОЛЬЦО */
-    .symbol::after {
-      content: "";
-      position: absolute;
-      inset: -12px;
-      border-radius: 50%;
-      border: 1px dashed rgba(140,210,180,0.25);
-      animation: rotate 18s linear infinite;
-    }
+@keyframes float {
+  0% { transform: translate(var(--mx), var(--my)); }
+  50% { transform: translate(var(--mx), calc(var(--my) - 18px)); }
+  100% { transform: translate(var(--mx), var(--my)); }
+}
 
-    @keyframes symbolFloat {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-18px); }
-      100% { transform: translateY(0); }
-    }
+@keyframes pulse {
+  0%,100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
 
-    @keyframes pulse {
-      0% { opacity: 0.4; }
-      50% { opacity: 0.9; }
-      100% { opacity: 0.4; }
-    }
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
 
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
+h1 {
+  font-size: 42px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 18px rgba(140,220,180,0.35);
+}
 
-    h1 {
-      font-size: 42px;
-      letter-spacing: 2px;
-      text-shadow: 0 0 18px rgba(140,220,180,0.35);
-    }
+p {
+  max-width: 640px;
+  margin: 18px auto;
+  color: #cfd8d3;
+}
 
-    p {
-      max-width: 640px;
-      margin: 18px auto;
-      color: #cfd8d3;
-    }
+.btn {
+  display: inline-block;
+  margin-top: 35px;
+  padding: 16px 36px;
+  border-radius: 6px;
+  border: 1px solid #7fbfa2;
+  background: rgba(127,191,162,0.12);
+  color: #fff;
+  text-decoration: none;
+  animation: glow 4.5s ease-in-out infinite;
+}
 
-    .btn {
-      display: inline-block;
-      margin-top: 35px;
-      padding: 16px 36px;
-      border-radius: 6px;
-      border: 1px solid #7fbfa2;
-      background: rgba(127,191,162,0.12);
-      color: #fff;
-      text-decoration: none;
-      animation: btnPulse 4.5s ease-in-out infinite;
-    }
+@keyframes glow {
+  50% { box-shadow: 0 0 28px rgba(127,191,162,0.45); }
+}
 
-    @keyframes btnPulse {
-      0% { box-shadow: 0 0 0 rgba(127,191,162,0); }
-      50% { box-shadow: 0 0 28px rgba(127,191,162,0.45); }
-      100% { box-shadow: 0 0 0 rgba(127,191,162,0); }
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(50px);
-      transition: all 1.4s ease;
-    }
-
-    .reveal.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    footer {
-      margin-top: 100px;
-      font-size: 12px;
-      opacity: 0.7;
-    }
-  </style>
+footer {
+  margin-top: 100px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+</style>
 </head>
 
 <body>
+<div class="fog"></div>
 
-  <div class="fog"></div>
-  <div class="fog deep"></div>
-
-  <div class="container">
-
-    <div class="symbol-wrap">
-      <div class="symbol"></div>
-    </div>
-
-    <h1 class="reveal">Forest Magic</h1>
-
-    <p class="reveal">
-      Осознанный проект из глубины Алтая.  
-      Тишина, лес и личный опыт.
-    </p>
-
-    <a class="btn reveal"
-       href="#"
-       onclick="window.open('https://t.me/Altai_Amanita_bot','_blank')">
-      Перейти в Telegram‑бот
-    </a>
-
-    <footer class="reveal">
-      Информация носит ознакомительный характер.  
-      Не является лекарственным средством  
-      и не предназначена для медицинского применения.
-    </footer>
-
+<div class="container">
+  <div class="symbol-wrap">
+    <div class="symbol"></div>
   </div>
 
-  <script>
-    /* reveal */
-    const els = document.querySelectorAll('.reveal');
-    function onScroll() {
-      const h = window.innerHeight;
-      els.forEach(e => {
-        if (e.getBoundingClientRect().top < h - 100) {
-          e.classList.add('active');
-        }
-      });
-    }
-    window.addEventListener('scroll', onScroll);
-    onScroll();
+  <h1>Forest Magic</h1>
+  <p>
+    Осознанный проект из глубины Алтая.  
+    Тишина, лес и личный опыт.
+  </p>
 
-    /* параллакс символа */
-    document.addEventListener('mousemove', e => {
-      const x = (e.clientX / innerWidth - 0.5) * 25;
-      const y = (e.clientY / innerHeight - 0.5) * 25;
-      const s = document.querySelector('.symbol');
-      if (s) s.style.transform = `translate(${x}px, ${y}px)`;
-    });
-  </script>
+  <a class="btn" href="https://t.me/Altai_Amanita_bot" target="_blank">
+    Перейти в Telegram‑бот
+  </a>
 
+  <footer>
+    Информация носит ознакомительный характер.  
+    Не является лекарственным средством  
+    и не предназначена для медицинского применения.
+  </footer>
+</div>
+
+<script>
+document.addEventListener('mousemove', e => {
+  const x = (e.clientX / innerWidth - 0.5) * 20;
+  const y = (e.clientY / innerHeight - 0.5) * 20;
+  document.documentElement.style.setProperty('--mx', x + 'px');
+  document.documentElement.style.setProperty('--my', y + 'px');
+});
+</script>
 </body>
 </html>
