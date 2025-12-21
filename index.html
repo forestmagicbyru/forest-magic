@@ -5,14 +5,25 @@
 <title>Forest Magic — Глубина Алтая</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-/* 1. БАЗОВЫЕ НАСТРОЙКИ И ПЛАВНОСТЬ */
+/* 1. БАЗОВЫЕ НАСТРОЙКИ */
 html { scroll-behavior: smooth; }
 body {
-  margin: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  margin: 0; font-family: 'Segoe UI', Roboto, sans-serif;
   background-color: #020403; color: #e6e6e6; overflow-x: hidden;
 }
 
-/* ФОН ЛЕСА (Работает на мобильных) */
+/* Эффект тряски экрана при ударе */
+@keyframes shake {
+  0% { transform: translate(0,0); }
+  10% { transform: translate(-5px, -5px); }
+  30% { transform: translate(5px, 5px); }
+  50% { transform: translate(-5px, 5px); }
+  70% { transform: translate(5px, -5px); }
+  100% { transform: translate(0,0); }
+}
+.shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+
+/* ФОН */
 .bg-fix {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
   background: linear-gradient(180deg, rgba(6,16,12,0.9), rgba(2,4,3,0.98)), 
@@ -20,92 +31,139 @@ body {
   background-size: cover; background-position: center;
 }
 
-/* Индикатор скролла сверху */
 #progress-bar {
   position: fixed; top: 0; left: 0; width: 0%; height: 3px;
   background: linear-gradient(90deg, #7fbfa2, #4a7c44); z-index: 101;
 }
 
-/* 2. МЕНЮ НАВИГАЦИИ */
+/* 2. МЕНЮ */
 nav {
   position: fixed; top: 0; width: 100%; background: rgba(5,15,10,0.85);
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  z-index: 100; border-bottom: 1px solid rgba(127,191,162,0.1);
+  backdrop-filter: blur(12px); z-index: 100; border-bottom: 1px solid rgba(127,191,162,0.1);
 }
 nav ul { display: flex; justify-content: center; gap: 30px; list-style: none; padding: 18px; margin: 0; }
-nav a { color: #cfe6dc; text-decoration: none; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; }
-nav a:hover { color: #7fbfa2; text-shadow: 0 0 10px #7fbfa2; }
+nav a { color: #cfe6dc; text-decoration: none; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
 
-/* 3. КОНТЕЙНЕР И СЕКЦИИ */
 .container { max-width: 1100px; margin: auto; padding: 120px 20px; text-align: center; position: relative; z-index: 3; }
 
-/* Анимация появления блоков при скролле */
-.reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s cubic-bezier(0.2, 0.6, 0.2, 1); }
+/* ОБЫЧНАЯ АНИМАЦИЯ ПОЯВЛЕНИЯ */
+.reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s ease; }
 .reveal.active { opacity: 1; transform: translateY(0); }
 
 section { margin-top: 180px; position: relative; }
 h1 { font-size: clamp(32px, 8vw, 64px); letter-spacing: 5px; margin-bottom: 10px; }
 h2 { font-size: 38px; margin-bottom: 40px; color: #8eb387; }
-h3 { color: #7fbfa2; margin-bottom: 20px; letter-spacing: 1px; }
+h3 { color: #7fbfa2; margin-bottom: 20px; }
 
-/* 4. СИМВОЛ ГРИБА */
+/* 3. ЭФФЕКТ СТОЛКНОВЕНИЯ СКАЛ (Deep Effects) */
+.collision-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 0;
+  perspective: 1000px;
+  position: relative;
+  overflow: visible;
+  padding: 40px 0;
+}
+
+.mountain-card {
+  width: 50%;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(127,191,162,0.2);
+  backdrop-filter: blur(15px);
+  position: relative;
+  transition: 0.3s;
+  opacity: 0;
+}
+
+/* Левая скала летит справа */
+.card-left {
+  border-radius: 24px 0 0 24px;
+  transform: translateX(-150%) rotateY(20deg);
+  border-right: none;
+}
+
+/* Правая скала летит слева */
+.card-right {
+  border-radius: 0 24px 24px 0;
+  transform: translateX(150%) rotateY(-20deg);
+  border-left: none;
+}
+
+/* Состояние после удара */
+.active-collision .card-left {
+  opacity: 1;
+  transform: translateX(0) rotateY(0);
+  transition: transform 0.8s cubic-bezier(0.17, 0.89, 0.32, 1.1), opacity 0.5s;
+}
+
+.active-collision .card-right {
+  opacity: 1;
+  transform: translateX(0) rotateY(0);
+  transition: transform 0.8s cubic-bezier(0.17, 0.89, 0.32, 1.1), opacity 0.5s;
+}
+
+/* Центральная трещина-разлом */
+.crack {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #7fbfa2;
+  box-shadow: 0 0 20px #7fbfa2, 0 0 40px #7fbfa2;
+  z-index: 5;
+  opacity: 0;
+  transform: scaleY(0);
+  transition: 0.3s;
+}
+.active-collision .crack {
+  opacity: 1;
+  transform: scaleY(1);
+  transition-delay: 0.7s;
+}
+
+/* ГРИБ */
 .symbol { position: relative; width: 200px; height: 260px; margin: 40px auto; animation: float 7s ease-in-out infinite; }
-.cap {
-  position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 200px; height: 110px;
-  background: radial-gradient(circle at 50% 30%, #ff5a5a, #8b0d0d);
-  border-radius: 100% 100% 70% 70%; box-shadow: 0 0 100px rgba(255,80,80,0.5);
-}
-.cap::before {
-  content: ""; position: absolute; inset: 0;
-  background: radial-gradient(circle at 20% 40%, #fff 6px, transparent 7px), radial-gradient(circle at 70% 45%, #fff 7px, transparent 8px);
-  opacity: 0.9;
-}
+.cap { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 200px; height: 110px; background: radial-gradient(circle at 50% 30%, #ff5a5a, #8b0d0d); border-radius: 100% 100% 70% 70%; box-shadow: 0 0 100px rgba(255,80,80,0.5); }
 .stem { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 70px; height: 160px; background: linear-gradient(180deg, #f4f1e8, #cfc7b8); border-radius: 40px; }
 @keyframes float { 50% { transform: translateY(-20px); } }
 
-/* 5. КАРТОЧКИ И СЕТКИ */
-.grid, .catalog { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 60px; }
-.card { padding: 40px; border-radius: 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(127,191,162,0.15); backdrop-filter: blur(10px); transition: 0.5s; }
-.card:hover { transform: translateY(-10px); background: rgba(127,191,162,0.08); border-color: #7fbfa2; }
+/* КАРТОЧКИ ОБЫЧНЫЕ */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 60px; }
+.card-simple { padding: 40px; border-radius: 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(127,191,162,0.15); backdrop-filter: blur(10px); }
 
-.icon { width: 60px; height: 60px; margin: 0 auto 25px; border-radius: 50%; border: 1px solid #7fbfa2; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #7fbfa2; }
-
-/* 6. КАТАЛОГ С ЦЕНАМИ И БЭЙДЖАМИ */
-.product {
-  position: relative; padding: 30px; border-radius: 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(127,191,162,0.15); 
-  backdrop-filter: blur(10px); transition: 0.4s; text-align: left; min-height: 250px; cursor: pointer; display: flex; flex-direction: column;
-}
-.product:hover { transform: translateY(-10px); border-color: #7fbfa2; background: rgba(127,191,162,0.08); }
-.badge { position: absolute; top: 15px; right: 15px; padding: 4px 12px; background: #7fbfa2; color: #000; font-size: 11px; font-weight: bold; border-radius: 50px; text-transform: uppercase; }
-.badge.sale { background: #ff5a5a; color: #fff; }
-.product-tag { font-size: 11px; color: #7fbfa2; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: block; }
-.product-name { font-size: 19px; font-weight: bold; margin-bottom: 15px; line-height: 1.2; flex-grow: 1; }
-.product-price { font-size: 18px; color: #fff; font-weight: bold; }
-.product-price span { font-size: 14px; text-decoration: line-through; opacity: 0.5; margin-right: 8px; }
-
-/* 7. СПИСКИ ЭФФЕКТОВ */
+/* СПИСКИ */
 .benefit-list { text-align: left; list-style: none; padding: 0; margin: 0; }
-.benefit-list li { margin-bottom: 15px; display: flex; align-items: flex-start; gap: 12px; font-size: 16px; color: #cddfd7; }
-.benefit-list li span { color: #7fbfa2; text-shadow: 0 0 8px #7fbfa2; }
+.benefit-list li { margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px; font-size: 15px; }
+.benefit-list span { color: #7fbfa2; font-weight: bold; }
 
-/* 8. КНОПКИ */
+/* КНОПКИ */
 .btn { display: inline-block; margin-top: 40px; padding: 18px 45px; border: 1px solid #7fbfa2; color: #fff; border-radius: 50px; background: rgba(127,191,162,0.05); cursor: pointer; transition: 0.4s; text-transform: uppercase; letter-spacing: 2px; }
-.btn:hover { background: #7fbfa2; color: #020403; box-shadow: 0 0 40px #7fbfa2; transform: scale(1.05); }
+.btn:hover { background: #7fbfa2; color: #020403; box-shadow: 0 0 40px #7fbfa2; }
 
-/* 9. СПОРЫ И ПОРТАЛ */
+/* КАТАЛОГ */
+.catalog { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 60px; }
+.product { position: relative; padding: 30px; border-radius: 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(127,191,162,0.15); transition: 0.4s; text-align: left; min-height: 250px; cursor: pointer; display: flex; flex-direction: column; }
+.product:hover { transform: translateY(-10px); border-color: #7fbfa2; }
+.badge { position: absolute; top: 15px; right: 15px; padding: 4px 12px; background: #7fbfa2; color: #000; font-size: 11px; font-weight: bold; border-radius: 50px; }
+.product-price { font-size: 18px; font-weight: bold; margin-top: auto; }
+
+/* ПОРТАЛ И СПОРЫ */
 .spore { position: fixed; width: 2px; height: 2px; background: rgba(200,255,230,0.5); border-radius: 50%; animation: spore 14s linear infinite; z-index: 1; pointer-events: none; }
 @keyframes spore { from { transform: translateY(110vh); opacity: 0; } to { transform: translateY(-10vh); opacity: 1; } }
 .portal { position: fixed; inset: 0; background: #000; display: flex; align-items: center; justify-content: center; flex-direction: column; opacity: 0; pointer-events: none; transition: 0.8s; z-index: 999; }
 .portal.active { opacity: 1; pointer-events: all; }
-.portal-circle { width: 150px; height: 150px; border-radius: 50%; border: 2px solid #7fbfa2; animation: portalPulse 1.5s infinite; }
-@keyframes portalPulse { 0% { transform: scale(0.8); opacity: 0.5; } 100% { transform: scale(1.5); box-shadow: 0 0 100px #7fbfa2; opacity: 0; } }
 
-/* 10. МОБИЛЬНАЯ АДАПТАЦИЯ */
+/* МОБИЛКИ */
 @media (max-width: 768px) {
-  nav ul { gap: 15px; padding: 12px; }
-  h1 { font-size: 38px; }
-  section { margin-top: 100px; }
-  .grid, .catalog { grid-template-columns: 1fr; }
+  .collision-wrapper { flex-direction: column; }
+  .mountain-card { width: 100%; border-radius: 24px; border: 1px solid rgba(127,191,162,0.2); margin-bottom: 20px; }
+  .card-left { transform: translateX(-120%); }
+  .card-right { transform: translateX(120%); }
+  .crack { display: none; }
 }
 </style>
 </head>
@@ -129,118 +187,121 @@ h3 { color: #7fbfa2; margin-bottom: 20px; letter-spacing: 1px; }
     <div class="stem"></div>
   </div>
   <h1 class="reveal">Forest Magic</h1>
-  <p class="reveal">Алтайский микродозинг премиального качества. Ручной сбор. Лабораторный контроль.</p>
+  <p class="reveal">Алтайский микродозинг премиального качества.</p>
   <div class="btn reveal" onclick="portalTelegram()">В Telegram-бот</div>
 
-  <!-- Блок: Природный союзник (6 плиток) -->
+  <!-- БЛОК 1: Природный союзник (6 плиток) -->
   <section id="effects" class="reveal">
     <h2>Природный союзник</h2>
     <div class="grid">
-      <div class="card"><div class="icon">☽</div>Глубокое расслабление и сон</div>
-      <div class="card"><div class="icon">✦</div>Освобождение от привычек</div>
-      <div class="card"><div class="icon">◉</div>Психологическая устойчивость</div>
-      <div class="card"><div class="icon">❍</div>Внутренний баланс</div>
-      <div class="card"><div class="icon">✧</div>Ясность мыслей и фокус</div>
-      <div class="card"><div class="icon">◈</div>Остановка внутреннего диалога</div>
+      <div class="card-simple">☽ Глубокое расслабление</div>
+      <div class="card-simple">✦ Без привычек</div>
+      <div class="card-simple">◉ Стойкость к стрессу</div>
+      <div class="card-simple">❍ Баланс</div>
+      <div class="card-simple">✧ Ясность ума</div>
+      <div class="card-simple">◈ Тишина внутри</div>
     </div>
   </section>
 
-  <!-- Блок: Подробное воздействие (Списки) -->
-  <section id="deep-effects" class="reveal">
-    <h2>Две стороны воздействия</h2>
-    <div class="grid">
-      <div class="card">
+  <!-- БЛОК 2: СТОЛКНОВЕНИЕ (Ментальное и Физическое) -->
+  <section id="deep-effects">
+    <h2 class="reveal">Две мощи в одном</h2>
+    <div class="collision-wrapper" id="collision-trigger">
+      <div class="crack"></div>
+      
+      <!-- Левая скала -->
+      <div class="mountain-card card-left">
         <h3>Ментальное здоровье</h3>
         <ul class="benefit-list">
-          <li><span>✦</span> <strong>Ясность ума:</strong> Улучшение памяти и когнитивной гибкости.</li>
-          <li><span>✦</span> <strong>Свобода:</strong> Мягкий отказ от курения и алкоголя.</li>
-          <li><span>✦</span> <strong>Тишина:</strong> Прекращение утомительного диалога в голове.</li>
-          <li><span>✦</span> <strong>Ресурс:</strong> Стабильно позитивное настроение.</li>
-          <li><span>✦</span> <strong>Поток:</strong> Раскрытие творческого потенциала.</li>
+          <li><span>✦</span> Ясность памяти и ума</li>
+          <li><span>✦</span> Отказ от зависимостей</li>
+          <li><span>✦</span> Остановка диалога в голове</li>
+          <li><span>✦</span> Ресурсное состояние</li>
+          <li><span>✦</span> Творческий поток</li>
         </ul>
       </div>
-      <div class="card">
+
+      <!-- Правая скала -->
+      <div class="mountain-card card-right">
         <h3>Физическое состояние</h3>
         <ul class="benefit-list">
-          <li><span>✦</span> <strong>Регенерация:</strong> Восстановление фаз сна.</li>
-          <li><span>✦</span> <strong>Тонус:</strong> Избавление от хронической усталости.</li>
-          <li><span>✦</span> <strong>Баланс:</strong> Настройка работы внутренних систем.</li>
-          <li><span>✦</span> <strong>Витальность:</strong> Поддержка либидо и энергии.</li>
-          <li><span>✦</span> <strong>Легкость:</strong> Снятие мышечного напряжения.</li>
+          <li><span>✦</span> Восстановление фаз сна</li>
+          <li><span>✦</span> Тонус и энергия</li>
+          <li><span>✦</span> Настройка систем организма</li>
+          <li><span>✦</span> Природная витальность</li>
+          <li><span>✦</span> Снятие зажимов в теле</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- Блок: Каталог (Магазинный стиль) -->
+  <!-- БЛОК 3: КАТАЛОГ -->
   <section id="catalog" class="reveal">
     <h2>Продукция Алтая</h2>
     <div class="catalog">
       <div class="product" onclick="portalTelegram()">
         <span class="badge">Хит</span>
-        <span class="product-tag">Спокойствие и сон</span>
-        <div class="product-name">Красный мухомор<br>(Цельные шляпки)</div>
-        <div class="product-price"><span>1990 ₽</span> от 1 590 ₽</div>
+        <div class="product-name">Красный мухомор (Цельный)</div>
+        <div class="product-price">от 1 590 ₽</div>
       </div>
       <div class="product" onclick="portalTelegram()">
-        <span class="badge sale">Акция</span>
-        <span class="product-tag">Энергия и фокус</span>
-        <div class="product-name">Пантерный мухомор<br>(Экстракт)</div>
-        <div class="product-price"><span>4500 ₽</span> 3 490 ₽</div>
+        <span class="badge" style="background:#ff5a5a">Акция</span>
+        <div class="product-name">Пантерный мухомор (Экстракт)</div>
+        <div class="product-price">3 490 ₽</div>
       </div>
       <div class="product" onclick="portalTelegram()">
-        <span class="product-tag">Чистый разум</span>
-        <div class="product-name">Микродозинг в капсулах<br>(Курс 30 дней)</div>
+        <div class="product-name">Микродозинг в капсулах</div>
         <div class="product-price">2 200 ₽</div>
       </div>
-      <div class="product" onclick="portalTelegram()">
-        <span class="badge">New</span>
-        <span class="product-tag">Глубина тишины</span>
-        <div class="product-name">Сбор «Лесная тишина»<br>(Смесь трав и грибов)</div>
-        <div class="product-price">1 850 ₽</div>
-      </div>
     </div>
   </section>
 
-  <!-- Блок Доверия -->
-  <section id="trust" class="reveal">
-    <h2>Почему выбирают нас</h2>
-    <div class="grid">
-      <div class="card"><h3 style="font-size:40px">🏔</h3><h3>Горный Алтай</h3><p>Экологически чистый ручной сбор.</p></div>
-      <div class="card"><h3 style="font-size:40px">🧪</h3><h3>Лаборатория</h3><p>Проверка качества каждой партии.</p></div>
-      <div class="card"><h3 style="font-size:40px">📦</h3><h3>Анонимность</h3><p>Нейтральная и надежная упаковка.</p></div>
-    </div>
-  </section>
-
+  <!-- БЛОК 4: ОТЗЫВЫ -->
   <section id="reviews" class="reveal">
     <h2>Отзывы</h2>
     <div class="grid">
-      <div class="card review">«Очень мягкое и глубокое состояние. Рекомендую.»</div>
-      <div class="card review">«Спокойствие и тишина внутри. Качество на высоте.»</div>
+      <div class="card-simple">«Очень мягкое состояние. Рекомендую.»</div>
+      <div class="card-simple">«Спокойствие и тишина внутри. Качество топ.»</div>
     </div>
-    <div class="btn" onclick="portalReviews()">Все отзывы в Telegram</div>
+    <div class="btn" onclick="portalReviews()">Все отзывы</div>
   </section>
 
   <footer style="margin-top:150px; padding-bottom: 50px; font-size:11px; opacity:0.4">
-    Информация носит ознакомительный характер. Не является лекарством. 18+<br>
-    Forest Magic © 2025. Алтай.
+    Информация носит ознакомительный характер. 18+<br>Forest Magic © 2025
   </footer>
 </div>
 
 <div class="portal" id="portal">
   <div class="portal-circle"></div>
-  <div class="portal-text">СОЕДИНЕНИЕ С ЛЕСОМ...</div>
+  <div class="portal-text">СОЕДИНЕНИЕ...</div>
 </div>
 
 <script>
+// 1. Наблюдатель за обычными блоками
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) entry.target.classList.add('active');
   });
 }, { threshold: 0.1 });
-
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+// 2. Наблюдатель за СТОЛКНОВЕНИЕМ
+const collisionTrigger = document.getElementById('collision-trigger');
+const collisionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('active-collision');
+      // Встряска экрана через 700мс (момент удара)
+      setTimeout(() => {
+        document.body.classList.add('shake');
+        setTimeout(() => document.body.classList.remove('shake'), 400);
+      }, 700);
+    }
+  });
+}, { threshold: 0.5 });
+collisionObserver.observe(collisionTrigger);
+
+// 3. Скролл-бар
 window.onscroll = function() {
   let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
   let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -248,6 +309,7 @@ window.onscroll = function() {
   document.getElementById("progress-bar").style.width = scrolled + "%";
 };
 
+// 4. Функции портала
 function portalTelegram(){ showPortal(()=>window.open('https://t.me/Altai_Amanita_bot','_blank')); }
 function portalReviews(){ showPortal(()=>window.open('https://t.me/REVIEWS_ForestMagic','_blank')); }
 
@@ -260,7 +322,8 @@ function showPortal(action){
   }, 1200);
 }
 
-for(let i=0;i<35;i++){
+// 5. Споры
+for(let i=0;i<30;i++){
  let s=document.createElement('div');
  s.className='spore';
  s.style.left=Math.random()*100+'vw';
