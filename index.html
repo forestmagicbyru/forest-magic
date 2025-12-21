@@ -12,17 +12,6 @@ body {
   background-color: #020403; color: #e6e6e6; overflow-x: hidden;
 }
 
-/* Эффект тряски экрана при ударе */
-@keyframes shake {
-  0% { transform: translate(0,0); }
-  10% { transform: translate(-5px, -5px); }
-  30% { transform: translate(5px, 5px); }
-  50% { transform: translate(-5px, 5px); }
-  70% { transform: translate(5px, -5px); }
-  100% { transform: translate(0,0); }
-}
-.shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
-
 /* ФОН */
 .bg-fix {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
@@ -46,123 +35,77 @@ nav a { color: #cfe6dc; text-decoration: none; font-size: 13px; letter-spacing: 
 
 .container { max-width: 1100px; margin: auto; padding: 120px 20px; text-align: center; position: relative; z-index: 3; }
 
-/* ОБЫЧНАЯ АНИМАЦИЯ ПОЯВЛЕНИЯ */
 .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s ease; }
 .reveal.active { opacity: 1; transform: translateY(0); }
 
 section { margin-top: 180px; position: relative; }
 h1 { font-size: clamp(32px, 8vw, 64px); letter-spacing: 5px; margin-bottom: 10px; }
 h2 { font-size: 38px; margin-bottom: 40px; color: #8eb387; }
-h3 { color: #7fbfa2; margin-bottom: 20px; }
 
-/* 3. ЭФФЕКТ СТОЛКНОВЕНИЯ СКАЛ (Deep Effects) */
-.collision-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  gap: 0;
-  perspective: 1000px;
-  position: relative;
-  overflow: visible;
-  padding: 40px 0;
+/* 3. СИМВОЛ ГРИБА */
+.symbol {
+  position: relative; width: 200px; height: 260px;
+  margin: 40px auto;
+  z-index: 10;
+}
+/* Анимация левитации (по умолчанию) */
+.floating { animation: float 7s ease-in-out infinite; }
+
+/* АНИМАЦИЯ ПАДЕНИЯ ГРИБА (при ударе) */
+@keyframes fall-mushroom {
+  0% { transform: translateY(0) rotate(0); }
+  20% { transform: translateY(-20px) rotate(-5deg); } /* Легкий подскок от удара */
+  100% { transform: translateY(800px) rotate(15deg); opacity: 0; } /* Улетает вниз за экран */
+}
+.symbol.fallen {
+  animation: fall-mushroom 1.2s cubic-bezier(0.5, 0, 0.5, 1) forwards !important;
 }
 
-.mountain-card {
-  width: 50%;
-  padding: 40px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(127,191,162,0.2);
-  backdrop-filter: blur(15px);
-  position: relative;
-  transition: 0.3s;
-  opacity: 0;
-}
-
-/* Левая скала летит справа */
-.card-left {
-  border-radius: 24px 0 0 24px;
-  transform: translateX(-150%) rotateY(20deg);
-  border-right: none;
-}
-
-/* Правая скала летит слева */
-.card-right {
-  border-radius: 0 24px 24px 0;
-  transform: translateX(150%) rotateY(-20deg);
-  border-left: none;
-}
-
-/* Состояние после удара */
-.active-collision .card-left {
-  opacity: 1;
-  transform: translateX(0) rotateY(0);
-  transition: transform 0.8s cubic-bezier(0.17, 0.89, 0.32, 1.1), opacity 0.5s;
-}
-
-.active-collision .card-right {
-  opacity: 1;
-  transform: translateX(0) rotateY(0);
-  transition: transform 0.8s cubic-bezier(0.17, 0.89, 0.32, 1.1), opacity 0.5s;
-}
-
-/* Центральная трещина-разлом */
-.crack {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: #7fbfa2;
-  box-shadow: 0 0 20px #7fbfa2, 0 0 40px #7fbfa2;
-  z-index: 5;
-  opacity: 0;
-  transform: scaleY(0);
-  transition: 0.3s;
-}
-.active-collision .crack {
-  opacity: 1;
-  transform: scaleY(1);
-  transition-delay: 0.7s;
-}
-
-/* ГРИБ */
-.symbol { position: relative; width: 200px; height: 260px; margin: 40px auto; animation: float 7s ease-in-out infinite; }
 .cap { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 200px; height: 110px; background: radial-gradient(circle at 50% 30%, #ff5a5a, #8b0d0d); border-radius: 100% 100% 70% 70%; box-shadow: 0 0 100px rgba(255,80,80,0.5); }
+.cap::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 20% 40%, #fff 6px, transparent 7px), radial-gradient(circle at 70% 45%, #fff 7px, transparent 8px); opacity: 0.9; }
 .stem { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 70px; height: 160px; background: linear-gradient(180deg, #f4f1e8, #cfc7b8); border-radius: 40px; }
+
 @keyframes float { 50% { transform: translateY(-20px); } }
 
-/* КАРТОЧКИ ОБЫЧНЫЕ */
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 60px; }
+/* 4. ТРЯСКА ЭКРАНА */
+@keyframes shake {
+  0% { transform: translate(0,0); }
+  10%, 30%, 50%, 70%, 90% { transform: translate(-8px, -8px); }
+  20%, 40%, 60%, 80% { transform: translate(8px, 8px); }
+  100% { transform: translate(0,0); }
+}
+.shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+
+/* 5. ЭФФЕКТ СТОЛКНОВЕНИЯ СКАЛ */
+.collision-wrapper { display: flex; justify-content: center; align-items: stretch; perspective: 1000px; position: relative; padding: 40px 0; }
+.mountain-card { width: 50%; padding: 40px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(127,191,162,0.2); backdrop-filter: blur(15px); transition: 0.3s; opacity: 0; }
+.card-left { border-radius: 24px 0 0 24px; transform: translateX(-150%) rotateY(20deg); border-right: none; }
+.card-right { border-radius: 0 24px 24px 0; transform: translateX(150%) rotateY(-20deg); border-left: none; }
+
+.active-collision .card-left { opacity: 1; transform: translateX(0) rotateY(0); transition: transform 0.8s cubic-bezier(0.17, 0.89, 0.32, 1.1), opacity 0.5s; }
+.active-collision .card-right { opacity: 1; transform: translateX(0) rotateY(0); transition: transform 0.8s cubic-bezier(0.17, 0.89, 0.32, 1.1), opacity 0.5s; }
+
+.crack { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: #7fbfa2; box-shadow: 0 0 20px #7fbfa2; z-index: 5; opacity: 0; transform: scaleY(0); transition: 0.3s; }
+.active-collision .crack { opacity: 1; transform: scaleY(1); transition-delay: 0.7s; }
+
+/* КАТАЛОГ И ДРУГОЕ */
+.grid, .catalog { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 60px; }
 .card-simple { padding: 40px; border-radius: 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(127,191,162,0.15); backdrop-filter: blur(10px); }
-
-/* СПИСКИ */
-.benefit-list { text-align: left; list-style: none; padding: 0; margin: 0; }
-.benefit-list li { margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px; font-size: 15px; }
-.benefit-list span { color: #7fbfa2; font-weight: bold; }
-
-/* КНОПКИ */
-.btn { display: inline-block; margin-top: 40px; padding: 18px 45px; border: 1px solid #7fbfa2; color: #fff; border-radius: 50px; background: rgba(127,191,162,0.05); cursor: pointer; transition: 0.4s; text-transform: uppercase; letter-spacing: 2px; }
-.btn:hover { background: #7fbfa2; color: #020403; box-shadow: 0 0 40px #7fbfa2; }
-
-/* КАТАЛОГ */
-.catalog { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 60px; }
 .product { position: relative; padding: 30px; border-radius: 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(127,191,162,0.15); transition: 0.4s; text-align: left; min-height: 250px; cursor: pointer; display: flex; flex-direction: column; }
 .product:hover { transform: translateY(-10px); border-color: #7fbfa2; }
-.badge { position: absolute; top: 15px; right: 15px; padding: 4px 12px; background: #7fbfa2; color: #000; font-size: 11px; font-weight: bold; border-radius: 50px; }
-.product-price { font-size: 18px; font-weight: bold; margin-top: auto; }
+.benefit-list { text-align: left; list-style: none; padding: 0; margin: 0; }
+.benefit-list li { margin-bottom: 12px; display: flex; gap: 10px; font-size: 15px; }
+.btn { display: inline-block; margin-top: 40px; padding: 18px 45px; border: 1px solid #7fbfa2; color: #fff; border-radius: 50px; background: rgba(127,191,162,0.05); cursor: pointer; transition: 0.4s; text-transform: uppercase; letter-spacing: 2px; }
 
-/* ПОРТАЛ И СПОРЫ */
+/* СПОРЫ И ПОРТАЛ */
 .spore { position: fixed; width: 2px; height: 2px; background: rgba(200,255,230,0.5); border-radius: 50%; animation: spore 14s linear infinite; z-index: 1; pointer-events: none; }
 @keyframes spore { from { transform: translateY(110vh); opacity: 0; } to { transform: translateY(-10vh); opacity: 1; } }
 .portal { position: fixed; inset: 0; background: #000; display: flex; align-items: center; justify-content: center; flex-direction: column; opacity: 0; pointer-events: none; transition: 0.8s; z-index: 999; }
 .portal.active { opacity: 1; pointer-events: all; }
 
-/* МОБИЛКИ */
 @media (max-width: 768px) {
   .collision-wrapper { flex-direction: column; }
-  .mountain-card { width: 100%; border-radius: 24px; border: 1px solid rgba(127,191,162,0.2); margin-bottom: 20px; }
-  .card-left { transform: translateX(-120%); }
-  .card-right { transform: translateX(120%); }
+  .mountain-card { width: 100%; border-radius: 24px; margin-bottom: 20px; border: 1px solid rgba(127,191,162,0.2); }
   .crack { display: none; }
 }
 </style>
@@ -182,7 +125,8 @@ h3 { color: #7fbfa2; margin-bottom: 20px; }
 </nav>
 
 <div class="container" id="home">
-  <div class="symbol">
+  <!-- ГРИБ С ДВУМЯ КЛАССАМИ (плавающий по умолчанию) -->
+  <div class="symbol floating" id="main-mushroom">
     <div class="cap"></div>
     <div class="stem"></div>
   </div>
@@ -190,7 +134,7 @@ h3 { color: #7fbfa2; margin-bottom: 20px; }
   <p class="reveal">Алтайский микродозинг премиального качества.</p>
   <div class="btn reveal" onclick="portalTelegram()">В Telegram-бот</div>
 
-  <!-- БЛОК 1: Природный союзник (6 плиток) -->
+  <!-- БЛОК 1 -->
   <section id="effects" class="reveal">
     <h2>Природный союзник</h2>
     <div class="grid">
@@ -203,33 +147,27 @@ h3 { color: #7fbfa2; margin-bottom: 20px; }
     </div>
   </section>
 
-  <!-- БЛОК 2: СТОЛКНОВЕНИЕ (Ментальное и Физическое) -->
+  <!-- БЛОК 2: СТОЛКНОВЕНИЕ -->
   <section id="deep-effects">
     <h2 class="reveal">Две мощи в одном</h2>
     <div class="collision-wrapper" id="collision-trigger">
       <div class="crack"></div>
       
-      <!-- Левая скала -->
       <div class="mountain-card card-left">
         <h3>Ментальное здоровье</h3>
         <ul class="benefit-list">
           <li><span>✦</span> Ясность памяти и ума</li>
           <li><span>✦</span> Отказ от зависимостей</li>
           <li><span>✦</span> Остановка диалога в голове</li>
-          <li><span>✦</span> Ресурсное состояние</li>
-          <li><span>✦</span> Творческий поток</li>
         </ul>
       </div>
 
-      <!-- Правая скала -->
       <div class="mountain-card card-right">
         <h3>Физическое состояние</h3>
         <ul class="benefit-list">
           <li><span>✦</span> Восстановление фаз сна</li>
           <li><span>✦</span> Тонус и энергия</li>
           <li><span>✦</span> Настройка систем организма</li>
-          <li><span>✦</span> Природная витальность</li>
-          <li><span>✦</span> Снятие зажимов в теле</li>
         </ul>
       </div>
     </div>
@@ -240,34 +178,18 @@ h3 { color: #7fbfa2; margin-bottom: 20px; }
     <h2>Продукция Алтая</h2>
     <div class="catalog">
       <div class="product" onclick="portalTelegram()">
-        <span class="badge">Хит</span>
         <div class="product-name">Красный мухомор (Цельный)</div>
         <div class="product-price">от 1 590 ₽</div>
       </div>
       <div class="product" onclick="portalTelegram()">
-        <span class="badge" style="background:#ff5a5a">Акция</span>
         <div class="product-name">Пантерный мухомор (Экстракт)</div>
         <div class="product-price">3 490 ₽</div>
       </div>
-      <div class="product" onclick="portalTelegram()">
-        <div class="product-name">Микродозинг в капсулах</div>
-        <div class="product-price">2 200 ₽</div>
-      </div>
     </div>
-  </section>
-
-  <!-- БЛОК 4: ОТЗЫВЫ -->
-  <section id="reviews" class="reveal">
-    <h2>Отзывы</h2>
-    <div class="grid">
-      <div class="card-simple">«Очень мягкое состояние. Рекомендую.»</div>
-      <div class="card-simple">«Спокойствие и тишина внутри. Качество топ.»</div>
-    </div>
-    <div class="btn" onclick="portalReviews()">Все отзывы</div>
   </section>
 
   <footer style="margin-top:150px; padding-bottom: 50px; font-size:11px; opacity:0.4">
-    Информация носит ознакомительный характер. 18+<br>Forest Magic © 2025
+    Forest Magic © 2025
   </footer>
 </div>
 
@@ -277,7 +199,7 @@ h3 { color: #7fbfa2; margin-bottom: 20px; }
 </div>
 
 <script>
-// 1. Наблюдатель за обычными блоками
+// Наблюдатели
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) entry.target.classList.add('active');
@@ -285,23 +207,32 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// 2. Наблюдатель за СТОЛКНОВЕНИЕМ
+// СТОЛКНОВЕНИЕ И ПАДЕНИЕ ГРИБА
 const collisionTrigger = document.getElementById('collision-trigger');
+const mushroom = document.getElementById('main-mushroom');
+
 const collisionObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('active-collision');
-      // Встряска экрана через 700мс (момент удара)
+      
+      // Через 0.7с (момент удара)
       setTimeout(() => {
+        // 1. Тряска экрана
         document.body.classList.add('shake');
-        setTimeout(() => document.body.classList.remove('shake'), 400);
+        
+        // 2. Гриб падает
+        mushroom.classList.remove('floating'); // Останавливаем левитацию
+        mushroom.classList.add('fallen');      // Запускаем падение
+        
+        setTimeout(() => document.body.classList.remove('shake'), 500);
       }, 700);
     }
   });
 }, { threshold: 0.5 });
 collisionObserver.observe(collisionTrigger);
 
-// 3. Скролл-бар
+// Скролл-бар
 window.onscroll = function() {
   let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
   let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -309,10 +240,8 @@ window.onscroll = function() {
   document.getElementById("progress-bar").style.width = scrolled + "%";
 };
 
-// 4. Функции портала
+// Функции портала
 function portalTelegram(){ showPortal(()=>window.open('https://t.me/Altai_Amanita_bot','_blank')); }
-function portalReviews(){ showPortal(()=>window.open('https://t.me/REVIEWS_ForestMagic','_blank')); }
-
 function showPortal(action){
   const p=document.getElementById('portal');
   p.classList.add('active');
@@ -322,7 +251,7 @@ function showPortal(action){
   }, 1200);
 }
 
-// 5. Споры
+// Споры
 for(let i=0;i<30;i++){
  let s=document.createElement('div');
  s.className='spore';
