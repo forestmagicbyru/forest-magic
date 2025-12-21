@@ -7,279 +7,292 @@
 
 <style>
 /* ===== ОСНОВА ===== */
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
   background:
-    radial-gradient(circle at top, rgba(80,140,110,.25), transparent 60%),
-    linear-gradient(180deg,#07120e,#020403);
-  color:#e6e6e6;
-  overflow-x:hidden;
+    radial-gradient(circle at 50% 0%, rgba(60,120,90,0.35), transparent 60%),
+    linear-gradient(180deg, #07120d 0%, #020403 100%);
+  color: #e6e6e6;
+  overflow-x: hidden;
 }
 
 /* затемнение краёв */
-body:before{
+body::before {
   content:"";
-  position:fixed;
-  inset:0;
-  box-shadow:inset 0 0 120px rgba(0,0,0,.85);
-  pointer-events:none;
-  z-index:5;
+  position: fixed;
+  inset: 0;
+  box-shadow: inset 0 0 160px rgba(0,0,0,0.85);
+  pointer-events: none;
+  z-index: 5;
 }
 
 /* ===== МЕНЮ ===== */
-nav{
-  position:fixed;
-  top:0;left:0;right:0;
-  height:60px;
-  backdrop-filter:blur(6px);
-  background:rgba(5,15,10,.55);
-  border-bottom:1px solid rgba(120,200,160,.15);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:26px;
-  z-index:10;
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(5,15,10,0.75);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(120,200,160,0.2);
+  z-index: 10;
 }
-nav a{
-  color:#cfe7dc;
-  text-decoration:none;
-  font-size:14px;
-  letter-spacing:1px;
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: center;
+  gap: 22px;
 }
-nav a:hover{color:#9ff0c8}
+nav a {
+  color: #cfe8dc;
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+nav a:hover {
+  color: #9ff2c8;
+}
 
 /* ===== ТУМАН ===== */
-.fog{
-  position:fixed;
-  inset:-20%;
+.fog {
+  position: fixed;
+  inset: -30%;
   background:
-    radial-gradient(circle at 30% 40%, rgba(255,255,255,.06), transparent 45%),
-    radial-gradient(circle at 70% 60%, rgba(255,255,255,.04), transparent 50%);
-  animation:fog 25s alternate infinite;
-  pointer-events:none;
+    radial-gradient(circle at 30% 40%, rgba(255,255,255,0.06), transparent 45%),
+    radial-gradient(circle at 70% 60%, rgba(255,255,255,0.04), transparent 50%);
+  animation: fogMove 30s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
 }
-@keyframes fog{
-  from{transform:translate(0,0)}
-  to{transform:translate(-4%,3%)}
-}
-
-/* ===== КОНТЕЙНЕР ===== */
-.container{
-  max-width:1100px;
-  margin:0 auto;
-  padding:120px 20px;
-  text-align:center;
-  position:relative;
-  z-index:2;
+@keyframes fogMove {
+  from { transform: translate(0,0); }
+  to { transform: translate(-5%,4%); }
 }
 
-/* ===== СИМВОЛ (ГРИБНОЙ) ===== */
-.symbol-wrap{
-  height:260px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+/* ===== СПОРЫ ===== */
+.spore {
+  position: fixed;
+  width: 2px;
+  height: 2px;
+  background: rgba(160,220,190,0.6);
+  border-radius: 50%;
+  animation: float 18s linear infinite;
+  pointer-events: none;
 }
-.symbol{
-  width:160px;
-  height:160px;
-  border-radius:50% 50% 45% 45%;
-  position:relative;
+@keyframes float {
+  from { transform: translateY(110vh); opacity: 0; }
+  10% { opacity: 0.6; }
+  to { transform: translateY(-10vh); opacity: 0; }
+}
+
+/* ===== ОБЩЕЕ ===== */
+section {
+  padding: 120px 20px;
+  max-width: 1100px;
+  margin: auto;
+  position: relative;
+  z-index: 2;
+}
+h1, h2 {
+  text-align: center;
+  letter-spacing: 2px;
+}
+p {
+  max-width: 720px;
+  margin: 16px auto;
+  text-align: center;
+  color: #cfd8d3;
+}
+
+/* ===== СИМВОЛ ===== */
+.symbol-wrap {
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.symbol {
+  width: 180px;
+  height: 200px;
+  border-radius: 50% 50% 40% 40%;
+  background: radial-gradient(circle at 50% 30%, rgba(160,230,190,0.6), rgba(20,50,35,0.8));
   box-shadow:
-    0 0 60px rgba(120,220,180,.4),
-    inset 0 0 40px rgba(120,220,180,.35);
-  animation:float 6s ease-in-out infinite;
+    0 0 60px rgba(120,220,170,0.45),
+    inset 0 0 40px rgba(120,220,170,0.45);
+  animation: pulse 5s ease-in-out infinite, floatSym 7s ease-in-out infinite;
 }
-.symbol:before{
-  content:"";
-  position:absolute;
-  inset:25px;
-  border-radius:50%;
-  background:radial-gradient(circle, rgba(150,255,200,.6), transparent 70%);
-  animation:pulse 4s infinite;
+@keyframes pulse {
+  0% { box-shadow: 0 0 30px rgba(120,220,170,0.3); }
+  50% { box-shadow: 0 0 90px rgba(120,220,170,0.7); }
+  100% { box-shadow: 0 0 30px rgba(120,220,170,0.3); }
 }
-.symbol:after{
-  content:"";
-  position:absolute;
-  inset:-12px;
-  border:1px dashed rgba(140,210,180,.25);
-  border-radius:50%;
-  animation:rotate 18s linear infinite;
+@keyframes floatSym {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+  100% { transform: translateY(0); }
 }
-@keyframes float{50%{transform:translateY(-16px)}}
-@keyframes pulse{50%{opacity:.9}}
-@keyframes rotate{to{transform:rotate(360deg)}}
-
-/* споры */
-.spores span{
-  position:absolute;
-  width:3px;height:3px;
-  background:rgba(180,255,220,.35);
-  border-radius:50%;
-  animation:spore 12s linear infinite;
-}
-@keyframes spore{
-  from{transform:translateY(40px);opacity:0}
-  20%{opacity:1}
-  to{transform:translateY(-120px);opacity:0}
-}
-
-/* ===== ТЕКСТ ===== */
-h1{
-  font-size:42px;
-  margin-bottom:10px;
-  text-shadow:0 0 18px rgba(140,220,180,.35);
-}
-p{max-width:680px;margin:0 auto 40px;color:#cfd8d3}
 
 /* ===== КАТАЛОГ ===== */
-.catalog{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:26px;
-  margin-top:80px;
+.catalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
 }
-.card{
-  aspect-ratio:1/1;
-  background:
-    radial-gradient(circle at top, rgba(140,220,180,.25), transparent 60%),
-    rgba(20,40,30,.6);
-  border:1px solid rgba(140,220,180,.25);
-  border-radius:14px;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-  padding:18px;
-  cursor:pointer;
-  transition:.4s;
-  position:relative;
-  overflow:hidden;
+.product {
+  background: rgba(10,30,20,0.6);
+  border: 1px solid rgba(120,200,160,0.25);
+  padding: 20px;
+  text-align: center;
+  transition: 0.4s;
 }
-.card:before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(transparent,rgba(0,0,0,.6));
+.product:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 40px rgba(120,220,170,0.45);
 }
-.card:hover{
-  transform:translateY(-8px) scale(1.02);
-  box-shadow:0 0 40px rgba(140,220,180,.45);
+.product img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  background: rgba(0,0,0,0.3);
 }
-.card h3{
-  margin:0;
-  font-size:16px;
-  letter-spacing:1px;
-  z-index:2;
+.product h3 {
+  margin: 14px 0 6px;
 }
-
-/* ===== БЛОКИ ===== */
-.section{
-  margin-top:120px;
+.product p {
+  font-size: 13px;
 }
-.section h2{
-  font-size:28px;
-  margin-bottom:16px;
-}
-.section p{
-  max-width:760px;
+.product a {
+  display: inline-block;
+  margin-top: 12px;
+  color: #9ff2c8;
+  text-decoration: none;
+  border: 1px solid #9ff2c8;
+  padding: 8px 14px;
 }
 
-/* ===== FOOTER ===== */
-footer{
-  margin-top:140px;
-  font-size:12px;
-  opacity:.6;
-}
-
-/* ===== REVEAL ===== */
-.reveal{
-  opacity:0;
-  transform:translateY(40px);
-  transition:1.2s;
-}
-.reveal.active{
-  opacity:1;
-  transform:none;
+/* ===== ФУТЕР ===== */
+footer {
+  text-align: center;
+  font-size: 12px;
+  opacity: 0.6;
+  padding-bottom: 80px;
 }
 </style>
 </head>
 
 <body>
-<div class="fog"></div>
 
 <nav>
-  <a href="#catalog">Каталог</a>
-  <a href="#delivery">Доставка</a>
-  <a href="#production">Производство</a>
-  <a href="#support">Поддержка</a>
+  <ul>
+    <li><a href="#about">О проекте</a></li>
+    <li><a href="#catalog">Каталог</a></li>
+    <li><a href="#delivery">Доставка</a></li>
+    <li><a href="#production">Производство</a></li>
+    <li><a href="#support">Поддержка</a></li>
+  </ul>
 </nav>
 
-<div class="container">
+<div class="fog"></div>
 
-<div class="symbol-wrap">
-  <div class="symbol">
-    <div class="spores">
-      <span style="left:20%;animation-delay:0s"></span>
-      <span style="left:50%;animation-delay:3s"></span>
-      <span style="left:80%;animation-delay:6s"></span>
+<section id="about">
+  <div class="symbol-wrap">
+    <div class="symbol"></div>
+  </div>
+  <h1>Forest Magic</h1>
+  <p>
+    Осознанный лесной проект из глубины Алтая.  
+    Экологически чистый сбор, тишина, природа и уважение к традициям.
+  </p>
+</section>
+
+<section id="catalog">
+  <h2>Каталог</h2>
+  <div class="catalog">
+    <div class="product">
+      <img src="" alt="">
+      <h3>Мухомор сушёный</h3>
+      <p>Классическая форма, ручная сушка.</p>
+      <a href="https://t.me/Altai_Amanita_bot" target="_blank">Перейти в бот</a>
+    </div>
+    <div class="product">
+      <img src="">
+      <h3>Мухомор капсулы</h3>
+      <p>Удобный формат без запаха.</p>
+      <a href="https://t.me/Altai_Amanita_bot" target="_blank">Перейти в бот</a>
+    </div>
+    <div class="product">
+      <img src="">
+      <h3>Микродозинг</h3>
+      <p>Минимальные дозировки для практик.</p>
+      <a href="https://t.me/Altai_Amanita_bot" target="_blank">Перейти в бот</a>
+    </div>
+    <div class="product">
+      <img src="">
+      <h3>Настойка</h3>
+      <p>Традиционная форма извлечения.</p>
+      <a href="https://t.me/Altai_Amanita_bot" target="_blank">Перейти в бот</a>
+    </div>
+    <div class="product">
+      <img src="">
+      <h3>Мазь</h3>
+      <p>Наружное применение.</p>
+      <a href="https://t.me/Altai_Amanita_bot" target="_blank">Перейти в бот</a>
+    </div>
+    <div class="product">
+      <img src="">
+      <h3>Авторские сборы</h3>
+      <p>Ограниченные партии.</p>
+      <a href="https://t.me/Altai_Amanita_bot" target="_blank">Перейти в бот</a>
     </div>
   </div>
-</div>
+</section>
 
-<h1 class="reveal">Forest Magic</h1>
-<p class="reveal">
-Проект осознанного опыта из глубины Алтая.  
-Тишина. Лес. Личный путь.
-</p>
-
-<!-- КАТАЛОГ -->
-<div id="catalog" class="catalog reveal">
-  <div class="card" onclick="goBot()"><h3>Мухомор красный (шляпки)</h3></div>
-  <div class="card" onclick="goBot()"><h3>Микродозинг капсулы</h3></div>
-  <div class="card" onclick="goBot()"><h3>Сушёный цельный</h3></div>
-  <div class="card" onclick="goBot()"><h3>Настой лесной</h3></div>
-  <div class="card" onclick="goBot()"><h3>Авторский сбор</h3></div>
-  <div class="card" onclick="goBot()"><h3>Ритуальный формат</h3></div>
-</div>
-
-<div id="delivery" class="section reveal">
+<section id="delivery">
   <h2>Доставка и оплата</h2>
-  <p>Отправка по России. Индивидуальный подход. Детали — в Telegram.</p>
-</div>
+  <p>
+    Отправка по России и СНГ.  
+    Надёжная упаковка, конфиденциальность, поддержка на каждом этапе.
+  </p>
+</section>
 
-<div id="production" class="section reveal">
+<section id="production">
   <h2>Производство</h2>
-  <p>Сбор вручную в экологически чистых районах Алтая. Сушка и хранение без химии.</p>
-</div>
+  <p>
+    Сбор вручную в экологически чистых районах Алтая.  
+    Без химии и ускорителей.
+  </p>
+</section>
 
-<div id="support" class="section reveal">
+<section id="support">
   <h2>Поддержка</h2>
-  <p>Личные консультации и сопровождение через Telegram.</p>
-</div>
+  <p>
+    Личные консультации и сопровождение.  
+    Связь напрямую с человеком.
+  </p>
+  <p>
+    <a href="https://t.me/Konstantin_krohin" target="_blank" style="color:#9ff2c8;">Написать в Telegram</a>
+  </p>
+</section>
 
-<footer class="reveal">
-Информация носит ознакомительный характер и не является медицинской рекомендацией.
+<footer>
+  Информация носит ознакомительный характер и не является медицинской рекомендацией.
 </footer>
 
-</div>
-
 <script>
-function goBot(){
-  window.open("https://t.me/Altai_Amanita_bot","_blank")
+/* споры */
+for(let i=0;i<40;i++){
+  let s=document.createElement("div");
+  s.className="spore";
+  s.style.left=Math.random()*100+"vw";
+  s.style.animationDelay=Math.random()*18+"s";
+  document.body.appendChild(s);
 }
-
-/* reveal */
-const els=document.querySelectorAll(".reveal");
-function show(){
-  const h=innerHeight;
-  els.forEach(e=>{
-    if(e.getBoundingClientRect().top<h-100)
-      e.classList.add("active")
-  })
-}
-addEventListener("scroll",show);show();
 </script>
 
 </body>
