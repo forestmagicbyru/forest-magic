@@ -14,6 +14,28 @@
         linear-gradient(180deg, #0d1a14 0%, #050807 100%);
       color: #e6e6e6;
       line-height: 1.6;
+      animation: fogMove 18s ease-in-out infinite alternate;
+    }
+
+    @keyframes fogMove {
+      from { background-position: 50% 0%, 0 0; }
+      to   { background-position: 48% 3%, 0 0; }
+    }
+
+    .fog-layer {
+      position: fixed;
+      inset: -10%;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 30% 40%, rgba(255,255,255,0.06), transparent 40%),
+        radial-gradient(circle at 70% 60%, rgba(255,255,255,0.04), transparent 45%);
+      animation: fogFloat 22s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+
+    @keyframes fogFloat {
+      from { transform: translate(0, 0); }
+      to   { transform: translate(-3%, 2%); }
     }
 
     .container {
@@ -22,26 +44,53 @@
       padding: 70px 20px;
       text-align: center;
       position: relative;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeUp 1.2s ease forwards;
+      z-index: 2;
     }
 
-    .container::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image:
-        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.03), transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.02), transparent 45%);
+    /* ===== СИМВОЛ ===== */
+    .symbol-wrap {
+      height: 240px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       pointer-events: none;
     }
 
-    @keyframes fadeUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .symbol {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 1px solid rgba(150,200,170,0.35);
+      box-shadow:
+        0 0 40px rgba(120,180,150,0.25),
+        inset 0 0 25px rgba(120,180,150,0.25);
+      position: relative;
+      animation: symbolFloat 6s ease-in-out infinite;
+    }
+
+    .symbol::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(140,200,170,0.35),
+        transparent 70%
+      );
+      animation: symbolPulse 4s ease-in-out infinite;
+    }
+
+    @keyframes symbolFloat {
+      0%   { transform: translateY(0); }
+      50%  { transform: translateY(-14px); }
+      100% { transform: translateY(0); }
+    }
+
+    @keyframes symbolPulse {
+      0%   { opacity: 0.4; }
+      50%  { opacity: 0.85; }
+      100% { opacity: 0.4; }
     }
 
     h1 {
@@ -63,7 +112,6 @@
     }
 
     .trust {
-      margin-top: 30px;
       font-style: italic;
       color: #b8c9be;
     }
@@ -78,11 +126,13 @@
       text-decoration: none;
       border-radius: 6px;
       font-size: 16px;
-      transition: background 0.3s ease;
+      animation: pulse 4.5s ease-in-out infinite;
     }
 
-    .btn:hover {
-      background: rgba(111,166,139,0.18);
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 rgba(111,166,139,0); }
+      50%  { box-shadow: 0 0 18px rgba(111,166,139,0.25); }
+      100% { box-shadow: 0 0 0 rgba(111,166,139,0); }
     }
 
     .cta {
@@ -91,94 +141,113 @@
       border-top: 1px solid rgba(255,255,255,0.15);
     }
 
-    .note {
-      margin-top: 25px;
-      font-size: 14px;
-      color: #9e9e9e;
-    }
-
-    .link {
-      display: inline-block;
-      margin-top: 12px;
-      color: #8fbfa4;
-      text-decoration: none;
-      font-size: 15px;
-    }
-
     footer {
       margin-top: 90px;
       padding-top: 25px;
       border-top: 1px solid rgba(255,255,255,0.1);
       font-size: 12px;
       color: #8a8a8a;
-      text-align: center;
+    }
+
+    /* ===== reveal при скролле ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 1.2s ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </head>
 
 <body>
 
-  <div class="container">
-    <h1>Forest Magic</h1>
+  <div class="fog-layer"></div>
 
-    <p>
+  <div class="container">
+
+    <div class="symbol-wrap">
+      <div class="symbol"></div>
+    </div>
+
+    <h1 class="reveal">Forest Magic</h1>
+
+    <p class="reveal">
       Осознанный проект из глубины Алтая  
       о природе, тишине и личном опыте.
     </p>
 
-    <p class="trust">
+    <p class="trust reveal">
       Сбор производится в экологически чистых лесах Алтая,  
       в глубине Сибири.  
-      Ручной сбор и бережная сушка  
-      в специализированных сушилках  
+      Бережная сушка в специализированных сушилках  
       при температуре до 40°C.
     </p>
 
-    <p class="trust">
-      Мы не даём советов и не навязываем решений.  
-      Каждый опыт — личный и требует осознанного подхода.
-    </p>
-
-    <a class="btn"
+    <a class="btn reveal"
        href="#"
        onclick="window.open('https://t.me/Altai_Amanita_bot','_blank')">
-       Перейти в Telegram‑бот
+      Перейти в Telegram‑бот
     </a>
 
-    <div class="cta">
+    <div class="cta reveal">
       <h2>Каталог и наличие</h2>
 
       <p>
-        Все позиции, актуальное наличие  
-        и оплата доступны  
-        только в Telegram‑боте.
+        Все позиции и оплата  
+        доступны только в Telegram‑боте.
       </p>
 
       <a class="btn"
          href="#"
          onclick="window.open('https://t.me/Altai_Amanita_bot','_blank')">
-         Открыть каталог
+        Открыть каталог
       </a>
 
-      <p class="note">
-        Если остались вопросы — напишите лично
+      <p style="margin-top:20px;">
+        <a href="#"
+           onclick="window.open('https://t.me/Konstantin_krohin','_blank')"
+           style="color:#8fbfa4;text-decoration:none;">
+          Написать в личные сообщения
+        </a>
       </p>
-
-      <a class="link"
-         href="#"
-         onclick="window.open('https://t.me/Konstantin_krohin','_blank')">
-         Написать в личные сообщения
-      </a>
     </div>
 
-    <footer>
-      <p>
-        Информация на сайте носит ознакомительный характер.  
-        Продукция не является лекарственным средством  
-        и не предназначена для медицинского применения.
-      </p>
+    <footer class="reveal">
+      Информация носит ознакомительный характер.  
+      Продукция не является лекарственным средством  
+      и не предназначена для медицинского применения.
     </footer>
+
   </div>
+
+  <script>
+    /* reveal при скролле */
+    const reveals = document.querySelectorAll('.reveal');
+    function revealOnScroll() {
+      const h = window.innerHeight;
+      reveals.forEach(el => {
+        if (el.getBoundingClientRect().top < h - 80) {
+          el.classList.add('active');
+        }
+      });
+    }
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll();
+
+    /* параллакс символа */
+    document.addEventListener("mousemove", e => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 20;
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+      const symbol = document.querySelector('.symbol');
+      if (symbol) {
+        symbol.style.transform = `translate(${x}px, ${y}px)`;
+      }
+    });
+  </script>
 
 </body>
 </html>
