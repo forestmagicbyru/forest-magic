@@ -5,14 +5,14 @@
 <title>Forest Magic — Глубина Алтая</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-/* Базовые настройки */
+/* 1. БАЗОВЫЕ НАСТРОЙКИ И ПЛАВНОСТЬ */
 html { scroll-behavior: smooth; }
 body {
   margin: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   background-color: #020403; color: #e6e6e6; overflow-x: hidden;
 }
 
-/* ФОН */
+/* ФОН ЛЕСА (Работает на мобильных) */
 .bg-fix {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
   background: linear-gradient(180deg, rgba(6,16,12,0.9), rgba(2,4,3,0.98)), 
@@ -20,11 +20,13 @@ body {
   background-size: cover; background-position: center;
 }
 
+/* Индикатор скролла сверху */
 #progress-bar {
   position: fixed; top: 0; left: 0; width: 0%; height: 3px;
   background: linear-gradient(90deg, #7fbfa2, #4a7c44); z-index: 101;
 }
 
+/* 2. МЕНЮ НАВИГАЦИИ */
 nav {
   position: fixed; top: 0; width: 100%; background: rgba(5,15,10,0.85);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -34,17 +36,19 @@ nav ul { display: flex; justify-content: center; gap: 30px; list-style: none; pa
 nav a { color: #cfe6dc; text-decoration: none; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; }
 nav a:hover { color: #7fbfa2; text-shadow: 0 0 10px #7fbfa2; }
 
+/* 3. КОНТЕЙНЕР И СЕКЦИИ */
 .container { max-width: 1100px; margin: auto; padding: 120px 20px; text-align: center; position: relative; z-index: 3; }
 
+/* Анимация появления блоков при скролле */
 .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s cubic-bezier(0.2, 0.6, 0.2, 1); }
 .reveal.active { opacity: 1; transform: translateY(0); }
 
-section { margin-top: 150px; position: relative; }
+section { margin-top: 180px; position: relative; }
 h1 { font-size: clamp(32px, 8vw, 64px); letter-spacing: 5px; margin-bottom: 10px; }
 h2 { font-size: 38px; margin-bottom: 40px; color: #8eb387; }
-h3 { color: #7fbfa2; margin-bottom: 15px; }
+h3 { color: #7fbfa2; margin-bottom: 20px; letter-spacing: 1px; }
 
-/* ГРИБ */
+/* 4. СИМВОЛ ГРИБА */
 .symbol { position: relative; width: 200px; height: 260px; margin: 40px auto; animation: float 7s ease-in-out infinite; }
 .cap {
   position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 200px; height: 110px;
@@ -59,51 +63,50 @@ h3 { color: #7fbfa2; margin-bottom: 15px; }
 .stem { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 70px; height: 160px; background: linear-gradient(180deg, #f4f1e8, #cfc7b8); border-radius: 40px; }
 @keyframes float { 50% { transform: translateY(-20px); } }
 
-/* ТОВАРНЫЕ КАРТОЧКИ (Стиль Мухоморыча) */
-.catalog { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 60px; }
+/* 5. КАРТОЧКИ И СЕТКИ */
+.grid, .catalog { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 60px; }
+.card { padding: 40px; border-radius: 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(127,191,162,0.15); backdrop-filter: blur(10px); transition: 0.5s; }
+.card:hover { transform: translateY(-10px); background: rgba(127,191,162,0.08); border-color: #7fbfa2; }
+
+.icon { width: 60px; height: 60px; margin: 0 auto 25px; border-radius: 50%; border: 1px solid #7fbfa2; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #7fbfa2; }
+
+/* 6. КАТАЛОГ С ЦЕНАМИ И БЭЙДЖАМИ */
 .product {
-  position: relative; padding: 30px; border-radius: 20px;
-  background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(127,191,162,0.15);
-  backdrop-filter: blur(10px); transition: 0.4s; text-align: left;
-  display: flex; flex-direction: column; justify-content: space-between; min-height: 250px;
+  position: relative; padding: 30px; border-radius: 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(127,191,162,0.15); 
+  backdrop-filter: blur(10px); transition: 0.4s; text-align: left; min-height: 250px; cursor: pointer; display: flex; flex-direction: column;
 }
 .product:hover { transform: translateY(-10px); border-color: #7fbfa2; background: rgba(127,191,162,0.08); }
-
-/* Бэйдж (Хит, Скидка) */
-.badge {
-  position: absolute; top: 15px; right: 15px; padding: 4px 12px;
-  background: #7fbfa2; color: #000; font-size: 11px; font-weight: bold;
-  border-radius: 50px; text-transform: uppercase;
-}
+.badge { position: absolute; top: 15px; right: 15px; padding: 4px 12px; background: #7fbfa2; color: #000; font-size: 11px; font-weight: bold; border-radius: 50px; text-transform: uppercase; }
 .badge.sale { background: #ff5a5a; color: #fff; }
-
 .product-tag { font-size: 11px; color: #7fbfa2; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: block; }
-.product-name { font-size: 20px; font-weight: bold; margin-bottom: 15px; line-height: 1.2; }
-.product-price { font-size: 18px; color: #fff; font-weight: bold; margin-top: auto; }
+.product-name { font-size: 19px; font-weight: bold; margin-bottom: 15px; line-height: 1.2; flex-grow: 1; }
+.product-price { font-size: 18px; color: #fff; font-weight: bold; }
 .product-price span { font-size: 14px; text-decoration: line-through; opacity: 0.5; margin-right: 8px; }
 
-/* ГРИД ДЛЯ ЭФФЕКТОВ */
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 60px; }
-.card { padding: 35px; border-radius: 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(127,191,162,0.1); backdrop-filter: blur(10px); transition: 0.4s; }
+/* 7. СПИСКИ ЭФФЕКТОВ */
+.benefit-list { text-align: left; list-style: none; padding: 0; margin: 0; }
+.benefit-list li { margin-bottom: 15px; display: flex; align-items: flex-start; gap: 12px; font-size: 16px; color: #cddfd7; }
+.benefit-list li span { color: #7fbfa2; text-shadow: 0 0 8px #7fbfa2; }
 
-/* КНОПКИ */
-.btn {
-  display: inline-block; margin-top: 20px; padding: 15px 35px;
-  border: 1px solid #7fbfa2; color: #fff; border-radius: 50px;
-  background: rgba(127,191,162,0.05); cursor: pointer; transition: 0.4s;
-  text-transform: uppercase; letter-spacing: 1px; font-size: 13px;
-}
-.btn:hover { background: #7fbfa2; color: #020403; box-shadow: 0 0 30px #7fbfa2; }
+/* 8. КНОПКИ */
+.btn { display: inline-block; margin-top: 40px; padding: 18px 45px; border: 1px solid #7fbfa2; color: #fff; border-radius: 50px; background: rgba(127,191,162,0.05); cursor: pointer; transition: 0.4s; text-transform: uppercase; letter-spacing: 2px; }
+.btn:hover { background: #7fbfa2; color: #020403; box-shadow: 0 0 40px #7fbfa2; transform: scale(1.05); }
 
-/* СПОРЫ */
+/* 9. СПОРЫ И ПОРТАЛ */
 .spore { position: fixed; width: 2px; height: 2px; background: rgba(200,255,230,0.5); border-radius: 50%; animation: spore 14s linear infinite; z-index: 1; pointer-events: none; }
 @keyframes spore { from { transform: translateY(110vh); opacity: 0; } to { transform: translateY(-10vh); opacity: 1; } }
-
-/* ПОРТАЛ */
 .portal { position: fixed; inset: 0; background: #000; display: flex; align-items: center; justify-content: center; flex-direction: column; opacity: 0; pointer-events: none; transition: 0.8s; z-index: 999; }
 .portal.active { opacity: 1; pointer-events: all; }
+.portal-circle { width: 150px; height: 150px; border-radius: 50%; border: 2px solid #7fbfa2; animation: portalPulse 1.5s infinite; }
+@keyframes portalPulse { 0% { transform: scale(0.8); opacity: 0.5; } 100% { transform: scale(1.5); box-shadow: 0 0 100px #7fbfa2; opacity: 0; } }
 
-@media (max-width: 768px) { section { margin-top: 100px; } .catalog, .grid { grid-template-columns: 1fr; } }
+/* 10. МОБИЛЬНАЯ АДАПТАЦИЯ */
+@media (max-width: 768px) {
+  nav ul { gap: 15px; padding: 12px; }
+  h1 { font-size: 38px; }
+  section { margin-top: 100px; }
+  .grid, .catalog { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -115,8 +118,8 @@ h3 { color: #7fbfa2; margin-bottom: 15px; }
 <ul>
 <li><a href="#home">Главная</a></li>
 <li><a href="#catalog">Каталог</a></li>
-<li><a href="#reviews">Отзывы</a></li>
 <li><a href="#trust">Качество</a></li>
+<li><a href="#reviews">Отзывы</a></li>
 </ul>
 </nav>
 
@@ -127,82 +130,106 @@ h3 { color: #7fbfa2; margin-bottom: 15px; }
   </div>
   <h1 class="reveal">Forest Magic</h1>
   <p class="reveal">Алтайский микродозинг премиального качества. Ручной сбор. Лабораторный контроль.</p>
-  <div class="btn reveal" onclick="portalTelegram()">Перейти к боту</div>
+  <div class="btn reveal" onclick="portalTelegram()">В Telegram-бот</div>
 
-  <!-- КАТАЛОГ (В стиле Мухоморыча) -->
+  <!-- Блок: Природный союзник (6 плиток) -->
+  <section id="effects" class="reveal">
+    <h2>Природный союзник</h2>
+    <div class="grid">
+      <div class="card"><div class="icon">☽</div>Глубокое расслабление и сон</div>
+      <div class="card"><div class="icon">✦</div>Освобождение от привычек</div>
+      <div class="card"><div class="icon">◉</div>Психологическая устойчивость</div>
+      <div class="card"><div class="icon">❍</div>Внутренний баланс</div>
+      <div class="card"><div class="icon">✧</div>Ясность мыслей и фокус</div>
+      <div class="card"><div class="icon">◈</div>Остановка внутреннего диалога</div>
+    </div>
+  </section>
+
+  <!-- Блок: Подробное воздействие (Списки) -->
+  <section id="deep-effects" class="reveal">
+    <h2>Две стороны воздействия</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Ментальное здоровье</h3>
+        <ul class="benefit-list">
+          <li><span>✦</span> <strong>Ясность ума:</strong> Улучшение памяти и когнитивной гибкости.</li>
+          <li><span>✦</span> <strong>Свобода:</strong> Мягкий отказ от курения и алкоголя.</li>
+          <li><span>✦</span> <strong>Тишина:</strong> Прекращение утомительного диалога в голове.</li>
+          <li><span>✦</span> <strong>Ресурс:</strong> Стабильно позитивное настроение.</li>
+          <li><span>✦</span> <strong>Поток:</strong> Раскрытие творческого потенциала.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Физическое состояние</h3>
+        <ul class="benefit-list">
+          <li><span>✦</span> <strong>Регенерация:</strong> Восстановление фаз сна.</li>
+          <li><span>✦</span> <strong>Тонус:</strong> Избавление от хронической усталости.</li>
+          <li><span>✦</span> <strong>Баланс:</strong> Настройка работы внутренних систем.</li>
+          <li><span>✦</span> <strong>Витальность:</strong> Поддержка либидо и энергии.</li>
+          <li><span>✦</span> <strong>Легкость:</strong> Снятие мышечного напряжения.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Блок: Каталог (Магазинный стиль) -->
   <section id="catalog" class="reveal">
     <h2>Продукция Алтая</h2>
     <div class="catalog">
-      <!-- Товар 1 -->
       <div class="product" onclick="portalTelegram()">
         <span class="badge">Хит</span>
         <span class="product-tag">Спокойствие и сон</span>
         <div class="product-name">Красный мухомор<br>(Цельные шляпки)</div>
         <div class="product-price"><span>1990 ₽</span> от 1 590 ₽</div>
       </div>
-      <!-- Товар 2 -->
       <div class="product" onclick="portalTelegram()">
         <span class="badge sale">Акция</span>
         <span class="product-tag">Энергия и фокус</span>
         <div class="product-name">Пантерный мухомор<br>(Экстракт)</div>
         <div class="product-price"><span>4500 ₽</span> 3 490 ₽</div>
       </div>
-      <!-- Товар 3 -->
       <div class="product" onclick="portalTelegram()">
-        <span class="product-tag">Мощный иммунитет</span>
-        <div class="product-name">Набор «Здоровая осень»<br>(Красный + Ежовик)</div>
-        <div class="product-price">4 190 ₽</div>
+        <span class="product-tag">Чистый разум</span>
+        <div class="product-name">Микродозинг в капсулах<br>(Курс 30 дней)</div>
+        <div class="product-price">2 200 ₽</div>
       </div>
-      <!-- Товар 4 -->
       <div class="product" onclick="portalTelegram()">
         <span class="badge">New</span>
-        <span class="product-tag">Чистый разум</span>
-        <div class="product-name">Микродозинг в капсулах<br>(Курс на 30 дней)</div>
-        <div class="product-price">2 200 ₽</div>
+        <span class="product-tag">Глубина тишины</span>
+        <div class="product-name">Сбор «Лесная тишина»<br>(Смесь трав и грибов)</div>
+        <div class="product-price">1 850 ₽</div>
       </div>
     </div>
   </section>
 
-  <!-- БЛОК ДОВЕРИЯ (Как у топов) -->
+  <!-- Блок Доверия -->
   <section id="trust" class="reveal">
     <h2>Почему выбирают нас</h2>
     <div class="grid">
-      <div class="card">
-        <h3 style="font-size: 40px; margin: 0;">🏔</h3>
-        <h3>Горный Алтай</h3>
-        <p style="font-size: 14px;">Сбор происходит в экологически чистых районах, вдали от цивилизации.</p>
-      </div>
-      <div class="card">
-        <h3 style="font-size: 40px; margin: 0;">🧪</h3>
-        <h3>Контроль</h3>
-        <p style="font-size: 14px;">Каждая партия проходит проверку качества и правильную сушку при 35-40°C.</p>
-      </div>
-      <div class="card">
-        <h3 style="font-size: 40px; margin: 0;">📦</h3>
-        <h3>Анонимность</h3>
-        <p style="font-size: 14px;">Надежная и нейтральная упаковка. Никто не узнает, что внутри посылки.</p>
-      </div>
+      <div class="card"><h3 style="font-size:40px">🏔</h3><h3>Горный Алтай</h3><p>Экологически чистый ручной сбор.</p></div>
+      <div class="card"><h3 style="font-size:40px">🧪</h3><h3>Лаборатория</h3><p>Проверка качества каждой партии.</p></div>
+      <div class="card"><h3 style="font-size:40px">📦</h3><h3>Анонимность</h3><p>Нейтральная и надежная упаковка.</p></div>
     </div>
   </section>
 
   <section id="reviews" class="reveal">
     <h2>Отзывы</h2>
     <div class="grid">
-      <div class="card">«Доставка за 3 дня, качество на высоте. Стал спать как ребенок.» — Иван</div>
-      <div class="card">«Беру не первый раз, пантерный экстракт очень чистый.» — Елена</div>
+      <div class="card review">«Очень мягкое и глубокое состояние. Рекомендую.»</div>
+      <div class="card review">«Спокойствие и тишина внутри. Качество на высоте.»</div>
     </div>
-    <div class="btn" onclick="portalReviews()">Читать все отзывы в ТГ</div>
+    <div class="btn" onclick="portalReviews()">Все отзывы в Telegram</div>
   </section>
 
   <footer style="margin-top:150px; padding-bottom: 50px; font-size:11px; opacity:0.4">
     Информация носит ознакомительный характер. Не является лекарством. 18+<br>
-    Forest Magic © 2024. Горный Алтай.
+    Forest Magic © 2025. Алтай.
   </footer>
 </div>
 
 <div class="portal" id="portal">
   <div class="portal-circle"></div>
-  <div class="portal-text">ЗАГРУЗКА ЛЕСА...</div>
+  <div class="portal-text">СОЕДИНЕНИЕ С ЛЕСОМ...</div>
 </div>
 
 <script>
@@ -233,7 +260,7 @@ function showPortal(action){
   }, 1200);
 }
 
-for(let i=0;i<30;i++){
+for(let i=0;i<35;i++){
  let s=document.createElement('div');
  s.className='spore';
  s.style.left=Math.random()*100+'vw';
