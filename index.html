@@ -1,156 +1,154 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>Forest Magic</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Forest Magic — Алтай</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Inter, Arial, sans-serif;
-            background: #0f1a14;
-            color: #e6e6e6;
-            line-height: 1.6;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
-        h1, h2 {
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
-        h1 {
-            font-size: 42px;
-            margin-bottom: 10px;
-        }
-        h2 {
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-        p {
-            opacity: 0.9;
-        }
-        .hero {
-            text-align: center;
-        }
-        .btn {
-            display: inline-block;
-            margin-top: 25px;
-            padding: 14px 28px;
-            border: 1px solid #6fa68b;
-            color: #e6e6e6;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-        .btn:hover {
-            background: #6fa68b;
-            color: #0f1a14;
-        }
-        .section {
-            margin-top: 90px;
-        }
-        .catalog ul {
-            list-style: none;
-            padding: 0;
-        }
-        .catalog li {
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .footer {
-            margin-top: 100px;
-            font-size: 14px;
-            opacity: 0.6;
-        }
-        a {
-            color: #6fa68b;
-        }
-    </style>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at top, #1b2a23, #0e1411);
+      color: #e6e6e6;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 38px;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    p {
+      color: #cfcfcf;
+    }
+
+    .trust {
+      margin-top: 30px;
+      font-style: italic;
+      color: #b8c9be;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 14px 28px;
+      border: 1px solid #6fa68b;
+      color: #e6e6e6;
+      text-decoration: none;
+      border-radius: 4px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .btn:hover {
+      background: rgba(111,166,139,0.15);
+    }
+
+    .cta {
+      margin-top: 80px;
+      padding: 40px 20px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .cta p {
+      max-width: 520px;
+      margin: 0 auto 25px;
+    }
+
+    .note {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #9e9e9e;
+    }
+
+    .link {
+      display: inline-block;
+      margin-top: 10px;
+      color: #8fbfa4;
+      text-decoration: none;
+    }
+
+    footer {
+      margin-top: 80px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 12px;
+      color: #8a8a8a;
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="container hero">
+  <div class="container">
     <h1>Forest Magic</h1>
-    <p><em>Сила леса. Тишина Алтая.</em></p>
-
     <p>
-        Сбор из экологически чистых лесов Алтая,<br>
-        в глубине Сибири — вдали от городов и шума.
+      Проект о бережном взаимодействии с природой,  
+      осознанности и личном опыте.
     </p>
 
-    <a class="btn" href="https://t.me/Altai_Amanita_bot" target="_blank">
-        Перейти в Telegram‑бот
+    <p class="trust">
+      Сбор производится в экологически чистых лесах Алтая,  
+      в глубине Сибири.  
+      Ручной сбор и бережная сушка  
+      в специализированных сушилках  
+      при температуре до 40°C.
+    </p>
+
+    <a class="btn"
+       href="#"
+       onclick="window.open('https://t.me/Altai_Amanita_bot','_blank')">
+       Перейти в Telegram‑бот
     </a>
 
-    <p style="margin-top:10px; font-size:14px; opacity:0.7;">
-        Каталог, наличие и оплата — только в боте
-    </p>
-</div>
+    <div class="cta">
+      <h2>Каталог и наличие</h2>
+      <p>
+        Все позиции, актуальное наличие  
+        и оплата доступны  
+        только в Telegram‑боте.
+      </p>
 
-<div class="container section">
-    <h2>О бренде</h2>
-    <p>
-        Forest Magic — это не про продажи и не про обещания.
-        Это продолжение пути — внимательного, тихого и осознанного.
-    </p>
-    <p>
-        Сбор осуществляется в экологически чистых лесах Алтая,
-        вдали от промышленности и городов.
-        Мы сохраняем форму, структуру и естественное состояние сырья.
-    </p>
-    <p>
-        Мы не даём советов и не навязываем решений.
-        Каждый опыт — личный и требует ответственности.
-    </p>
-</div>
+      <a class="btn"
+         href="#"
+         onclick="window.open('https://t.me/Altai_Amanita_bot','_blank')">
+         Открыть каталог
+      </a>
 
-<div class="container section catalog">
-    <h2>Каталог</h2>
-    <p>
-        Полный каталог, актуальное наличие и оплата
-        доступны в Telegram‑боте.
-    </p>
+      <p class="note">
+        Если остались вопросы — напишите лично
+      </p>
 
-    <ul>
-        <li>Цельные шляпки красного мухомора (сушёные)</li>
-        <li>Цельные шляпки пантерного мухомора (сушёные)</li>
-        <li>Порошок красного мухомора (ручной сбор)</li>
-        <li>Порошок пантерного мухомора</li>
-        <li>Капсулы красного мухомора — 60 шт</li>
-        <li>Капсулы пантерного мухомора — 60 шт</li>
-    </ul>
+      <a class="link"
+         href="#"
+         onclick="window.open('https://t.me/Konstantin_krohin','_blank')">
+         Написать в личные сообщения
+      </a>
+    </div>
 
-    <a class="btn" href="https://t.me/Altai_Amanita_bot" target="_blank">
-        Открыть каталог в боте
-    </a>
-</div>
-
-<div class="container section">
-    <h2>Контакт</h2>
-    <p>
-        Если у вас есть вопросы
-        или вы хотите понять, что у нас сейчас происходит —
-        напишите нам в личные сообщения.
-    </p>
-
-    <a class="btn" href="https://t.me/Konstantin_krohin" target="_blank">
-        Написать в Telegram
-    </a>
-</div>
-
-<div class="container footer">
-    <p>
-        Продукция не является лекарственным средством
-        и не предназначена для медицинского применения.<br>
-        Не является БАД.
-    </p>
-</div>
+    <footer>
+      <p>
+        Информация на сайте носит ознакомительный характер.  
+        Продукция не является лекарственным средством  
+        и не предназначена для медицинского применения.
+      </p>
+    </footer>
+  </div>
 
 </body>
 </html>
-
