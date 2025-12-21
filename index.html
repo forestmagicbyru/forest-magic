@@ -6,19 +6,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-:root {
-  --green: #7fbfa2;
-  --dark: #060b08;
-}
-
-* { box-sizing: border-box; }
-
+/* ===== ОСНОВА ===== */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background:
     radial-gradient(circle at 50% 0%, rgba(80,140,110,0.35), transparent 60%),
-    linear-gradient(180deg, #0a1511, #020403);
+    linear-gradient(180deg, #07110d 0%, #020403 100%);
   color: #e6e6e6;
   overflow-x: hidden;
 }
@@ -26,143 +20,185 @@ body {
 /* затемнение краёв */
 body::before {
   content:"";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  box-shadow: inset 0 0 120px rgba(0,0,0,.85);
-  z-index: 5;
+  position:fixed;
+  inset:0;
+  box-shadow: inset 0 0 120px rgba(0,0,0,0.75);
+  pointer-events:none;
+  z-index:1;
 }
 
-/* фикс меню */
+/* шум */
+body::after {
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:2;
+}
+
+/* ===== МЕНЮ ===== */
 nav {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background: rgba(5,10,8,.65);
+  position:fixed;
+  top:0;
+  width:100%;
   backdrop-filter: blur(6px);
-  border-bottom: 1px solid rgba(127,191,162,.15);
-  z-index: 10;
+  background:rgba(5,15,10,0.6);
+  border-bottom:1px solid rgba(120,200,160,0.15);
+  z-index:10;
 }
 nav ul {
-  display: flex;
-  justify-content: center;
-  gap: 28px;
-  padding: 14px;
-  margin: 0;
-  list-style: none;
+  list-style:none;
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  padding:14px;
+  margin:0;
 }
 nav a {
-  color: #cfe7dc;
-  text-decoration: none;
-  font-size: 14px;
-  letter-spacing: 1px;
+  color:#cfe6dc;
+  text-decoration:none;
+  font-size:14px;
+  letter-spacing:1px;
 }
 
-/* секции */
-section {
-  padding: 120px 20px;
-  max-width: 1100px;
-  margin: auto;
+/* ===== КОНТЕЙНЕР ===== */
+.container {
+  max-width:1000px;
+  margin:0 auto;
+  padding:120px 20px;
+  text-align:center;
+  position:relative;
+  z-index:3;
 }
 
-h1, h2 {
-  text-align: center;
-  letter-spacing: 2px;
-  text-shadow: 0 0 18px rgba(140,220,180,.35);
-}
-
-p {
-  max-width: 760px;
-  margin: 20px auto;
-  text-align: center;
-  color: #cfd8d3;
-}
-
-/* символ */
+/* ===== СИМВОЛ ===== */
 .symbol-wrap {
-  height: 300px;
+  height:260px;
   display:flex;
   justify-content:center;
   align-items:center;
 }
 .symbol {
-  width: 180px;
-  height: 180px;
-  border-radius: 45% 45% 50% 50%;
-  border: 1px solid rgba(160,220,190,.4);
-  box-shadow: 0 0 60px rgba(120,200,160,.4),
-              inset 0 0 35px rgba(120,200,160,.4);
-  animation: float 6s ease-in-out infinite;
-  position: relative;
-}
-.symbol::before {
-  content:"";
-  position:absolute;
-  inset:25px;
-  border-radius:50%;
-  background: radial-gradient(circle, rgba(150,220,180,.45), transparent 70%);
-  animation: pulse 4s infinite;
+  width:170px;
+  height:200px;
+  border-radius:50% 50% 40% 40%;
+  background:radial-gradient(circle at 50% 30%, rgba(160,230,190,0.6), rgba(40,90,70,0.15));
+  box-shadow:0 0 70px rgba(120,220,180,0.45);
+  animation:float 7s ease-in-out infinite, pulse 4s ease-in-out infinite;
 }
 @keyframes float {
-  50% { transform: translateY(-20px); }
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-18px)}
+  100%{transform:translateY(0)}
 }
 @keyframes pulse {
-  50% { opacity:.9; }
+  0%,100%{box-shadow:0 0 40px rgba(120,220,180,0.3)}
+  50%{box-shadow:0 0 90px rgba(120,220,180,0.6)}
 }
 
-/* каталог */
-.catalog {
+/* ===== ТЕКСТ ===== */
+h1 {
+  font-size:44px;
+  letter-spacing:3px;
+}
+h2 {
+  margin-top:120px;
+  font-size:32px;
+}
+p {
+  max-width:720px;
+  margin:18px auto;
+  color:#cddfd7;
+}
+
+/* ===== КНОПКА ===== */
+.btn {
+  display:inline-block;
+  margin-top:40px;
+  padding:16px 36px;
+  border:1px solid #7fbfa2;
+  color:#fff;
+  text-decoration:none;
+  border-radius:6px;
+  background:rgba(127,191,162,0.12);
+  box-shadow:0 0 0 rgba(127,191,162,0);
+  animation:btnPulse 4s infinite;
+}
+@keyframes btnPulse {
+  50%{box-shadow:0 0 35px rgba(127,191,162,0.5)}
+}
+
+/* ===== КАРТОЧКИ ===== */
+.grid {
   display:grid;
-  grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
-  gap: 24px;
-  margin-top: 60px;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:30px;
+  margin-top:60px;
 }
 .card {
-  aspect-ratio: 1/1;
-  background: rgba(20,40,30,.45);
-  border: 1px solid rgba(127,191,162,.25);
-  padding: 20px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  transition:.4s;
+  padding:30px;
+  border:1px solid rgba(140,220,180,0.2);
+  background:rgba(20,40,30,0.35);
+  border-radius:12px;
+  backdrop-filter:blur(6px);
+  transition:0.4s;
 }
 .card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 0 40px rgba(127,191,162,.35);
-}
-.card h3 {
-  margin:0;
-  text-align:center;
-}
-.card p {
-  font-size:14px;
-}
-.card a {
-  text-align:center;
-  padding:12px;
-  border:1px solid var(--green);
-  text-decoration:none;
-  color:#fff;
+  transform:translateY(-10px);
+  box-shadow:0 0 40px rgba(120,220,180,0.4);
 }
 
-/* футер */
-footer {
-  text-align:center;
-  font-size:12px;
-  opacity:.7;
-  padding-bottom:40px;
+/* ===== ИКОНКИ ===== */
+.icon {
+  width:56px;
+  height:56px;
+  margin:0 auto 18px;
+  border-radius:50%;
+  border:1px solid rgba(160,230,190,0.4);
+  box-shadow:0 0 25px rgba(120,220,180,0.5);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  letter-spacing:1px;
 }
 
-/* появление */
-.reveal {
-  opacity:0;
-  transform: translateY(40px);
-  transition:1.2s;
+/* ===== КАТАЛОГ ===== */
+.catalog {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:30px;
+  margin-top:60px;
 }
-.reveal.active {
-  opacity:1;
-  transform:none;
+.product {
+  aspect-ratio:1/1;
+  padding:20px;
+  border-radius:12px;
+  background:linear-gradient(180deg, rgba(30,60,45,0.4), rgba(10,20,15,0.7));
+  border:1px solid rgba(140,220,180,0.25);
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  cursor:pointer;
+  transition:0.4s;
+}
+.product:hover {
+  box-shadow:0 0 50px rgba(120,220,180,0.5);
+}
+
+/* ===== СПОРЫ ===== */
+.spore {
+  position:fixed;
+  width:2px;
+  height:2px;
+  background:rgba(180,255,220,0.6);
+  border-radius:50%;
+  animation:spore 12s linear infinite;
+}
+@keyframes spore {
+  from {transform:translateY(100vh); opacity:0}
+  to {transform:translateY(-10vh); opacity:1}
 }
 </style>
 </head>
@@ -172,102 +208,65 @@ footer {
 <nav>
 <ul>
 <li><a href="#about">О проекте</a></li>
+<li><a href="#effects">Эффекты</a></li>
 <li><a href="#catalog">Каталог</a></li>
-<li><a href="#production">Производство</a></li>
-<li><a href="#delivery">Доставка</a></li>
-<li><a href="#support">Поддержка</a></li>
+<li><a href="#contacts">Контакты</a></li>
 </ul>
 </nav>
 
-<section id="about">
-<div class="symbol-wrap">
-<div class="symbol"></div>
+<div class="container" id="about">
+  <div class="symbol-wrap"><div class="symbol"></div></div>
+  <h1>Forest Magic</h1>
+  <p>Осознанный проект из глубины Алтая. Тишина. Лес. Личный опыт.</p>
+  <a class="btn" href="https://t.me/Altai_Amanita_bot" target="_blank">Перейти в Telegram‑бот</a>
+
+  <h2 id="effects">Мухомор — природный союзник</h2>
+  <div class="grid">
+    <div class="card"><div class="icon">01</div>Глубокое расслабление и восстановление сна</div>
+    <div class="card"><div class="icon">02</div>Снижение тяги к навязчивым привычкам</div>
+    <div class="card"><div class="icon">03</div>Устойчивость к стрессу и перегрузкам</div>
+    <div class="card"><div class="icon">04</div>Внутреннее равновесие и спокойствие</div>
+  </div>
+
+  <h2>Два уровня взаимодействия</h2>
+  <div class="grid">
+    <div class="card">
+      <strong>Психоэмоциональный</strong><br><br>
+      Ясность мышления<br>
+      Снижение внутреннего шума<br>
+      Креативность и уверенность
+    </div>
+    <div class="card">
+      <strong>Телесный</strong><br><br>
+      Поддержка сна<br>
+      Энергия и тонус<br>
+      Расслабление тела
+    </div>
+  </div>
+
+  <h2 id="catalog">Каталог</h2>
+  <div class="catalog">
+    <div class="product" onclick="window.open('https://t.me/Altai_Amanita_bot','_blank')">Мухомор цельный</div>
+    <div class="product" onclick="window.open('https://t.me/Altai_Amanita_bot','_blank')">Резаный мухомор</div>
+    <div class="product" onclick="window.open('https://t.me/Altai_Amanita_bot','_blank')">Микродозинг</div>
+    <div class="product" onclick="window.open('https://t.me/Altai_Amanita_bot','_blank')">Пантерный</div>
+    <div class="product" onclick="window.open('https://t.me/Altai_Amanita_bot','_blank')">Экстракт</div>
+    <div class="product" onclick="window.open('https://t.me/Altai_Amanita_bot','_blank')">Сбор «Лесная тишина»</div>
+  </div>
+
+  <footer id="contacts" style="margin-top:120px;font-size:12px;opacity:0.7">
+    Информация носит ознакомительный характер и не является медицинской.
+  </footer>
 </div>
-<h1 class="reveal">Forest Magic</h1>
-<p class="reveal">
-Осознанный проект из глубины Алтая.  
-Сбор в экологически чистых лесах Сибири, ручная обработка и уважение к природе.
-</p>
-</section>
-
-<section id="catalog">
-<h2 class="reveal">Каталог</h2>
-
-<div class="catalog">
-<div class="card reveal">
-<h3>Мухомор цельный</h3>
-<p>Цельные шляпки, аккуратная сушка, сохранённая форма.</p>
-<a href="https://t.me/Altai_Amanita_bot" target="_blank">В Telegram</a>
-</div>
-
-<div class="card reveal">
-<h3>Мухомор резаный</h3>
-<p>Удобный формат для практичного использования.</p>
-<a href="https://t.me/Altai_Amanita_bot" target="_blank">В Telegram</a>
-</div>
-
-<div class="card reveal">
-<h3>Микродозинг</h3>
-<p>Подготовленный продукт для аккуратного взаимодействия.</p>
-<a href="https://t.me/Altai_Amanita_bot" target="_blank">В Telegram</a>
-</div>
-
-<div class="card reveal">
-<h3>Пантерный</h3>
-<p>Редкий и сильный представитель. Только для опытных.</p>
-<a href="https://t.me/Altai_Amanita_bot" target="_blank">В Telegram</a>
-</div>
-
-<div class="card reveal">
-<h3>Экстракт</h3>
-<p>Концентрированная форма, ручная работа.</p>
-<a href="https://t.me/Altai_Amanita_bot" target="_blank">В Telegram</a>
-</div>
-
-<div class="card reveal">
-<h3>Сбор «Лесная тишина»</h3>
-<p>Авторский набор как единый путь.</p>
-<a href="https://t.me/Altai_Amanita_bot" target="_blank">В Telegram</a>
-</div>
-</div>
-</section>
-
-<section id="production">
-<h2 class="reveal">Производство</h2>
-<p class="reveal">
-Сбор вручную, бережная сушка, отсутствие массового производства.  
-Каждая партия проходит личный контроль.
-</p>
-</section>
-
-<section id="delivery">
-<h2 class="reveal">Доставка и оплата</h2>
-<p class="reveal">
-Обсуждаются индивидуально через Telegram.  
-Анонимно и конфиденциально.
-</p>
-</section>
-
-<section id="support">
-<h2 class="reveal">Поддержка</h2>
-<p class="reveal">
-Если есть вопросы — напишите лично.  
-Мы всегда на связи.
-</p>
-</section>
-
-<footer>
-Информация носит ознакомительный характер и не является медицинской рекомендацией.
-</footer>
 
 <script>
-const els=document.querySelectorAll('.reveal');
-const onScroll=()=>els.forEach(e=>{
-  if(e.getBoundingClientRect().top<innerHeight-100)
-    e.classList.add('active');
-});
-window.addEventListener('scroll',onScroll);
-onScroll();
+for(let i=0;i<20;i++){
+  let s=document.createElement('div');
+  s.className='spore';
+  s.style.left=Math.random()*100+'vw';
+  s.style.animationDelay=Math.random()*12+'s';
+  document.body.appendChild(s);
+}
 </script>
 
 </body>
