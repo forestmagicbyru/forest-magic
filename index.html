@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
+body{
   margin:0;
   font-family:Arial,sans-serif;
   background:linear-gradient(180deg,#06100c,#020403);
@@ -17,7 +17,7 @@ body::before{
   content:"";
   position:fixed;
   inset:0;
-  box-shadow:inset 0 0 140px rgba(0,0,0,.85);
+  box-shadow:inset 0 0 160px rgba(0,0,0,.9);
   pointer-events:none;
   z-index:1;
 }
@@ -26,19 +26,24 @@ body::before{
 nav{
   position:fixed;
   top:0;width:100%;
-  background:rgba(5,15,10,.7);
-  backdrop-filter:blur(6px);
+  background:rgba(5,15,10,.75);
+  backdrop-filter:blur(8px);
   z-index:10;
 }
 nav ul{
   display:flex;
   justify-content:center;
-  gap:26px;
+  gap:28px;
   list-style:none;
   padding:14px;
   margin:0;
 }
-nav a{color:#cfe6dc;text-decoration:none;font-size:14px}
+nav a{
+  color:#cfe6dc;
+  text-decoration:none;
+  font-size:14px;
+  letter-spacing:1px;
+}
 
 /* ===== LAYOUT ===== */
 .container{
@@ -49,14 +54,13 @@ nav a{color:#cfe6dc;text-decoration:none;font-size:14px}
   position:relative;
   z-index:3;
 }
-section{margin-top:140px;position:relative}
+section{margin-top:150px;position:relative}
 section::before{
   content:"";
   position:absolute;
-  top:-80px;left:0;right:0;
-  height:80px;
+  top:-90px;left:0;right:0;
+  height:90px;
   background:radial-gradient(circle,rgba(120,220,180,.25),transparent 70%);
-  opacity:.6;
 }
 
 h1{font-size:46px;letter-spacing:3px}
@@ -69,23 +73,22 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   margin:auto;
   border-radius:50% 50% 40% 40%;
   background:radial-gradient(circle at 50% 30%,rgba(160,230,190,.6),rgba(40,90,70,.2));
-  box-shadow:0 0 90px rgba(120,220,180,.6);
+  box-shadow:0 0 100px rgba(120,220,180,.7);
   animation:float 7s ease-in-out infinite,pulse 4s infinite;
 }
 @keyframes float{50%{transform:translateY(-18px)}}
-@keyframes pulse{50%{box-shadow:0 0 140px rgba(120,220,180,.8)}}
+@keyframes pulse{50%{box-shadow:0 0 160px rgba(120,220,180,.9)}}
 
 /* ===== BUTTON ===== */
 .btn{
   display:inline-block;
   margin-top:40px;
-  padding:16px 38px;
+  padding:16px 40px;
   border:1px solid #7fbfa2;
   color:#fff;
-  text-decoration:none;
-  border-radius:8px;
+  border-radius:10px;
   background:rgba(127,191,162,.12);
-  box-shadow:0 0 40px rgba(127,191,162,.4);
+  box-shadow:0 0 40px rgba(127,191,162,.45);
   cursor:pointer;
 }
 
@@ -98,22 +101,22 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 }
 .card{
   padding:32px;
-  border-radius:14px;
-  background:rgba(20,40,30,.45);
+  border-radius:16px;
+  background:rgba(20,40,30,.5);
   border:1px solid rgba(140,220,180,.25);
   backdrop-filter:blur(6px);
   transition:.4s;
 }
 .card:hover{
-  transform:translateY(-12px);
-  box-shadow:0 0 60px rgba(120,220,180,.5);
+  transform:translateY(-14px);
+  box-shadow:0 0 70px rgba(120,220,180,.55);
 }
 .icon{
   width:64px;height:64px;
   margin:0 auto 18px;
   border-radius:50%;
   border:1px solid rgba(160,230,190,.4);
-  box-shadow:0 0 30px rgba(120,220,180,.6);
+  box-shadow:0 0 35px rgba(120,220,180,.7);
   display:flex;align-items:center;justify-content:center;
   font-size:22px;
 }
@@ -128,15 +131,15 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 .product{
   aspect-ratio:1/1;
   padding:24px;
-  border-radius:14px;
-  background:linear-gradient(180deg,rgba(30,60,45,.5),rgba(10,20,15,.8));
+  border-radius:16px;
+  background:linear-gradient(180deg,rgba(30,60,45,.55),rgba(10,20,15,.85));
   border:1px solid rgba(140,220,180,.25);
   display:flex;
   align-items:flex-end;
   cursor:pointer;
   transition:.4s;
 }
-.product:hover{box-shadow:0 0 60px rgba(120,220,180,.6)}
+.product:hover{box-shadow:0 0 70px rgba(120,220,180,.6)}
 
 /* ===== REVIEWS ===== */
 .review{font-size:14px;line-height:1.6}
@@ -155,10 +158,10 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 }
 
 /* ===== PORTAL ===== */
-.portal-overlay{
+.portal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.9);
+  background:rgba(0,0,0,.92);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -168,33 +171,28 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   transition:opacity .6s ease;
   z-index:999;
 }
-.portal-overlay.active{
+.portal.active{
   opacity:1;
   pointer-events:all;
 }
 .portal-circle{
-  width:140px;height:140px;
+  width:150px;height:150px;
   border-radius:50%;
-  border:2px solid rgba(140,220,180,.7);
-  box-shadow:0 0 40px rgba(140,220,180,.6),
-             0 0 90px rgba(140,220,180,.4);
+  border:2px solid rgba(140,220,180,.8);
+  box-shadow:0 0 50px rgba(140,220,180,.6),
+             0 0 120px rgba(140,220,180,.5);
   animation:portalPulse 1.2s ease-in-out infinite;
 }
 .portal-text{
-  margin-top:26px;
+  margin-top:28px;
   font-size:14px;
-  letter-spacing:2px;
-  opacity:0;
-  animation:textFade 1.2s ease forwards;
+  letter-spacing:3px;
+  opacity:.8;
 }
 @keyframes portalPulse{
   0%{transform:scale(.8);opacity:.6}
   50%{transform:scale(1.1);opacity:1}
   100%{transform:scale(1.6);opacity:0}
-}
-@keyframes textFade{
-  from{opacity:0}
-  to{opacity:.8}
 }
 </style>
 </head>
@@ -207,6 +205,7 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 <li><a href="#effects">Эффекты</a></li>
 <li><a href="#catalog">Каталог</a></li>
 <li><a href="#reviews">Отзывы</a></li>
+<li><a href="#promo">Акция</a></li>
 </ul>
 </nav>
 
@@ -214,7 +213,7 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 <div class="symbol"></div>
 <h1>Forest Magic</h1>
 <p>Осознанный проект из глубины Алтая. Лес. Тишина. Личный опыт.</p>
-<div class="btn" onclick="openTelegram()">Перейти в Telegram‑бот</div>
+<div class="btn" onclick="portalTelegram()">Перейти в Telegram‑бот</div>
 
 <section id="effects">
 <h2>Мухомор — природный союзник</h2>
@@ -226,23 +225,15 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 </div>
 </section>
 
-<section>
-<h2>Два уровня взаимодействия</h2>
-<div class="grid">
-<div class="card">Ясность мышления<br>Снижение внутреннего шума<br>Креативность</div>
-<div class="card">Поддержка сна<br>Энергия<br>Расслабление тела</div>
-</div>
-</section>
-
 <section id="catalog">
 <h2>Каталог</h2>
 <div class="catalog">
-<div class="product" onclick="openTelegram()">Мухомор цельный</div>
-<div class="product" onclick="openTelegram()">Резаный мухомор</div>
-<div class="product" onclick="openTelegram()">Микродозинг</div>
-<div class="product" onclick="openTelegram()">Пантерный</div>
-<div class="product" onclick="openTelegram()">Экстракт</div>
-<div class="product" onclick="openTelegram()">Сбор «Лесная тишина»</div>
+<div class="product" onclick="portalTelegram()">Мухомор цельный</div>
+<div class="product" onclick="portalTelegram()">Резаный мухомор</div>
+<div class="product" onclick="portalTelegram()">Микродозинг</div>
+<div class="product" onclick="portalTelegram()">Пантерный</div>
+<div class="product" onclick="portalTelegram()">Экстракт</div>
+<div class="product" onclick="portalTelegram()">Сбор «Лесная тишина»</div>
 </div>
 </section>
 
@@ -254,33 +245,60 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 <div class="card review">«Чувствуется бережный подход.»</div>
 <div class="card review">«Спокойствие и тишина внутри.»</div>
 <div class="card review">«Качество на другом уровне.»</div>
-<div class="card review">«Вернусь ещё.»</div>
 </div>
-<div class="btn" onclick="window.open('https://t.me/REVIEWS_ForestMagic','_blank')">Больше отзывов</div>
+<div class="btn" onclick="portalReviews()">Больше отзывов</div>
 </section>
 
-<footer style="margin-top:140px;font-size:12px;opacity:.7">
+<section id="promo">
+<h2>Особое предложение</h2>
+<p>
+Время от времени мы открываем доступ  
+к ограниченным наборам для своих.
+</p>
+<div class="grid">
+<div class="card">
+<div class="icon">✶</div>
+<strong>Лесной набор</strong><br><br>
+Ограниченная партия<br>
+Ручная сборка<br>
+Доступ по запросу
+</div>
+<div class="card">
+<div class="icon">☾</div>
+<strong>Тихий путь</strong><br><br>
+Для вечернего ритма<br>
+Осознанный формат
+</div>
+</div>
+<div class="btn" onclick="portalTelegram()">Узнать условия</div>
+</section>
+
+<footer style="margin-top:160px;font-size:12px;opacity:.7">
 Информация носит ознакомительный характер и не является медицинской.
 </footer>
 </div>
 
-<!-- PORTAL -->
-<div class="portal-overlay" id="portal">
+<div class="portal" id="portal">
   <div class="portal-circle"></div>
   <div class="portal-text">Переход…</div>
 </div>
 
 <script>
-function openTelegram(){
-  const portal=document.getElementById('portal');
-  portal.classList.add('active');
+function portalTelegram(){
+  showPortal(()=>window.open('https://t.me/Altai_Amanita_bot','_blank'));
+}
+function portalReviews(){
+  showPortal(()=>window.open('https://t.me/REVIEWS_ForestMagic','_blank'));
+}
+function showPortal(action){
+  const p=document.getElementById('portal');
+  p.classList.add('active');
   setTimeout(()=>{
-    window.open('https://t.me/Altai_Amanita_bot','_blank');
-    portal.classList.remove('active');
+    action();
+    p.classList.remove('active');
   },1200);
 }
-
-for(let i=0;i<25;i++){
+for(let i=0;i<28;i++){
  let s=document.createElement('div');
  s.className='spore';
  s.style.left=Math.random()*100+'vw';
