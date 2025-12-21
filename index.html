@@ -3,127 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Altai Amanita | Лесная магия</title>
+    <title>Altai Amanita</title>
     <style>
-        /* Базовые настройки темы */
-        :root {
-            --bg-color: #0d110d; /* Глубокий лесной черный */
-            --accent-color: #5c8a58; /* Цвет мха */
-            --text-color: #e0e6df;
-            --card-bg: #161d16;
-            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
+        /* Добавляем фоновое изображение и общие стили для страницы */
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Georgia', serif; /* Более "книжный" стиль */
             margin: 0;
-            padding: 0;
-            line-height: 1.6;
-            overflow-x: hidden;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), 
+                url('https://images.unsplash.com/photo-1511497584788-8767fe771d55?q=80&w=2000&auto=format&fit=crop'); /* Ссылка на темный лес */
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: #ffffff;
+            line-height: 1.5;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            position: relative;
-            z-index: 5;
-        }
-
-        h2 {
-            font-size: 2rem;
-            color: var(--accent-color);
-            text-align: center;
-            margin-bottom: 40px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        section {
-            margin-bottom: 100px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 1s forwards;
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Каталог */
-        .catalog {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .product {
-            background: var(--card-bg);
-            padding: 30px;
-            border: 1px solid #2a352a;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-            border-radius: 4px;
-        }
-
-        .product:hover {
-            border-color: var(--accent-color);
-            background: #1e291e;
-            transform: scale(1.02);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        /* Отзывы */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            padding: 25px;
+        /* Стиль для твоих блоков товаров и отзывов, чтобы они были видны на фоне */
+        .product, .card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            margin: 10px 0;
             border-radius: 8px;
-            font-style: italic;
-            border-left: 3px solid var(--accent-color);
-        }
-
-        .btn {
-            display: block;
-            width: fit-content;
-            margin: 30px auto;
-            padding: 15px 40px;
-            border: 1px solid var(--accent-color);
-            color: var(--accent-color);
-            text-transform: uppercase;
-            letter-spacing: 2px;
             cursor: pointer;
-            transition: var(--transition);
+            transition: background 0.3s;
+        }
+        .product:hover, .card:hover {
+            background: rgba(255, 255, 255, 0.15);
         }
 
-        .btn:hover {
-            background: var(--accent-color);
-            color: white;
+        /* Стиль для кнопки */
+        .btn {
+            display: inline-block;
+            background: #3e5c39;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
         }
 
-        /* Промо-блок */
-        #promo .icon {
-            font-size: 30px;
-            margin-bottom: 15px;
-            display: block;
-            color: var(--accent-color);
+        /* Настройка внешнего вида твоих спор (чтобы они стали видимыми точками) */
+        .spore {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            from { transform: translateY(-10vh); }
+            to { transform: translateY(110vh); }
         }
 
-        #promo strong {
-            font-size: 1.2rem;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        /* Эффект портала */
+        /* Настройка твоего портала (чтобы он перекрывал экран при активации) */
         #portal {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -132,165 +68,99 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 9999;
-            opacity: 0;
-            transition: opacity 0.6s ease;
+            z-index: 1000;
         }
-
-        #portal.active {
-            display: flex;
-            opacity: 1;
-        }
-
+        #portal.active { display: flex; }
         .portal-circle {
-            width: 80px;
-            height: 80px;
-            border: 2px solid var(--accent-color);
-            border-top: 2px solid transparent;
+            width: 60px;
+            height: 60px;
+            border: 3px solid #3e5c39;
+            border-top-color: transparent;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-
-        .portal-text {
-            margin-top: 20px;
-            letter-spacing: 4px;
-            font-size: 14px;
-            color: var(--accent-color);
-        }
-
         @keyframes spin { to { transform: rotate(360deg); } }
+        .portal-text { margin-top: 15px; letter-spacing: 2px; }
 
-        /* Споры (летающие частицы) */
-        .spore {
-            position: fixed;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 1;
-            animation: fly linear infinite;
-        }
-
-        @keyframes fly {
-            0% { transform: translateY(0) translateX(0); opacity: 0; }
-            10% { opacity: 0.5; }
-            90% { opacity: 0.5; }
-            100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
-        }
-
-        footer {
-            text-align: center;
-            padding-bottom: 40px;
-        }
-
-        /* Адаптация для мобилок */
-        @media (max-width: 600px) {
-            h2 { font-size: 1.5rem; }
-            .grid { grid-template-columns: 1fr; }
-        }
+        h2 { color: #8eb387; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <section id="catalog">
-        <h2>Каталог</h2>
-        <div class="catalog">
-            <div class="product" onclick="portalTelegram()">Мухомор цельный</div>
-            <div class="product" onclick="portalTelegram()">Резаный мухомор</div>
-            <div class="product" onclick="portalTelegram()">Микродозинг</div>
-            <div class="product" onclick="portalTelegram()">Пантерный</div>
-            <div class="product" onclick="portalTelegram()">Экстракт</div>
-            <div class="product" onclick="portalTelegram()">Сбор «Лесная тишина»</div>
-        </div>
-    </section>
-
-    <section id="reviews">
-        <h2>Отзывы</h2>
-        <p style="text-align: center; opacity: 0.8;">Люди у нас покупают — и вот что они говорят:</p>
-        <div class="grid">
-            <div class="card review">«Очень мягкое и глубокое состояние.»</div>
-            <div class="card review">«Чувствуется бережный подход.»</div>
-            <div class="card review">«Спокойствие и тишина внутри.»</div>
-            <div class="card review">«Качество на другом уровне.»</div>
-        </div>
-        <div class="btn" onclick="portalReviews()">Больше отзывов</div>
-    </section>
-
-    <section id="promo">
-        <h2>Особое предложение</h2>
-        <p style="text-align: center; opacity: 0.8;">Время от времени мы открываем доступ к ограниченным наборам для своих.</p>
-        <div class="grid">
-            <div class="card">
-                <div class="icon">✶</div>
-                <strong>Лесной набор</strong>
-                Ограниченная партия<br>Ручная сборка<br>Доступ по запросу
-            </div>
-            <div class="card">
-                <div class="icon">☾</div>
-                <strong>Тихий путь</strong>
-                Для вечернего ритма<br>Осознанный формат
-            </div>
-        </div>
-        <div class="btn" onclick="portalTelegram()">Узнать условия</div>
-    </section>
-
-    <footer style="margin-top:160px;font-size:12px;opacity:.5">
-        Информация носит ознакомительный характер и не является медицинской.
-    </footer>
+<!-- ТВОЙ ИСХОДНЫЙ КОД БЕЗ ИЗМЕНЕНИЙ -->
+<section id="catalog">
+<h2>Каталог</h2>
+<div class="catalog">
+<div class="product" onclick="portalTelegram()">Мухомор цельный</div>
+<div class="product" onclick="portalTelegram()">Резаный мухомор</div>
+<div class="product" onclick="portalTelegram()">Микродозинг</div>
+<div class="product" onclick="portalTelegram()">Пантерный</div>
+<div class="product" onclick="portalTelegram()">Экстракт</div>
+<div class="product" onclick="portalTelegram()">Сбор «Лесная тишина»</div>
 </div>
+</section>
+<section id="reviews">
+<h2>Отзывы</h2>
+<p>Люди у нас покупают — и вот что они говорят:</p>
+<div class="grid">
+<div class="card review">«Очень мягкое и глубокое состояние.»</div>
+<div class="card review">«Чувствуется бережный подход.»</div>
+<div class="card review">«Спокойствие и тишина внутри.»</div>
+<div class="card review">«Качество на другом уровне.»</div>
+</div>
+<div class="btn" onclick="portalReviews()">Больше отзывов</div>
+</section>
+<section id="promo">
+<h2>Особое предложение</h2>
+<p>Время от времени мы открываем доступ к ограниченным наборам для своих.</p>
+<div class="grid">
+<div class="card">
+<div class="icon">✶</div>
+<strong>Лесной набор</strong><br><br>
+Ограниченная партия<br>Ручная сборка<br>Доступ по запросу
+</div>
+<div class="card">
+<div class="icon">☾</div>
+<strong>Тихий путь</strong><br><br>
+Для вечернего ритма<br>Осознанный формат
+</div>
+</div>
+<div class="btn" onclick="portalTelegram()">Узнать условия</div>
+</section>
+<footer style="margin-top:160px;font-size:12px;opacity:.7">
+Информация носит ознакомительный характер и не является медицинской.
+</footer>
 
-<!-- Экран портала -->
 <div class="portal" id="portal">
   <div class="portal-circle"></div>
-  <div class="portal-text">ПЕРЕХОД...</div>
+  <div class="portal-text">Переход…</div>
 </div>
 
 <script>
-    // Функции переходов
-    function portalTelegram(){
-        showPortal(() => window.open('https://t.me/Altai_Amanita_bot', '_blank'));
-    }
-
-    function portalReviews(){
-        showPortal(() => window.open('https://t.me/REVIEWS_ForestMagic', '_blank'));
-    }
-
-    function showPortal(action){
-        const p = document.getElementById('portal');
-        p.classList.add('active');
-        setTimeout(() => {
-            action();
-            // Небольшая задержка, чтобы после возвращения портал исчез
-            setTimeout(() => p.classList.remove('active'), 500);
-        }, 1200);
-    }
-
-    // Создание летающих спор
-    function createSpores() {
-        const count = 30;
-        for(let i = 0; i < count; i++){
-            let s = document.createElement('div');
-            s.className = 'spore';
-            
-            // Случайный размер
-            let size = Math.random() * 3 + 'px';
-            s.style.width = size;
-            s.style.height = size;
-            
-            // Случайное положение
-            s.style.left = Math.random() * 100 + 'vw';
-            s.style.top = Math.random() * 100 + 'vh';
-            
-            // Случайная скорость и задержка
-            s.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            s.style.animationDelay = (Math.random() * 10) + 's';
-            
-            document.body.appendChild(s);
-        }
-    }
-
-    createSpores();
+function portalTelegram(){
+  showPortal(()=>window.open('https://t.me/Altai_Amanita_bot','_blank'));
+}
+function portalReviews(){
+  showPortal(()=>window.open('https://t.me/REVIEWS_ForestMagic','_blank'));
+}
+function showPortal(action){
+  const p=document.getElementById('portal');
+  p.classList.add('active');
+  setTimeout(()=>{
+    action();
+    p.classList.remove('active');
+  },1200);
+}
+for(let i=0;i<28;i++){
+ let s=document.createElement('div');
+ s.className='spore';
+ s.style.left=Math.random()*100+'vw';
+ s.style.animationDuration=Math.random()*5+5+'s'; // Добавил длительность для работы анимации
+ s.style.animationDelay=Math.random()*14+'s';
+ document.body.appendChild(s);
+}
 </script>
+<!-- КОНЕЦ ТВОЕГО КОДА -->
 
 </body>
 </html>
