@@ -7,151 +7,140 @@
 
 <style>
 :root{
-  --green:#7fbfa2;
-  --dark:#020504;
+  --green:#8fd6b0;
+  --dark:#050b08;
 }
 
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--dark);color:#e6e6e6;font-family:Arial,sans-serif;overflow-x:hidden}
-
-/* затемнение краёв */
-body:before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  box-shadow:inset 0 0 160px rgba(0,0,0,.85);
-  z-index:5;
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:radial-gradient(circle at top, #123 0%, var(--dark) 60%);
+  color:#e6e6e6;
+  overflow-x:hidden;
 }
 
-/* меню */
+/* ===== МЕНЮ ===== */
 nav{
-  position:fixed;top:0;left:0;right:0;
-  display:flex;justify-content:center;gap:24px;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:100;
+  display:flex;
+  justify-content:center;
+  gap:28px;
   padding:16px;
-  background:rgba(0,0,0,.45);
+  background:rgba(5,11,8,.55);
   backdrop-filter:blur(8px);
-  z-index:10;
 }
 nav a{
-  color:#cfe6db;
+  color:#fff;
   text-decoration:none;
-  font-size:14px;
+  letter-spacing:1px;
   position:relative;
 }
-nav a:after{
+nav a::after{
   content:"";
-  position:absolute;left:0;bottom:-4px;
-  width:0;height:1px;background:var(--green);
+  position:absolute;
+  left:0;bottom:-6px;
+  width:0;height:1px;
+  background:var(--green);
   transition:.3s;
 }
-nav a:hover:after{width:100%}
+nav a:hover::after{width:100%}
 
-/* секции */
+/* ===== ОСНОВНЫЕ СЕКЦИИ ===== */
 section{
-  min-height:100vh;
-  padding:120px 20px 80px;
-  display:none;
+  padding:120px 20px;
+  max-width:1100px;
+  margin:auto;
 }
-section.active{display:block}
+h1,h2{text-align:center}
 
-/* контейнер */
-.container{max-width:1100px;margin:0 auto;text-align:center}
-
-/* символ */
+/* ===== СИМВОЛ ===== */
 .symbol{
-  width:170px;height:200px;margin:0 auto 40px;
-  position:relative;
+  width:160px;height:160px;
+  margin:120px auto 40px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 30% 30%, #b6ffe0, transparent 60%);
+  box-shadow:0 0 60px rgba(143,214,176,.5);
+  animation:float 6s ease-in-out infinite;
 }
-.symbol:before{
-  content:"";
-  position:absolute;bottom:0;left:50%;
-  width:70px;height:80px;
-  background:radial-gradient(circle,var(--green),transparent 70%);
-  transform:translateX(-50%);
-  border-radius:40px;
-  filter:blur(8px);
-}
-.symbol:after{
-  content:"";
-  position:absolute;top:0;left:50%;
-  width:170px;height:120px;
-  transform:translateX(-50%);
-  background:radial-gradient(circle at 50% 70%,rgba(150,220,180,.6),transparent 70%);
-  border-radius:100% 100% 80% 80%;
-  animation:pulse 4s ease-in-out infinite;
-}
-@keyframes pulse{
-  0%{opacity:.4}
-  50%{opacity:1}
-  100%{opacity:.4}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-20px)}
 }
 
-/* заголовки */
-h1{font-size:44px;letter-spacing:2px}
-h2{margin-top:80px;font-size:32px}
-
-/* кнопки */
+/* ===== КНОПКИ ===== */
 .btn{
   display:inline-block;
   margin-top:30px;
-  padding:16px 36px;
+  padding:16px 40px;
   border:1px solid var(--green);
   color:#fff;
   text-decoration:none;
-  background:rgba(127,191,162,.12);
-  box-shadow:0 0 25px rgba(127,191,162,.35);
-  transition:.3s;
+  cursor:pointer;
+  background:rgba(143,214,176,.12);
+  transition:.4s;
 }
-.btn:hover{box-shadow:0 0 45px rgba(127,191,162,.6)}
+.btn:hover{
+  box-shadow:0 0 30px rgba(143,214,176,.6);
+}
 
-/* каталог */
+/* ===== КАТАЛОГ ===== */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:30px;
-  margin-top:60px;
+  gap:24px;
 }
 .card{
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(127,191,162,.25);
   padding:24px;
+  border:1px solid rgba(143,214,176,.3);
+  background:rgba(255,255,255,.03);
   transition:.4s;
 }
 .card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 0 40px rgba(127,191,162,.35);
-}
-.card img{
-  width:100%;
-  height:180px;
-  background:#0a1511;
-  margin-bottom:14px;
+  transform:translateY(-8px);
+  box-shadow:0 0 30px rgba(143,214,176,.3);
 }
 
-/* отзывы */
+/* ===== ОТЗЫВЫ ===== */
 .review{
-  font-size:14px;
+  font-style:italic;
   opacity:.85;
 }
 
-/* переход */
-#transition{
+/* ======== АКЦИЯ (СКРЫТА) ======== */
+#promoOverlay{
   position:fixed;
   inset:0;
-  background:#000;
-  color:#fff;
-  display:flex;
+  background:radial-gradient(circle at center, #123, #000 70%);
+  z-index:1000;
+  display:none;
   align-items:center;
   justify-content:center;
-  font-size:28px;
-  letter-spacing:2px;
-  opacity:0;
-  pointer-events:none;
-  transition:.6s;
-  z-index:100;
+  animation:fadeIn .6s forwards;
 }
-#transition.active{opacity:1}
+@keyframes fadeIn{
+  from{opacity:0}
+  to{opacity:1}
+}
+.promoBox{
+  max-width:600px;
+  padding:50px;
+  text-align:center;
+  border:1px solid var(--green);
+  background:rgba(0,0,0,.6);
+  box-shadow:0 0 80px rgba(143,214,176,.4);
+}
+.close{
+  position:absolute;
+  top:20px;right:30px;
+  font-size:28px;
+  cursor:pointer;
+}
 </style>
 </head>
 
@@ -160,108 +149,76 @@ h2{margin-top:80px;font-size:32px}
 <nav>
   <a href="#home">Главная</a>
   <a href="#catalog">Каталог</a>
-  <a href="#about">Производство</a>
-  <a href="#delivery">Доставка</a>
-  <a href="#support">Поддержка</a>
-  <a href="#promo">Акция</a>
+  <a href="#reviews">Отзывы</a>
+  <a href="#" onclick="openPromo()">Акция</a>
 </nav>
 
-<div id="transition">Переход…</div>
-
-<!-- ГЛАВНАЯ -->
-<section id="home" class="active">
-  <div class="container">
-    <div class="symbol"></div>
-    <h1>Forest Magic</h1>
-    <p>Осознанный лесной продукт. Алтай. Тишина. Опыт.</p>
-
-    <a class="btn tg">Перейти в Telegram‑бот</a>
-
-    <h2>Мухомор — союзник и помощник</h2>
-    <p>При грамотной сборке и дозировке помогает телу и сознанию адаптироваться к ритму жизни.</p>
-
-    <h2>Отзывы</h2>
-    <div class="grid">
-      <div class="card review">«Сон стал глубоким и спокойным»</div>
-      <div class="card review">«Ушло постоянное напряжение»</div>
-      <div class="card review">«Стало легче концентрироваться»</div>
-      <div class="card review">«Мягкое состояние без перегруза»</div>
-      <div class="card review">«Чувствую стабильность»</div>
-    </div>
-
-    <a class="btn tg" style="margin-top:40px">Больше отзывов</a>
+<!-- ===== ГЛАВНАЯ ===== -->
+<section id="home">
+  <div class="symbol"></div>
+  <h1>Forest Magic</h1>
+  <p style="text-align:center">
+    Осознанный проект из глубины Алтая.<br>
+    Тишина. Лес. Личный путь.
+  </p>
+  <div style="text-align:center">
+    <div class="btn" onclick="openTelegram()">Перейти в Telegram</div>
   </div>
 </section>
 
-<!-- КАТАЛОГ -->
+<!-- ===== КАТАЛОГ ===== -->
 <section id="catalog">
-  <div class="container">
-    <h1>Каталог</h1>
-    <div class="grid">
-      <div class="card"><img><h3>Микродозинг</h3><p>Мягкая ежедневная поддержка</p></div>
-      <div class="card"><img><h3>Капсулы</h3><p>Точная дозировка</p></div>
-      <div class="card"><img><h3>Настойка</h3><p>Глубокое действие</p></div>
-      <div class="card"><img><h3>Сушёный гриб</h3><p>Чистое сырьё</p></div>
-      <div class="card"><img><h3>Экстракт</h3><p>Концентрат</p></div>
-      <div class="card"><img><h3>Авторские сборы</h3><p>Индивидуальный подход</p></div>
-    </div>
+  <h2>Каталог</h2>
+  <div class="grid">
+    <div class="card">Микродозинг<br><small>Для ясности и фокуса</small></div>
+    <div class="card">Сухой гриб<br><small>Классическая форма</small></div>
+    <div class="card">Капсулы<br><small>Точный формат</small></div>
+    <div class="card">Настой<br><small>Мягкое действие</small></div>
+    <div class="card">Лесной набор<br><small>Комплексный подход</small></div>
+    <div class="card">Индивидуально<br><small>По запросу</small></div>
   </div>
 </section>
 
-<!-- ПРОИЗВОДСТВО -->
-<section id="about">
-  <div class="container">
-    <h1>Производство</h1>
-    <p>Сбор вручную, Алтай, строгий контроль и бережная обработка.</p>
+<!-- ===== ОТЗЫВЫ ===== -->
+<section id="reviews">
+  <h2>Отзывы</h2>
+  <div class="grid">
+    <div class="card review">«Сон стал ровным уже через неделю»</div>
+    <div class="card review">«Ушло напряжение и тревожность»</div>
+    <div class="card review">«Очень аккуратный эффект»</div>
+  </div>
+  <div style="text-align:center">
+    <div class="btn" onclick="openReviews()">Больше отзывов</div>
   </div>
 </section>
 
-<!-- ДОСТАВКА -->
-<section id="delivery">
-  <div class="container">
-    <h1>Доставка и оплата</h1>
-    <p>Отправка по России, конфиденциально, надёжно.</p>
+<!-- ===== АКЦИЯ (НЕ В ПРОКРУТКЕ) ===== -->
+<div id="promoOverlay">
+  <div class="close" onclick="closePromo()">✕</div>
+  <div class="promoBox">
+    <h2>Особое предложение</h2>
+    <p>
+      Иногда мы открываем доступ к ограниченным наборам<br>
+      для тех, кто чувствует отклик.
+    </p>
+    <div class="btn" onclick="openTelegram()">Узнать условия</div>
   </div>
-</section>
-
-<!-- ПОДДЕРЖКА -->
-<section id="support">
-  <div class="container">
-    <h1>Поддержка</h1>
-    <p>Консультации и сопровождение через Telegram.</p>
-  </div>
-</section>
-
-<!-- АКЦИЯ (НЕ НА ГЛАВНОЙ) -->
-<section id="promo">
-  <div class="container">
-    <h1>Акция</h1>
-    <p>Специальные условия для новых участников.</p>
-    <a class="btn tg">Узнать в Telegram</a>
-  </div>
-</section>
+</div>
 
 <script>
-const sections=document.querySelectorAll("section");
-function show(id){
-  sections.forEach(s=>s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
+function openPromo(){
+  document.getElementById('promoOverlay').style.display='flex';
 }
-window.addEventListener("hashchange",()=>{
-  const id=location.hash.replace("#","")||"home";
-  show(id);
-});
-show(location.hash.replace("#","")||"home");
-
-/* Telegram переход */
-document.querySelectorAll(".tg").forEach(b=>{
-  b.onclick=()=>{
-    const t=document.getElementById("transition");
-    t.classList.add("active");
-    setTimeout(()=>window.open("https://t.me/Altai_Amanita_bot","_blank"),700);
-    setTimeout(()=>t.classList.remove("active"),1200);
-  }
-});
+function closePromo(){
+  document.getElementById('promoOverlay').style.display='none';
+}
+function openTelegram(){
+  document.body.innerHTML += '<div id="fade">Переход…</div>';
+  setTimeout(()=>window.open('https://t.me/Altai_Amanita_bot','_blank'),700);
+}
+function openReviews(){
+  window.open('https://t.me/REVIEWS_ForestMagic','_blank');
+}
 </script>
 
 </body>
