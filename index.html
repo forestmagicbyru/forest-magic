@@ -66,12 +66,12 @@ h1{font-size:46px;letter-spacing:3px}
 h2{font-size:34px;margin-bottom:30px}
 p{max-width:760px;margin:16px auto;color:#cddfd7}
 
-/* ===== AMANITA SYMBOL ===== */
-.amanita{
+/* ===== REALISTIC MUSHROOM SYMBOL ===== */
+.symbol{
   position:relative;
   width:200px;
   height:260px;
-  margin:0 auto 40px;
+  margin:40px auto;
   animation:float 7s ease-in-out infinite;
 }
 
@@ -82,54 +82,50 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   left:50%;
   transform:translateX(-50%);
   width:200px;
-  height:120px;
-  background:
-    radial-gradient(circle at 30% 30%, #ff6b6b, #b30000 70%);
-  border-radius:50% 50% 45% 45%;
-  box-shadow:0 0 80px rgba(255,80,80,.6);
+  height:110px;
+  background:radial-gradient(circle at 50% 30%,#ff5a5a,#8b0d0d);
+  border-radius:100% 100% 70% 70%;
+  box-shadow:0 0 120px rgba(255,80,80,.6);
 }
 
-/* dots */
+/* white dots */
 .cap::before{
   content:"";
   position:absolute;
   inset:0;
   background:
-    radial-gradient(circle, #fff 18%, transparent 20%) 20px 30px/40px 40px,
-    radial-gradient(circle, #fff 18%, transparent 20%) 80px 20px/40px 40px,
-    radial-gradient(circle, #fff 18%, transparent 20%) 140px 40px/40px 40px;
+    radial-gradient(circle at 20% 40%,#fff 6px,transparent 7px),
+    radial-gradient(circle at 45% 25%,#fff 5px,transparent 6px),
+    radial-gradient(circle at 70% 45%,#fff 7px,transparent 8px),
+    radial-gradient(circle at 35% 60%,#fff 4px,transparent 5px),
+    radial-gradient(circle at 60% 65%,#fff 5px,transparent 6px);
   opacity:.9;
 }
 
 /* stem */
 .stem{
   position:absolute;
-  top:90px;
+  bottom:0;
   left:50%;
   transform:translateX(-50%);
-  width:60px;
-  height:140px;
-  background:linear-gradient(180deg,#fff,#d9d9d9);
-  border-radius:30px;
-  box-shadow:0 0 40px rgba(255,255,255,.35);
+  width:70px;
+  height:160px;
+  background:linear-gradient(180deg,#f4f1e8,#cfc7b8);
+  border-radius:40px;
+  box-shadow:0 0 40px rgba(200,220,200,.4);
 }
 
-/* ring */
-.ring{
+/* glow pulse */
+.symbol::after{
+  content:"";
   position:absolute;
-  top:120px;
-  left:50%;
-  transform:translateX(-50%);
-  width:80px;
-  height:14px;
-  background:#eee;
-  border-radius:50%;
-  opacity:.9;
+  inset:-40px;
+  background:radial-gradient(circle,rgba(140,220,180,.25),transparent 70%);
+  animation:pulse 4s infinite;
 }
 
-@keyframes float{
-  50%{transform:translateY(-16px)}
-}
+@keyframes float{50%{transform:translateY(-18px)}}
+@keyframes pulse{50%{opacity:.7}}
 
 /* ===== BUTTON ===== */
 .btn{
@@ -223,10 +219,7 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   transition:opacity .6s ease;
   z-index:999;
 }
-.portal.active{
-  opacity:1;
-  pointer-events:all;
-}
+.portal.active{opacity:1;pointer-events:all}
 .portal-circle{
   width:150px;height:150px;
   border-radius:50%;
@@ -263,14 +256,101 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 
 <div class="container" id="home">
 
-<div class="amanita">
+<div class="symbol">
   <div class="cap"></div>
   <div class="stem"></div>
-  <div class="ring"></div>
 </div>
 
 <h1>Forest Magic</h1>
 <p>Осознанный проект из глубины Алтая. Лес. Тишина. Личный опыт.</p>
 <div class="btn" onclick="portalTelegram()">Перейти в Telegram‑бот</div>
 
-<!-- дальше код полностью без изменений -->
+<section id="effects">
+<h2>Мухомор — природный союзник</h2>
+<div class="grid">
+<div class="card"><div class="icon">☽</div>Глубокое расслабление и восстановление сна</div>
+<div class="card"><div class="icon">✦</div>Снижение тяги к навязчивым привычкам</div>
+<div class="card"><div class="icon">◉</div>Устойчивость к стрессу</div>
+<div class="card"><div class="icon">❍</div>Внутреннее равновесие</div>
+</div>
+</section>
+
+<section id="catalog">
+<h2>Каталог</h2>
+<div class="catalog">
+<div class="product" onclick="portalTelegram()">Мухомор цельный</div>
+<div class="product" onclick="portalTelegram()">Резаный мухомор</div>
+<div class="product" onclick="portalTelegram()">Микродозинг</div>
+<div class="product" onclick="portalTelegram()">Пантерный</div>
+<div class="product" onclick="portalTelegram()">Экстракт</div>
+<div class="product" onclick="portalTelegram()">Сбор «Лесная тишина»</div>
+</div>
+</section>
+
+<section id="reviews">
+<h2>Отзывы</h2>
+<p>Люди у нас покупают — и вот что они говорят:</p>
+<div class="grid">
+<div class="card review">«Очень мягкое и глубокое состояние.»</div>
+<div class="card review">«Чувствуется бережный подход.»</div>
+<div class="card review">«Спокойствие и тишина внутри.»</div>
+<div class="card review">«Качество на другом уровне.»</div>
+</div>
+<div class="btn" onclick="portalReviews()">Больше отзывов</div>
+</section>
+
+<section id="promo">
+<h2>Особое предложение</h2>
+<p>Время от времени мы открываем доступ к ограниченным наборам для своих.</p>
+<div class="grid">
+<div class="card">
+<div class="icon">✶</div>
+<strong>Лесной набор</strong><br><br>
+Ограниченная партия<br>Ручная сборка<br>Доступ по запросу
+</div>
+<div class="card">
+<div class="icon">☾</div>
+<strong>Тихий путь</strong><br><br>
+Для вечернего ритма<br>Осознанный формат
+</div>
+</div>
+<div class="btn" onclick="portalTelegram()">Узнать условия</div>
+</section>
+
+<footer style="margin-top:160px;font-size:12px;opacity:.7">
+Информация носит ознакомительный характер и не является медицинской.
+</footer>
+
+</div>
+
+<div class="portal" id="portal">
+  <div class="portal-circle"></div>
+  <div class="portal-text">Переход…</div>
+</div>
+
+<script>
+function portalTelegram(){
+  showPortal(()=>window.open('https://t.me/Altai_Amanita_bot','_blank'));
+}
+function portalReviews(){
+  showPortal(()=>window.open('https://t.me/REVIEWS_ForestMagic','_blank'));
+}
+function showPortal(action){
+  const p=document.getElementById('portal');
+  p.classList.add('active');
+  setTimeout(()=>{
+    action();
+    p.classList.remove('active');
+  },1200);
+}
+for(let i=0;i<28;i++){
+ let s=document.createElement('div');
+ s.className='spore';
+ s.style.left=Math.random()*100+'vw';
+ s.style.animationDelay=Math.random()*14+'s';
+ document.body.appendChild(s);
+}
+</script>
+
+</body>
+</html>
