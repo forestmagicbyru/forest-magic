@@ -107,23 +107,13 @@ p { max-width: 700px; margin: 20px auto; color: #adc9bd; line-height: 1.8; font-
 
 /* Списки эффектов */
 .benefit-list {
-  text-align: left;
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  text-align: left; list-style: none; padding: 0; margin: 0;
 }
 .benefit-list li {
-  margin-bottom: 15px;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  font-size: 16px;
-  color: #cddfd7;
+  margin-bottom: 15px; display: flex; align-items: flex-start; gap: 12px;
+  font-size: 16px; color: #cddfd7;
 }
-.benefit-list li span {
-  color: #7fbfa2;
-  text-shadow: 0 0 8px #7fbfa2;
-}
+.benefit-list li span { color: #7fbfa2; text-shadow: 0 0 8px #7fbfa2; }
 
 /* КНОПКИ */
 .btn {
@@ -150,8 +140,7 @@ p { max-width: 700px; margin: 20px auto; color: #adc9bd; line-height: 1.8; font-
   transition: 0.5s;
 }
 .card:hover, .product:hover {
-  background: rgba(127,191,162,0.08);
-  border-color: #7fbfa2;
+  background: rgba(127,191,162,0.08); border-color: #7fbfa2;
   transform: translateY(-10px);
 }
 
@@ -212,7 +201,7 @@ p { max-width: 700px; margin: 20px auto; color: #adc9bd; line-height: 1.8; font-
   <p class="reveal">Осознанный проект из глубины Алтая. Лес. Тишина. Личный опыт.</p>
   <div class="btn reveal" onclick="portalTelegram()">В Telegram-бот</div>
 
-  <!-- Блок 1: Краткие эффекты -->
+  <!-- Блок 1: Краткие эффекты (Теперь 6 плашек) -->
   <section id="effects" class="reveal">
     <h2>Природный союзник</h2>
     <div class="grid">
@@ -220,10 +209,12 @@ p { max-width: 700px; margin: 20px auto; color: #adc9bd; line-height: 1.8; font-
       <div class="card"><div class="icon">✦</div>Освобождение от привычек</div>
       <div class="card"><div class="icon">◉</div>Психологическая устойчивость</div>
       <div class="card"><div class="icon">❍</div>Внутренний баланс</div>
+      <div class="card"><div class="icon">✧</div>Ясность мыслей и фокус</div>
+      <div class="card"><div class="icon">◈</div>Остановка внутреннего диалога</div>
     </div>
   </section>
 
-  <!-- НОВЫЙ БЛОК: Глубокое действие (как у Мухоморыча) -->
+  <!-- Блок 2: Глубокое действие -->
   <section id="deep-effects" class="reveal">
     <h2>Две стороны воздействия</h2>
     <div class="grid">
@@ -232,10 +223,10 @@ p { max-width: 700px; margin: 20px auto; color: #adc9bd; line-height: 1.8; font-
         <h3>Ментальное здоровье</h3>
         <ul class="benefit-list">
           <li><span>✦</span> <strong>Ясность ума:</strong> Улучшение памяти и когнитивной гибкости.</li>
-          <li><span>✦</span> <strong>Свобода:</strong> Мягкий отказ от курения, алкоголя и других зависимостей.</li>
+          <li><span>✦</span> <strong>Свобода:</strong> Мягкий отказ от курения, алкоголя и зависимостей.</li>
           <li><span>✦</span> <strong>Тишина:</strong> Прекращение утомительного «внутреннего диалога».</li>
-          <li><span>✦</span> <strong>Ресурс:</strong> Стабильно позитивное настроение и вера в свои силы.</li>
-          <li><span>✦</span> <strong>Поток:</strong> Раскрытие творческого потенциала и решение сложных задач.</li>
+          <li><span>✦</span> <strong>Ресурс:</strong> Стабильно позитивное настроение и уверенность.</li>
+          <li><span>✦</span> <strong>Поток:</strong> Раскрытие творческого потенциала и решение задач.</li>
         </ul>
       </div>
       <!-- Физиология -->
@@ -244,9 +235,9 @@ p { max-width: 700px; margin: 20px auto; color: #adc9bd; line-height: 1.8; font-
         <ul class="benefit-list">
           <li><span>✦</span> <strong>Регенерация:</strong> Восстановление фаз сна и борьба с бессонницей.</li>
           <li><span>✦</span> <strong>Тонус:</strong> Избавление от хронической усталости и апатии.</li>
-          <li><span>✦</span> <strong>Баланс:</strong> Настройка работы всех внутренних систем организма.</li>
-          <li><span>✦</span> <strong>Витальность:</strong> Природная поддержка либидо и внутренней энергии.</li>
-          <li><span>✦</span> <strong>Легкость:</strong> Снятие мышечного напряжения и дискомфорта в теле.</li>
+          <li><span>✦</span> <strong>Баланс:</strong> Настройка работы внутренних систем организма.</li>
+          <li><span>✦</span> <strong>Витальность:</strong> Поддержка либидо и внутренней энергии.</li>
+          <li><span>✦</span> <strong>Легкость:</strong> Снятие мышечного напряжения и дискомфорта.</li>
         </ul>
       </div>
     </div>
@@ -267,8 +258,8 @@ p { max-width: 700px; margin: 20px auto; color: #adc9bd; line-height: 1.8; font-
   <section id="reviews" class="reveal">
     <h2>Отзывы</h2>
     <div class="grid">
-      <div class="card">«Очень мягкое и глубокое состояние.»</div>
-      <div class="card">«Спокойствие и тишина внутри.»</div>
+      <div class="card review">«Очень мягкое и глубокое состояние.»</div>
+      <div class="card review">«Спокойствие и тишина внутри.»</div>
     </div>
     <div class="btn" onclick="portalReviews()">Все отзывы</div>
   </section>
@@ -293,6 +284,7 @@ p { max-width: 700px; margin: 20px auto; color: #adc9bd; line-height: 1.8; font-
 </div>
 
 <script>
+// Наблюдатель за появлением элементов
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) entry.target.classList.add('active');
@@ -301,6 +293,7 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+// Индикатор прогресса
 window.onscroll = function() {
   let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
   let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -308,6 +301,7 @@ window.onscroll = function() {
   document.getElementById("progress-bar").style.width = scrolled + "%";
 };
 
+// Функции переходов
 function portalTelegram(){ showPortal(()=>window.open('https://t.me/Altai_Amanita_bot','_blank')); }
 function portalReviews(){ showPortal(()=>window.open('https://t.me/REVIEWS_ForestMagic','_blank')); }
 
@@ -320,6 +314,7 @@ function showPortal(action){
   }, 1200);
 }
 
+// Пыльца/Споры
 for(let i=0;i<35;i++){
  let s=document.createElement('div');
  s.className='spore';
