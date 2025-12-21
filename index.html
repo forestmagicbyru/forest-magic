@@ -8,7 +8,6 @@
 body{
   margin:0;
   font-family:Arial,sans-serif;
-  /* Добавлен фоновый рисунок леса с наложением твоего градиента */
   background: linear-gradient(180deg, rgba(6,16,12,0.85), rgba(2,4,3,0.95)), 
               url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2000&auto=format&fit=crop');
   background-size: cover;
@@ -29,7 +28,7 @@ body::before{
 nav{
   position:fixed;
   top:0;width:100%;
-  background:rgba(5,15,10,.75);
+  background:rgba(5,15,10,.85);
   backdrop-filter:blur(8px);
   z-index:10;
 }
@@ -228,6 +227,43 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   0%{transform:scale(.8);opacity:.6}
   50%{transform:scale(1.1);opacity:1}
   100%{transform:scale(1.6);opacity:0}
+}
+
+/* ===== МОБИЛЬНАЯ АДАПТАЦИЯ (НОВОЕ) ===== */
+@media (max-width: 768px) {
+  nav ul {
+    gap: 12px;
+    padding: 10px;
+    flex-wrap: wrap; /* Чтобы пункты меню переносились, если не влезают */
+  }
+  nav a { font-size: 12px; }
+
+  .container { padding: 80px 15px; }
+  
+  h1 { font-size: 32px; letter-spacing: 1px; }
+  h2 { font-size: 24px; }
+  
+  .symbol {
+    transform: scale(0.75); /* Уменьшаем гриб */
+    margin: 10px auto;
+  }
+  
+  section { margin-top: 80px; } /* Уменьшаем пустые места между секциями */
+
+  .grid, .catalog {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Карточки станут по 2 в ряд на мелких экранах */
+    gap: 15px;
+  }
+  
+  .card, .product { padding: 15px; }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 28px; }
+  .grid, .catalog {
+    grid-template-columns: 1fr; /* На совсем маленьких экранах — всё в один столбик */
+  }
+  .symbol { transform: scale(0.6); height: 200px; }
 }
 </style>
 </head>
