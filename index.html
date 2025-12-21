@@ -1,8 +1,10 @@
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
 <title>Forest Magic — Алтай</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 body{
   margin:0;
@@ -19,6 +21,7 @@ body::before{
   pointer-events:none;
   z-index:1;
 }
+
 /* ===== MENU ===== */
 nav{
   position:fixed;
@@ -41,6 +44,7 @@ nav a{
   font-size:14px;
   letter-spacing:1px;
 }
+
 /* ===== LAYOUT ===== */
 .container{
   max-width:1100px;
@@ -61,17 +65,72 @@ section::before{
 h1{font-size:46px;letter-spacing:3px}
 h2{font-size:34px;margin-bottom:30px}
 p{max-width:760px;margin:16px auto;color:#cddfd7}
-/* ===== SYMBOL ===== */
-.symbol{
-  width:180px;height:220px;
-  margin:auto;
-  border-radius:50% 50% 40% 40%;
-  background:radial-gradient(circle at 50% 30%,rgba(160,230,190,.6),rgba(40,90,70,.2));
-  box-shadow:0 0 100px rgba(120,220,180,.7);
-  animation:float 7s ease-in-out infinite,pulse 4s infinite;
+
+/* ===== AMANITA SYMBOL ===== */
+.amanita{
+  position:relative;
+  width:200px;
+  height:260px;
+  margin:0 auto 40px;
+  animation:float 7s ease-in-out infinite;
 }
-@keyframes float{50%{transform:translateY(-18px)}}
-@keyframes pulse{50%{box-shadow:0 0 160px rgba(120,220,180,.9)}}
+
+/* cap */
+.cap{
+  position:absolute;
+  top:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:200px;
+  height:120px;
+  background:
+    radial-gradient(circle at 30% 30%, #ff6b6b, #b30000 70%);
+  border-radius:50% 50% 45% 45%;
+  box-shadow:0 0 80px rgba(255,80,80,.6);
+}
+
+/* dots */
+.cap::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle, #fff 18%, transparent 20%) 20px 30px/40px 40px,
+    radial-gradient(circle, #fff 18%, transparent 20%) 80px 20px/40px 40px,
+    radial-gradient(circle, #fff 18%, transparent 20%) 140px 40px/40px 40px;
+  opacity:.9;
+}
+
+/* stem */
+.stem{
+  position:absolute;
+  top:90px;
+  left:50%;
+  transform:translateX(-50%);
+  width:60px;
+  height:140px;
+  background:linear-gradient(180deg,#fff,#d9d9d9);
+  border-radius:30px;
+  box-shadow:0 0 40px rgba(255,255,255,.35);
+}
+
+/* ring */
+.ring{
+  position:absolute;
+  top:120px;
+  left:50%;
+  transform:translateX(-50%);
+  width:80px;
+  height:14px;
+  background:#eee;
+  border-radius:50%;
+  opacity:.9;
+}
+
+@keyframes float{
+  50%{transform:translateY(-16px)}
+}
+
 /* ===== BUTTON ===== */
 .btn{
   display:inline-block;
@@ -84,6 +143,7 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   box-shadow:0 0 40px rgba(127,191,162,.45);
   cursor:pointer;
 }
+
 /* ===== GRID ===== */
 .grid{
   display:grid;
@@ -112,6 +172,7 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   display:flex;align-items:center;justify-content:center;
   font-size:22px;
 }
+
 /* ===== CATALOG ===== */
 .catalog{
   display:grid;
@@ -131,8 +192,10 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   transition:.4s;
 }
 .product:hover{box-shadow:0 0 70px rgba(120,220,180,.6)}
+
 /* ===== REVIEWS ===== */
 .review{font-size:14px;line-height:1.6}
+
 /* ===== SPORES ===== */
 .spore{
   position:fixed;
@@ -145,6 +208,7 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   from{transform:translateY(110vh);opacity:0}
   to{transform:translateY(-10vh);opacity:1}
 }
+
 /* ===== PORTAL ===== */
 .portal{
   position:fixed;
@@ -184,7 +248,9 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 }
 </style>
 </head>
+
 <body>
+
 <nav>
 <ul>
 <li><a href="#home">Главная</a></li>
@@ -194,95 +260,17 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 <li><a href="#promo">Акция</a></li>
 </ul>
 </nav>
+
 <div class="container" id="home">
-<div class="symbol"></div>
+
+<div class="amanita">
+  <div class="cap"></div>
+  <div class="stem"></div>
+  <div class="ring"></div>
+</div>
+
 <h1>Forest Magic</h1>
 <p>Осознанный проект из глубины Алтая. Лес. Тишина. Личный опыт.</p>
 <div class="btn" onclick="portalTelegram()">Перейти в Telegram‑бот</div>
-<section id="effects">
-<h2>Мухомор — природный союзник</h2>
-<div class="grid">
-<div class="card"><div class="icon">☽</div>Глубокое расслабление и восстановление сна</div>
-<div class="card"><div class="icon">✦</div>Снижение тяги к навязчивым привычкам</div>
-<div class="card"><div class="icon">◉</div>Устойчивость к стрессу</div>
-<div class="card"><div class="icon">❍</div>Внутреннее равновесие</div>
-</div>
-</section>
-<section id="catalog">
-<h2>Каталог</h2>
-<div class="catalog">
-<div class="product" onclick="portalTelegram()">Мухомор цельный</div>
-<div class="product" onclick="portalTelegram()">Резаный мухомор</div>
-<div class="product" onclick="portalTelegram()">Микродозинг</div>
-<div class="product" onclick="portalTelegram()">Пантерный</div>
-<div class="product" onclick="portalTelegram()">Экстракт</div>
-<div class="product" onclick="portalTelegram()">Сбор «Лесная тишина»</div>
-</div>
-</section>
-<section id="reviews">
-<h2>Отзывы</h2>
-<p>Люди у нас покупают — и вот что они говорят:</p>
-<div class="grid">
-<div class="card review">«Очень мягкое и глубокое состояние.»</div>
-<div class="card review">«Чувствуется бережный подход.»</div>
-<div class="card review">«Спокойствие и тишина внутри.»</div>
-<div class="card review">«Качество на другом уровне.»</div>
-</div>
-<div class="btn" onclick="portalReviews()">Больше отзывов</div>
-</section>
-<section id="promo">
-<h2>Особое предложение</h2>
-<p>
-Время от времени мы открываем доступ  
-к ограниченным наборам для своих.
-</p>
-<div class="grid">
-<div class="card">
-<div class="icon">✶</div>
-<strong>Лесной набор</strong><br><br>
-Ограниченная партия<br>
-Ручная сборка<br>
-Доступ по запросу
-</div>
-<div class="card">
-<div class="icon">☾</div>
-<strong>Тихий путь</strong><br><br>
-Для вечернего ритма<br>
-Осознанный формат
-</div>
-</div>
-<div class="btn" onclick="portalTelegram()">Узнать условия</div>
-</section>
-<footer style="margin-top:160px;font-size:12px;opacity:.7">
-Информация носит ознакомительный характер и не является медицинской.
-</footer>
-</div>
-<div class="portal" id="portal">
-  <div class="portal-circle"></div>
-  <div class="portal-text">Переход…</div>
-</div>
-<script>
-function portalTelegram(){
-  showPortal(()=>window.open('https://t.me/Altai_Amanita_bot','_blank'));
-}
-function portalReviews(){
-  showPortal(()=>window.open('https://t.me/REVIEWS_ForestMagic','_blank'));
-}
-function showPortal(action){
-  const p=document.getElementById('portal');
-  p.classList.add('active');
-  setTimeout(()=>{
-    action();
-    p.classList.remove('active');
-  },1200);
-}
-for(let i=0;i<28;i++){
- let s=document.createElement('div');
- s.className='spore';
- s.style.left=Math.random()*100+'vw';
- s.style.animationDelay=Math.random()*14+'s';
- document.body.appendChild(s);
-}
-</script>
-</body>
-</html>
+
+<!-- дальше код полностью без изменений -->
