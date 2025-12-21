@@ -522,9 +522,17 @@
                     </ul>
                 </div>
             </div>
+            .p-desc {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7); /* Слегка прозрачный белый для магического эффекта */
+    margin: 8px 0;
+    line-height: 1.4;
+    font-style: italic; /* Придаст атмосферности */
+    padding: 0 5px;
+}
         </section>
 
-<!-- КАТАЛОГ С ФОТО -->
+<!-- КАТАЛОГ С ФОТО И ОПИСАНИЕМ -->
 <section id="catalog" class="reveal">
     <h2>Дары Глубокого Леса</h2>
     <div class="grid">
@@ -532,65 +540,58 @@
         <!-- Товар 1 -->
         <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
             <span class="badge badge-hit">Хит</span>
-            <div class="product-img-box">
-                <img src="red_whole.jpg" alt="Мухомор Красный">
-            </div>
+            <div class="product-img-box"><img src="red_whole.jpg" alt="Мухомор Красный"></div>
             <span class="p-tag">Ручной Сбор</span>
             <div class="p-title">Мухомор Красный<br>(Цельные шляпки)</div>
+            <div class="p-desc">Отборные шляпки высшего сорта. Бережная сушка при 35°C для сохранения всей природной силы.</div>
             <div class="p-price">2 100 ₽</div>
         </div>
 
         <!-- Товар 2 -->
         <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
             <span class="badge badge-sale">Особое</span>
-            <div class="product-img-box">
-                <img src="panther_whole.jpg" alt="Мухомор Пантерный">
-            </div>
+            <div class="product-img-box"><img src="panther_whole.jpg" alt="Мухомор Пантерный"></div>
             <span class="p-tag">Дикая Природа</span>
             <div class="p-title">Мухомор Пантерный<br>(Цельные шляпки)</div>
+            <div class="p-desc">В 5 раз мощнее красного. Для глубоких практик и максимальной концентрации внимания.</div>
             <div class="p-price">3 490 ₽</div>
         </div>
 
         <!-- Товар 3 -->
         <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
-            <div class="product-img-box">
-                <img src="red_caps.jpg" alt="Капсулы Красного">
-            </div>
+            <div class="product-img-box"><img src="red_caps.jpg" alt="Капсулы Красного"></div>
             <span class="p-tag">60 капсул</span>
             <div class="p-title">Капсулы Красного<br>(Микродозинг 60 шт)</div>
+            <div class="p-desc">Удобный формат для ежедневного приема. Помогает при тревожности и улучшает настроение.</div>
             <div class="p-price">1 890 ₽</div>
         </div>
 
         <!-- Товар 4 -->
         <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
-            <div class="product-img-box">
-                <img src="panther_caps.jpg" alt="Капсулы Пантерного">
-            </div>
+            <div class="product-img-box"><img src="panther_caps.jpg" alt="Капсулы Пантерного"></div>
             <span class="p-tag">Энергия</span>
             <div class="p-title">Капсулы Пантерного<br>(Микродозинг 60 шт)</div>
+            <div class="p-desc">Точный расчет дозировки. Идеально для бодрости, ясности мыслей и продуктивного дня.</div>
             <div class="p-price">2 490 ₽</div>
         </div>
 
         <!-- Товар 5 -->
         <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
             <span class="badge badge-hit">Limited</span>
-            <div class="product-img-box">
-                <img src="new_year_boom.jpg" alt="Новогодний Бум">
-            </div>
+            <div class="product-img-box"><img src="new_year_boom.jpg" alt="Новогодний Бум"></div>
             <span class="p-tag">Подарочный Набор</span>
             <div class="p-title">Новогодний Бум<br>(Набор Red + Panther)</div>
+            <div class="p-desc">Магическое комбо в праздничной упаковке. Красный для спокойствия, Пантерный для энергии.</div>
             <div class="p-price">4 200 ₽</div>
         </div>
 
         <!-- Товар 6 -->
         <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
             <span class="badge badge-sale">New</span>
-            <div class="product-img-box">
-                <!-- Для этого товара у тебя пока нет картинки, можешь использовать заглушку или загрузить свою под именем mix.jpg -->
-                <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?q=80&w=500&auto=format&fit=crop" alt="Январский Микс">
-            </div>
+            <div class="product-img-box"><img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?q=80&w=500&auto=format&fit=crop" alt="Январский Микс"></div>
             <span class="p-tag">Relax & Detox</span>
             <div class="p-title">Январский Микс<br>(Спокойствие и детокс)</div>
+            <div class="p-desc">Специальный сбор для восстановления после праздников. Очищает разум и налаживает сон.</div>
             <div class="p-price">2 150 ₽</div>
         </div>
 
