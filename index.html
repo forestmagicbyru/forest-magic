@@ -5,177 +5,105 @@
 <title>Forest Magic — Глубина Алтая</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-/* Базовые настройки и плавность */
+/* Базовые настройки */
 html { scroll-behavior: smooth; }
 body {
-  margin: 0;
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background-color: #020403;
-  color: #e6e6e6;
-  overflow-x: hidden;
+  margin: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: #020403; color: #e6e6e6; overflow-x: hidden;
 }
 
-/* ФИКС ФОНА */
+/* ФОН */
 .bg-fix {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  z-index: -1;
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
   background: linear-gradient(180deg, rgba(6,16,12,0.9), rgba(2,4,3,0.98)), 
               url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2000&auto=format&fit=crop');
-  background-size: cover;
-  background-position: center;
+  background-size: cover; background-position: center;
 }
 
-/* Полоса прогресса сверху */
 #progress-bar {
-  position: fixed;
-  top: 0; left: 0; width: 0%; height: 3px;
-  background: linear-gradient(90deg, #7fbfa2, #4a7c44);
-  z-index: 101;
+  position: fixed; top: 0; left: 0; width: 0%; height: 3px;
+  background: linear-gradient(90deg, #7fbfa2, #4a7c44); z-index: 101;
 }
 
-/* МЕНЮ */
 nav {
-  position: fixed;
-  top: 0; width: 100%;
-  background: rgba(5,15,10,0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  z-index: 100;
-  border-bottom: 1px solid rgba(127,191,162,0.1);
+  position: fixed; top: 0; width: 100%; background: rgba(5,15,10,0.85);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  z-index: 100; border-bottom: 1px solid rgba(127,191,162,0.1);
 }
-nav ul {
-  display: flex; justify-content: center;
-  gap: 30px; list-style: none; padding: 18px; margin: 0;
-}
-nav a {
-  color: #cfe6dc; text-decoration: none; font-size: 13px;
-  letter-spacing: 2px; text-transform: uppercase; transition: 0.3s;
-}
+nav ul { display: flex; justify-content: center; gap: 30px; list-style: none; padding: 18px; margin: 0; }
+nav a { color: #cfe6dc; text-decoration: none; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; }
 nav a:hover { color: #7fbfa2; text-shadow: 0 0 10px #7fbfa2; }
 
-/* КОНТЕЙНЕР */
-.container {
-  max-width: 1100px; margin: auto;
-  padding: 120px 20px; text-align: center;
-  position: relative; z-index: 3;
-}
+.container { max-width: 1100px; margin: auto; padding: 120px 20px; text-align: center; position: relative; z-index: 3; }
 
-/* АНИМАЦИЯ ПОЯВЛЕНИЯ ПРИ СКРОЛЛЕ */
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 1.2s cubic-bezier(0.2, 0.6, 0.2, 1);
-}
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
+.reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s cubic-bezier(0.2, 0.6, 0.2, 1); }
+.reveal.active { opacity: 1; transform: translateY(0); }
 
-section { margin-top: 180px; position: relative; }
-
+section { margin-top: 150px; position: relative; }
 h1 { font-size: clamp(32px, 8vw, 64px); letter-spacing: 5px; margin-bottom: 10px; }
 h2 { font-size: 38px; margin-bottom: 40px; color: #8eb387; }
-h3 { color: #7fbfa2; margin-bottom: 20px; letter-spacing: 1px; }
+h3 { color: #7fbfa2; margin-bottom: 15px; }
 
-p { max-width: 700px; margin: 20px auto; color: #adc9bd; line-height: 1.8; font-size: 18px; }
-
-/* ГРИБ-СИМВОЛ */
-.symbol {
-  position: relative; width: 200px; height: 260px;
-  margin: 40px auto; animation: float 7s ease-in-out infinite;
-}
+/* ГРИБ */
+.symbol { position: relative; width: 200px; height: 260px; margin: 40px auto; animation: float 7s ease-in-out infinite; }
 .cap {
-  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-  width: 200px; height: 110px;
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 200px; height: 110px;
   background: radial-gradient(circle at 50% 30%, #ff5a5a, #8b0d0d);
-  border-radius: 100% 100% 70% 70%;
-  box-shadow: 0 0 100px rgba(255,80,80,0.5);
+  border-radius: 100% 100% 70% 70%; box-shadow: 0 0 100px rgba(255,80,80,0.5);
 }
 .cap::before {
   content: ""; position: absolute; inset: 0;
-  background: radial-gradient(circle at 20% 40%, #fff 6px, transparent 7px),
-              radial-gradient(circle at 70% 45%, #fff 7px, transparent 8px);
+  background: radial-gradient(circle at 20% 40%, #fff 6px, transparent 7px), radial-gradient(circle at 70% 45%, #fff 7px, transparent 8px);
   opacity: 0.9;
 }
-.stem {
-  position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-  width: 70px; height: 160px;
-  background: linear-gradient(180deg, #f4f1e8, #cfc7b8); border-radius: 40px;
-}
+.stem { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 70px; height: 160px; background: linear-gradient(180deg, #f4f1e8, #cfc7b8); border-radius: 40px; }
 @keyframes float { 50% { transform: translateY(-20px); } }
 
-/* Списки эффектов */
-.benefit-list {
-  text-align: left; list-style: none; padding: 0; margin: 0;
+/* ТОВАРНЫЕ КАРТОЧКИ (Стиль Мухоморыча) */
+.catalog { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 60px; }
+.product {
+  position: relative; padding: 30px; border-radius: 20px;
+  background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(127,191,162,0.15);
+  backdrop-filter: blur(10px); transition: 0.4s; text-align: left;
+  display: flex; flex-direction: column; justify-content: space-between; min-height: 250px;
 }
-.benefit-list li {
-  margin-bottom: 15px; display: flex; align-items: flex-start; gap: 12px;
-  font-size: 16px; color: #cddfd7;
+.product:hover { transform: translateY(-10px); border-color: #7fbfa2; background: rgba(127,191,162,0.08); }
+
+/* Бэйдж (Хит, Скидка) */
+.badge {
+  position: absolute; top: 15px; right: 15px; padding: 4px 12px;
+  background: #7fbfa2; color: #000; font-size: 11px; font-weight: bold;
+  border-radius: 50px; text-transform: uppercase;
 }
-.benefit-list li span { color: #7fbfa2; text-shadow: 0 0 8px #7fbfa2; }
+.badge.sale { background: #ff5a5a; color: #fff; }
+
+.product-tag { font-size: 11px; color: #7fbfa2; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: block; }
+.product-name { font-size: 20px; font-weight: bold; margin-bottom: 15px; line-height: 1.2; }
+.product-price { font-size: 18px; color: #fff; font-weight: bold; margin-top: auto; }
+.product-price span { font-size: 14px; text-decoration: line-through; opacity: 0.5; margin-right: 8px; }
+
+/* ГРИД ДЛЯ ЭФФЕКТОВ */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 60px; }
+.card { padding: 35px; border-radius: 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(127,191,162,0.1); backdrop-filter: blur(10px); transition: 0.4s; }
 
 /* КНОПКИ */
 .btn {
-  display: inline-block; margin-top: 40px; padding: 18px 45px;
+  display: inline-block; margin-top: 20px; padding: 15px 35px;
   border: 1px solid #7fbfa2; color: #fff; border-radius: 50px;
-  background: rgba(127,191,162,0.05); cursor: pointer;
-  transition: 0.4s; text-transform: uppercase; letter-spacing: 2px;
+  background: rgba(127,191,162,0.05); cursor: pointer; transition: 0.4s;
+  text-transform: uppercase; letter-spacing: 1px; font-size: 13px;
 }
-.btn:hover {
-  background: #7fbfa2; color: #020403;
-  box-shadow: 0 0 40px #7fbfa2; transform: scale(1.05);
-}
-
-/* КАРТОЧКИ */
-.grid, .catalog {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px; margin-top: 60px;
-}
-.card, .product {
-  padding: 40px; border-radius: 24px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(127,191,162,0.15);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  transition: 0.5s;
-}
-.card:hover, .product:hover {
-  background: rgba(127,191,162,0.08); border-color: #7fbfa2;
-  transform: translateY(-10px);
-}
-
-.icon {
-  width: 60px; height: 60px; margin: 0 auto 25px;
-  border-radius: 50%; border: 1px solid #7fbfa2;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 24px; color: #7fbfa2;
-}
+.btn:hover { background: #7fbfa2; color: #020403; box-shadow: 0 0 30px #7fbfa2; }
 
 /* СПОРЫ */
-.spore {
-  position: fixed; width: 2px; height: 2px;
-  background: rgba(200,255,230,0.5); border-radius: 50%;
-  animation: spore 14s linear infinite; z-index: 1; pointer-events: none;
-}
-@keyframes spore {
-  from { transform: translateY(110vh); opacity: 0; }
-  to { transform: translateY(-10vh); opacity: 1; }
-}
+.spore { position: fixed; width: 2px; height: 2px; background: rgba(200,255,230,0.5); border-radius: 50%; animation: spore 14s linear infinite; z-index: 1; pointer-events: none; }
+@keyframes spore { from { transform: translateY(110vh); opacity: 0; } to { transform: translateY(-10vh); opacity: 1; } }
 
 /* ПОРТАЛ */
-.portal {
-  position: fixed; inset: 0; background: #000;
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column; opacity: 0; pointer-events: none;
-  transition: 0.8s; z-index: 999;
-}
+.portal { position: fixed; inset: 0; background: #000; display: flex; align-items: center; justify-content: center; flex-direction: column; opacity: 0; pointer-events: none; transition: 0.8s; z-index: 999; }
 .portal.active { opacity: 1; pointer-events: all; }
 
-/* Мобилки */
-@media (max-width: 768px) {
-  section { margin-top: 100px; }
-  .grid, .catalog { grid-template-columns: 1fr; }
-}
+@media (max-width: 768px) { section { margin-top: 100px; } .catalog, .grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -188,7 +116,7 @@ p { max-width: 700px; margin: 20px auto; color: #adc9bd; line-height: 1.8; font-
 <li><a href="#home">Главная</a></li>
 <li><a href="#catalog">Каталог</a></li>
 <li><a href="#reviews">Отзывы</a></li>
-<li><a href="#promo">Акция</a></li>
+<li><a href="#trust">Качество</a></li>
 </ul>
 </nav>
 
@@ -198,93 +126,86 @@ p { max-width: 700px; margin: 20px auto; color: #adc9bd; line-height: 1.8; font-
     <div class="stem"></div>
   </div>
   <h1 class="reveal">Forest Magic</h1>
-  <p class="reveal">Осознанный проект из глубины Алтая. Лес. Тишина. Личный опыт.</p>
-  <div class="btn reveal" onclick="portalTelegram()">В Telegram-бот</div>
+  <p class="reveal">Алтайский микродозинг премиального качества. Ручной сбор. Лабораторный контроль.</p>
+  <div class="btn reveal" onclick="portalTelegram()">Перейти к боту</div>
 
-  <!-- Блок 1: Краткие эффекты (Теперь 6 плашек) -->
-  <section id="effects" class="reveal">
-    <h2>Природный союзник</h2>
-    <div class="grid">
-      <div class="card"><div class="icon">☽</div>Глубокое расслабление и сон</div>
-      <div class="card"><div class="icon">✦</div>Освобождение от привычек</div>
-      <div class="card"><div class="icon">◉</div>Психологическая устойчивость</div>
-      <div class="card"><div class="icon">❍</div>Внутренний баланс</div>
-      <div class="card"><div class="icon">✧</div>Ясность мыслей и фокус</div>
-      <div class="card"><div class="icon">◈</div>Остановка внутреннего диалога</div>
-    </div>
-  </section>
-
-  <!-- Блок 2: Глубокое действие -->
-  <section id="deep-effects" class="reveal">
-    <h2>Две стороны воздействия</h2>
-    <div class="grid">
-      <!-- Психология -->
-      <div class="card">
-        <h3>Ментальное здоровье</h3>
-        <ul class="benefit-list">
-          <li><span>✦</span> <strong>Ясность ума:</strong> Улучшение памяти и когнитивной гибкости.</li>
-          <li><span>✦</span> <strong>Свобода:</strong> Мягкий отказ от курения, алкоголя и зависимостей.</li>
-          <li><span>✦</span> <strong>Тишина:</strong> Прекращение утомительного «внутреннего диалога».</li>
-          <li><span>✦</span> <strong>Ресурс:</strong> Стабильно позитивное настроение и уверенность.</li>
-          <li><span>✦</span> <strong>Поток:</strong> Раскрытие творческого потенциала и решение задач.</li>
-        </ul>
-      </div>
-      <!-- Физиология -->
-      <div class="card">
-        <h3>Физическое состояние</h3>
-        <ul class="benefit-list">
-          <li><span>✦</span> <strong>Регенерация:</strong> Восстановление фаз сна и борьба с бессонницей.</li>
-          <li><span>✦</span> <strong>Тонус:</strong> Избавление от хронической усталости и апатии.</li>
-          <li><span>✦</span> <strong>Баланс:</strong> Настройка работы внутренних систем организма.</li>
-          <li><span>✦</span> <strong>Витальность:</strong> Поддержка либидо и внутренней энергии.</li>
-          <li><span>✦</span> <strong>Легкость:</strong> Снятие мышечного напряжения и дискомфорта.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
+  <!-- КАТАЛОГ (В стиле Мухоморыча) -->
   <section id="catalog" class="reveal">
-    <h2>Каталог</h2>
+    <h2>Продукция Алтая</h2>
     <div class="catalog">
-      <div class="product" onclick="portalTelegram()">Мухомор цельный</div>
-      <div class="product" onclick="portalTelegram()">Резаный мухомор</div>
-      <div class="product" onclick="portalTelegram()">Микродозинг</div>
-      <div class="product" onclick="portalTelegram()">Пантерный</div>
-      <div class="product" onclick="portalTelegram()">Экстракт</div>
-      <div class="product" onclick="portalTelegram()">Сбор «Лесная тишина»</div>
+      <!-- Товар 1 -->
+      <div class="product" onclick="portalTelegram()">
+        <span class="badge">Хит</span>
+        <span class="product-tag">Спокойствие и сон</span>
+        <div class="product-name">Красный мухомор<br>(Цельные шляпки)</div>
+        <div class="product-price"><span>1990 ₽</span> от 1 590 ₽</div>
+      </div>
+      <!-- Товар 2 -->
+      <div class="product" onclick="portalTelegram()">
+        <span class="badge sale">Акция</span>
+        <span class="product-tag">Энергия и фокус</span>
+        <div class="product-name">Пантерный мухомор<br>(Экстракт)</div>
+        <div class="product-price"><span>4500 ₽</span> 3 490 ₽</div>
+      </div>
+      <!-- Товар 3 -->
+      <div class="product" onclick="portalTelegram()">
+        <span class="product-tag">Мощный иммунитет</span>
+        <div class="product-name">Набор «Здоровая осень»<br>(Красный + Ежовик)</div>
+        <div class="product-price">4 190 ₽</div>
+      </div>
+      <!-- Товар 4 -->
+      <div class="product" onclick="portalTelegram()">
+        <span class="badge">New</span>
+        <span class="product-tag">Чистый разум</span>
+        <div class="product-name">Микродозинг в капсулах<br>(Курс на 30 дней)</div>
+        <div class="product-price">2 200 ₽</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- БЛОК ДОВЕРИЯ (Как у топов) -->
+  <section id="trust" class="reveal">
+    <h2>Почему выбирают нас</h2>
+    <div class="grid">
+      <div class="card">
+        <h3 style="font-size: 40px; margin: 0;">🏔</h3>
+        <h3>Горный Алтай</h3>
+        <p style="font-size: 14px;">Сбор происходит в экологически чистых районах, вдали от цивилизации.</p>
+      </div>
+      <div class="card">
+        <h3 style="font-size: 40px; margin: 0;">🧪</h3>
+        <h3>Контроль</h3>
+        <p style="font-size: 14px;">Каждая партия проходит проверку качества и правильную сушку при 35-40°C.</p>
+      </div>
+      <div class="card">
+        <h3 style="font-size: 40px; margin: 0;">📦</h3>
+        <h3>Анонимность</h3>
+        <p style="font-size: 14px;">Надежная и нейтральная упаковка. Никто не узнает, что внутри посылки.</p>
+      </div>
     </div>
   </section>
 
   <section id="reviews" class="reveal">
     <h2>Отзывы</h2>
     <div class="grid">
-      <div class="card review">«Очень мягкое и глубокое состояние.»</div>
-      <div class="card review">«Спокойствие и тишина внутри.»</div>
+      <div class="card">«Доставка за 3 дня, качество на высоте. Стал спать как ребенок.» — Иван</div>
+      <div class="card">«Беру не первый раз, пантерный экстракт очень чистый.» — Елена</div>
     </div>
-    <div class="btn" onclick="portalReviews()">Все отзывы</div>
+    <div class="btn" onclick="portalReviews()">Читать все отзывы в ТГ</div>
   </section>
 
-  <section id="promo" class="reveal">
-    <h2>Особое предложение</h2>
-    <div class="grid">
-      <div class="card"><strong>Лесной набор</strong><br>Доступ по запросу</div>
-      <div class="card"><strong>Тихий путь</strong><br>Для вечернего ритма</div>
-    </div>
-    <div class="btn" onclick="portalTelegram()">Узнать условия</div>
-  </section>
-
-  <footer style="margin-top:200px; padding-bottom: 50px; font-size:12px; opacity:0.5">
-    Информация носит ознакомительный характер. 18+
+  <footer style="margin-top:150px; padding-bottom: 50px; font-size:11px; opacity:0.4">
+    Информация носит ознакомительный характер. Не является лекарством. 18+<br>
+    Forest Magic © 2024. Горный Алтай.
   </footer>
 </div>
 
 <div class="portal" id="portal">
   <div class="portal-circle"></div>
-  <div class="portal-text">СОЕДИНЕНИЕ С ЛЕСОМ...</div>
+  <div class="portal-text">ЗАГРУЗКА ЛЕСА...</div>
 </div>
 
 <script>
-// Наблюдатель за появлением элементов
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) entry.target.classList.add('active');
@@ -293,7 +214,6 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// Индикатор прогресса
 window.onscroll = function() {
   let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
   let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -301,7 +221,6 @@ window.onscroll = function() {
   document.getElementById("progress-bar").style.width = scrolled + "%";
 };
 
-// Функции переходов
 function portalTelegram(){ showPortal(()=>window.open('https://t.me/Altai_Amanita_bot','_blank')); }
 function portalReviews(){ showPortal(()=>window.open('https://t.me/REVIEWS_ForestMagic','_blank')); }
 
@@ -314,8 +233,7 @@ function showPortal(action){
   }, 1200);
 }
 
-// Пыльца/Споры
-for(let i=0;i<35;i++){
+for(let i=0;i<30;i++){
  let s=document.createElement('div');
  s.className='spore';
  s.style.left=Math.random()*100+'vw';
