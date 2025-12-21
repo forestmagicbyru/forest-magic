@@ -5,31 +5,46 @@
 <title>Forest Magic — Алтай</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+/* 1. БАЗОВЫЕ НАСТРОЙКИ */
 body{
   margin:0;
   font-family:Arial,sans-serif;
-  background: linear-gradient(180deg, rgba(6,16,12,0.85), rgba(2,4,3,0.95)), 
-              url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2000&auto=format&fit=crop');
-  background-size: cover;
-  background-attachment: fixed;
-  background-position: center;
+  background: #020403; /* Цвет-заглушка, пока грузится фото */
   color:#e6e6e6;
   overflow-x:hidden;
 }
-body::before{
+
+/* 2. ФОН ЛЕСА (Работает на мобильных) */
+.bg-fix {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Наложение градиента и фото леса */
+  background: linear-gradient(180deg, rgba(6,16,12,0.85), rgba(2,4,3,0.95)), 
+              url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2000&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+}
+
+/* Эффект затемнения по краям (виньетка) */
+.bg-fix::after {
   content:"";
-  position:fixed;
+  position: absolute;
   inset:0;
   box-shadow:inset 0 0 160px rgba(0,0,0,.9);
   pointer-events:none;
-  z-index:1;
 }
-/* ===== MENU ===== */
+
+/* 3. МЕНЮ НАВИГАЦИИ */
 nav{
   position:fixed;
   top:0;width:100%;
   background:rgba(5,15,10,.85);
-  backdrop-filter:blur(8px);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px); /* Для iPhone */
   z-index:10;
 }
 nav ul{
@@ -46,7 +61,8 @@ nav a{
   font-size:14px;
   letter-spacing:1px;
 }
-/* ===== LAYOUT ===== */
+
+/* 4. КОНТЕЙНЕР И СЕКЦИИ */
 .container{
   max-width:1100px;
   margin:auto;
@@ -66,7 +82,8 @@ section::before{
 h1{font-size:46px;letter-spacing:3px}
 h2{font-size:34px;margin-bottom:30px}
 p{max-width:760px;margin:16px auto;color:#cddfd7}
-/* ===== REALISTIC MUSHROOM SYMBOL ===== */
+
+/* 5. СИМВОЛ ГРИБА */
 .symbol{
   position:relative;
   width:200px;
@@ -74,7 +91,6 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   margin:40px auto;
   animation:float 7s ease-in-out infinite;
 }
-/* cap */
 .cap{
   position:absolute;
   top:0;
@@ -86,7 +102,6 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   border-radius:100% 100% 70% 70%;
   box-shadow:0 0 120px rgba(255,80,80,.6);
 }
-/* white dots */
 .cap::before{
   content:"";
   position:absolute;
@@ -99,7 +114,6 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
     radial-gradient(circle at 60% 65%,#fff 5px,transparent 6px);
   opacity:.9;
 }
-/* stem */
 .stem{
   position:absolute;
   bottom:0;
@@ -111,7 +125,6 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   border-radius:40px;
   box-shadow:0 0 40px rgba(200,220,200,.4);
 }
-/* glow pulse */
 .symbol::after{
   content:"";
   position:absolute;
@@ -121,7 +134,8 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 }
 @keyframes float{50%{transform:translateY(-18px)}}
 @keyframes pulse{50%{opacity:.7}}
-/* ===== BUTTON ===== */
+
+/* 6. КНОПКИ */
 .btn{
   display:inline-block;
   margin-top:40px;
@@ -132,9 +146,12 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   background:rgba(127,191,162,.12);
   box-shadow:0 0 40px rgba(127,191,162,.45);
   cursor:pointer;
+  transition: .3s;
 }
-/* ===== GRID ===== */
-.grid{
+.btn:hover { background:rgba(127,191,162,.25); transform: scale(1.05); }
+
+/* 7. СЕТКИ (КАТАЛОГ И КАРТОЧКИ) */
+.grid, .catalog {
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
   gap:30px;
@@ -146,27 +163,8 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   background:rgba(20,40,30,.5);
   border:1px solid rgba(140,220,180,.25);
   backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
   transition:.4s;
-}
-.card:hover{
-  transform:translateY(-14px);
-  box-shadow:0 0 70px rgba(120,220,180,.55);
-}
-.icon{
-  width:64px;height:64px;
-  margin:0 auto 18px;
-  border-radius:50%;
-  border:1px solid rgba(160,230,190,.4);
-  box-shadow:0 0 35px rgba(120,220,180,.7);
-  display:flex;align-items:center;justify-content:center;
-  font-size:22px;
-}
-/* ===== CATALOG ===== */
-.catalog{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:30px;
-  margin-top:60px;
 }
 .product{
   aspect-ratio:1/1;
@@ -179,22 +177,36 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   cursor:pointer;
   transition:.4s;
 }
-.product:hover{box-shadow:0 0 70px rgba(120,220,180,.6)}
-/* ===== REVIEWS ===== */
-.review{font-size:14px;line-height:1.6}
-/* ===== SPORES ===== */
+.card:hover, .product:hover{
+  transform:translateY(-14px);
+  box-shadow:0 0 70px rgba(120,220,180,.55);
+}
+.icon{
+  width:64px;height:64px;
+  margin:0 auto 18px;
+  border-radius:50%;
+  border:1px solid rgba(160,230,190,.4);
+  box-shadow:0 0 35px rgba(120,220,180,.7);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+}
+
+/* 8. СПОРЫ */
 .spore{
   position:fixed;
   width:2px;height:2px;
   background:rgba(200,255,230,.7);
   border-radius:50%;
   animation:spore 14s linear infinite;
+  z-index: 2;
+  pointer-events: none;
 }
 @keyframes spore{
   from{transform:translateY(110vh);opacity:0}
   to{transform:translateY(-10vh);opacity:1}
 }
-/* ===== PORTAL ===== */
+
+/* 9. ЭФФЕКТ ПОРТАЛА */
 .portal{
   position:fixed;
   inset:0;
@@ -213,8 +225,7 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   width:150px;height:150px;
   border-radius:50%;
   border:2px solid rgba(140,220,180,.8);
-  box-shadow:0 0 50px rgba(140,220,180,.6),
-             0 0 120px rgba(140,220,180,.5);
+  box-shadow:0 0 50px rgba(140,220,180,.6), 0 0 120px rgba(140,220,180,.5);
   animation:portalPulse 1.2s ease-in-out infinite;
 }
 .portal-text{
@@ -229,45 +240,30 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   100%{transform:scale(1.6);opacity:0}
 }
 
-/* ===== МОБИЛЬНАЯ АДАПТАЦИЯ (НОВОЕ) ===== */
+/* 10. МОБИЛЬНАЯ АДАПТАЦИЯ */
 @media (max-width: 768px) {
-  nav ul {
-    gap: 12px;
-    padding: 10px;
-    flex-wrap: wrap; /* Чтобы пункты меню переносились, если не влезают */
-  }
-  nav a { font-size: 12px; }
-
-  .container { padding: 80px 15px; }
-  
+  nav ul { gap: 12px; padding: 12px; flex-wrap: wrap; }
+  nav a { font-size: 11px; }
+  .container { padding: 100px 15px; }
   h1 { font-size: 32px; letter-spacing: 1px; }
   h2 { font-size: 24px; }
-  
-  .symbol {
-    transform: scale(0.75); /* Уменьшаем гриб */
-    margin: 10px auto;
-  }
-  
-  section { margin-top: 80px; } /* Уменьшаем пустые места между секциями */
-
-  .grid, .catalog {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Карточки станут по 2 в ряд на мелких экранах */
-    gap: 15px;
-  }
-  
-  .card, .product { padding: 15px; }
+  section { margin-top: 80px; }
+  .grid, .catalog { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; }
+  .symbol { transform: scale(0.7); margin: 0 auto; }
 }
 
 @media (max-width: 480px) {
+  .grid, .catalog { grid-template-columns: 1fr; }
+  .symbol { transform: scale(0.6); height: 180px; }
   h1 { font-size: 28px; }
-  .grid, .catalog {
-    grid-template-columns: 1fr; /* На совсем маленьких экранах — всё в один столбик */
-  }
-  .symbol { transform: scale(0.6); height: 200px; }
 }
 </style>
 </head>
 <body>
+
+<!-- Слой фона -->
+<div class="bg-fix"></div>
+
 <nav>
 <ul>
 <li><a href="#home">Главная</a></li>
@@ -277,6 +273,7 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 <li><a href="#promo">Акция</a></li>
 </ul>
 </nav>
+
 <div class="container" id="home">
 <div class="symbol">
   <div class="cap"></div>
@@ -285,6 +282,7 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 <h1>Forest Magic</h1>
 <p>Осознанный проект из глубины Алтая. Лес. Тишина. Личный опыт.</p>
 <div class="btn" onclick="portalTelegram()">Перейти в Telegram‑бот</div>
+
 <section id="effects">
 <h2>Мухомор — природный союзник</h2>
 <div class="grid">
@@ -294,6 +292,7 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 <div class="card"><div class="icon">❍</div>Внутреннее равновесие</div>
 </div>
 </section>
+
 <section id="catalog">
 <h2>Каталог</h2>
 <div class="catalog">
@@ -305,6 +304,7 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 <div class="product" onclick="portalTelegram()">Сбор «Лесная тишина»</div>
 </div>
 </section>
+
 <section id="reviews">
 <h2>Отзывы</h2>
 <p>Люди у нас покупают — и вот что они говорят:</p>
@@ -316,6 +316,7 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 </div>
 <div class="btn" onclick="portalReviews()">Больше отзывов</div>
 </section>
+
 <section id="promo">
 <h2>Особое предложение</h2>
 <p>Время от времени мы открываем доступ к ограниченным наборам для своих.</p>
@@ -333,14 +334,17 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 </div>
 <div class="btn" onclick="portalTelegram()">Узнать условия</div>
 </section>
+
 <footer style="margin-top:160px;font-size:12px;opacity:.7">
 Информация носит ознакомительный характер и не является медицинской.
 </footer>
 </div>
+
 <div class="portal" id="portal">
   <div class="portal-circle"></div>
   <div class="portal-text">Переход…</div>
 </div>
+
 <script>
 function portalTelegram(){
   showPortal(()=>window.open('https://t.me/Altai_Amanita_bot','_blank'));
@@ -356,11 +360,13 @@ function showPortal(action){
     p.classList.remove('active');
   },1200);
 }
+// Генерация спор
 for(let i=0;i<28;i++){
  let s=document.createElement('div');
  s.className='spore';
  s.style.left=Math.random()*100+'vw';
  s.style.animationDelay=Math.random()*14+'s';
+ s.style.opacity=Math.random();
  document.body.appendChild(s);
 }
 </script>
