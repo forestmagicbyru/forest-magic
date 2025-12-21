@@ -6,158 +6,142 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-:root {
-  --mx: 0px;
-  --my: 0px;
-}
+:root { --mx:0px; --my:0px; }
 
-/* ===== ОСНОВА ===== */
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
+/* ОСНОВА */
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
   background:
-    radial-gradient(circle at 50% 0%, rgba(70,120,95,0.35), transparent 60%),
-    linear-gradient(180deg, #0a1511 0%, #030504 100%);
-  color: #e6e6e6;
-  overflow-x: hidden;
+    radial-gradient(circle at 50% 0%, rgba(70,120,95,.35), transparent 60%),
+    linear-gradient(180deg,#0a1511 0%,#030504 100%);
+  color:#e6e6e6;
+  overflow-x:hidden;
 }
 
-/* ===== ЗЕРНО ===== */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 1;
+/* ЗЕРНО */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:1;
 }
 
-/* ===== ТУМАН ===== */
-.fog {
-  position: fixed;
-  inset: -20%;
+/* ТУМАН */
+.fog{
+  position:fixed;
+  inset:-20%;
   background:
-    radial-gradient(circle at 30% 40%, rgba(255,255,255,0.06), transparent 45%),
-    radial-gradient(circle at 70% 60%, rgba(255,255,255,0.05), transparent 50%);
-  animation: fog 30s ease-in-out infinite alternate;
-  pointer-events: none;
-  z-index: 0;
+    radial-gradient(circle at 30% 40%, rgba(255,255,255,.06), transparent 45%),
+    radial-gradient(circle at 70% 60%, rgba(255,255,255,.05), transparent 50%);
+  animation:fog 30s ease-in-out infinite alternate;
+  pointer-events:none;
+  z-index:0;
+}
+@keyframes fog{
+  from{transform:translate(0,0)}
+  to{transform:translate(-4%,3%)}
 }
 
-@keyframes fog {
-  from { transform: translate(0,0); }
-  to { transform: translate(-4%,3%); }
+/* КОНТЕНТ */
+.container{
+  max-width:860px;
+  margin:0 auto;
+  padding:90px 20px;
+  text-align:center;
+  position:relative;
+  z-index:2;
 }
 
-/* ===== КОНТЕЙНЕР ===== */
-.container {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 90px 20px;
-  text-align: center;
-  position: relative;
-  z-index: 2;
+section{margin-top:130px}
+
+h1{
+  font-size:44px;
+  letter-spacing:2px;
+  text-shadow:0 0 18px rgba(140,220,180,.35);
+}
+h2{
+  font-size:28px;
+  margin-bottom:18px;
+  text-shadow:0 0 12px rgba(140,220,180,.25);
+}
+p{
+  max-width:640px;
+  margin:14px auto;
+  color:#cfd8d3;
+  line-height:1.7;
 }
 
-section {
-  margin-top: 130px;
+/* КНОПКИ */
+.btn{
+  display:inline-block;
+  margin-top:26px;
+  padding:15px 34px;
+  border-radius:6px;
+  border:1px solid #7fbfa2;
+  background:rgba(127,191,162,.12);
+  color:#fff;
+  text-decoration:none;
+  animation:glow 4.5s ease-in-out infinite;
+}
+@keyframes glow{
+  50%{box-shadow:0 0 28px rgba(127,191,162,.45)}
 }
 
-/* ===== ТЕКСТ ===== */
-h1 {
-  font-size: 44px;
-  letter-spacing: 2px;
-  text-shadow: 0 0 18px rgba(140,220,180,0.35);
+/* СИМВОЛ */
+.symbol-wrap{
+  height:260px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
-
-h2 {
-  font-size: 28px;
-  margin-bottom: 18px;
-  text-shadow: 0 0 12px rgba(140,220,180,0.25);
-}
-
-p {
-  max-width: 640px;
-  margin: 14px auto;
-  color: #cfd8d3;
-  line-height: 1.7;
-}
-
-/* ===== КНОПКИ ===== */
-.btn {
-  display: inline-block;
-  margin-top: 26px;
-  padding: 15px 34px;
-  border-radius: 6px;
-  border: 1px solid #7fbfa2;
-  background: rgba(127,191,162,0.12);
-  color: #fff;
-  text-decoration: none;
-  animation: glow 4.5s ease-in-out infinite;
-}
-
-@keyframes glow {
-  50% { box-shadow: 0 0 28px rgba(127,191,162,0.45); }
-}
-
-/* ===== СИМВОЛ ===== */
-.symbol-wrap {
-  height: 260px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.symbol {
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  border: 1px solid rgba(160,220,190,0.35);
+.symbol{
+  width:160px;
+  height:160px;
+  border-radius:50%;
+  border:1px solid rgba(160,220,190,.35);
   box-shadow:
-    0 0 60px rgba(120,200,160,0.35),
-    inset 0 0 30px rgba(120,200,160,0.35);
-  position: relative;
-  animation: float 7s ease-in-out infinite;
-  transform: translate(var(--mx), var(--my));
+    0 0 60px rgba(120,200,160,.35),
+    inset 0 0 30px rgba(120,200,160,.35);
+  position:relative;
+  animation:float 7s ease-in-out infinite;
+  transform:translate(var(--mx),var(--my));
+}
+.symbol::before{
+  content:"";
+  position:absolute;
+  inset:20px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(150,220,180,.5),transparent 70%);
+  animation:pulse 4s ease-in-out infinite;
+}
+.symbol::after{
+  content:"";
+  position:absolute;
+  inset:-12px;
+  border-radius:50%;
+  border:1px dashed rgba(140,210,180,.3);
+  animation:rotate 18s linear infinite;
+}
+@keyframes float{
+  50%{transform:translate(var(--mx),calc(var(--my) - 18px))}
+}
+@keyframes pulse{
+  0%,100%{opacity:.4}
+  50%{opacity:1}
+}
+@keyframes rotate{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
 }
 
-.symbol::before {
-  content: "";
-  position: absolute;
-  inset: 20px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(150,220,180,0.5), transparent 70%);
-  animation: pulse 4s ease-in-out infinite;
-}
-
-.symbol::after {
-  content: "";
-  position: absolute;
-  inset: -12px;
-  border-radius: 50%;
-  border: 1px dashed rgba(140,210,180,0.3);
-  animation: rotate 18s linear infinite;
-}
-
-@keyframes float {
-  50% { transform: translate(var(--mx), calc(var(--my) - 18px)); }
-}
-
-@keyframes pulse {
-  0%,100% { opacity: 0.4; }
-  50% { opacity: 1; }
-}
-
-@keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* ===== ФУТЕР ===== */
-footer {
-  margin-top: 140px;
-  font-size: 12px;
-  opacity: 0.7;
+/* ФУТЕР */
+footer{
+  margin-top:140px;
+  font-size:12px;
+  opacity:.7;
 }
 </style>
 </head>
@@ -176,7 +160,8 @@ footer {
   <h1>Forest Magic</h1>
   <p>
     Осознанный проект из глубины Алтая.  
-    Лес, тишина и личный опыт.
+    Экологически чистые леса Сибири,  
+    тишина и личный опыт.
   </p>
 
   <a class="btn" href="https://t.me/Altai_Amanita_bot" target="_blank">
@@ -187,8 +172,8 @@ footer {
   <section>
     <h2>Каталог</h2>
     <p>
-      Весь ассортимент, наличие и оплата  
-      доступны исключительно через Telegram‑бот.
+      Ассортимент, наличие и оплата  
+      доступны только через Telegram‑бот.
     </p>
     <a class="btn" href="https://t.me/Altai_Amanita_bot" target="_blank">
       Открыть каталог
@@ -200,27 +185,25 @@ footer {
     <h2>Производство</h2>
     <p>
       Сбор осуществляется вручную  
-      в экологически чистых лесах Алтая,  
-      вдали от дорог и населённых пунктов.
+      в удалённых районах Алтая,  
+      вдали от дорог и городов.
     </p>
     <p>
       Сушка — в специализированных камерах  
-      при температуре до 40°C  
-      для сохранения природных свойств.
+      при температуре до 40°C.
     </p>
   </section>
 
-  <!-- ДОСТАВКА И ОПЛАТА -->
+  <!-- ДОСТАВКА -->
   <section>
     <h2>Доставка и оплата</h2>
     <p>
-      Оформление заказа и оплата  
-      происходят напрямую через бота.
+      Заказ и оплата происходят  
+      напрямую через Telegram‑бот.
     </p>
     <p>
       Способы и сроки доставки  
-      согласовываются индивидуально  
-      после оформления заказа.
+      согласовываются индивидуально.
     </p>
   </section>
 
@@ -228,9 +211,8 @@ footer {
   <section>
     <h2>Поддержка</h2>
     <p>
-      Если у вас есть вопросы  
-      или вы хотите уточнить детали —  
-      напишите нам напрямую.
+      Остались вопросы —  
+      напишите напрямую.
     </p>
     <a class="btn" href="https://t.me/Konstantin_krohin" target="_blank">
       Написать в поддержку
@@ -246,11 +228,11 @@ footer {
 </div>
 
 <script>
-document.addEventListener('mousemove', e => {
-  const x = (e.clientX / innerWidth - 0.5) * 20;
-  const y = (e.clientY / innerHeight - 0.5) * 20;
-  document.documentElement.style.setProperty('--mx', x + 'px');
-  document.documentElement.style.setProperty('--my', y + 'px');
+document.addEventListener('mousemove',e=>{
+  const x=(e.clientX/innerWidth-.5)*20;
+  const y=(e.clientY/innerHeight-.5)*20;
+  document.documentElement.style.setProperty('--mx',x+'px');
+  document.documentElement.style.setProperty('--my',y+'px');
 });
 </script>
 
