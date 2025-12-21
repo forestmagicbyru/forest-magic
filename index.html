@@ -70,7 +70,7 @@
         /* Вспышка */
         @keyframes impact-flash {
             0% { background: transparent; }
-            50% { background: rgba(255, 255, 255, 0.3); }
+            50% { background: rgba(255, 255, 255, 0.4); }
             100% { background: transparent; }
         }
         .flash-active { animation: impact-flash 0.4s ease-out; }
@@ -78,8 +78,8 @@
         /* Падение гриба (из темноты над головой) */
         @keyframes mushroom-impact-fall {
             0% { transform: translate(-50%, -300px) scale(1) rotate(0deg); opacity: 0; }
-            15% { opacity: 1; transform: translate(-50%, -150px) scale(1.2) rotate(-15deg); } /* Подброс от удара */
-            100% { transform: translate(-50%, 130vh) scale(0.7) rotate(45deg); opacity: 0; } /* Улет в бездну */
+            15% { opacity: 1; transform: translate(-50%, -150px) scale(1.2) rotate(-15deg); } 
+            100% { transform: translate(-50%, 130vh) scale(0.7) rotate(45deg); opacity: 0; } 
         }
         .animate-fall {
             display: block !important;
@@ -130,7 +130,6 @@
             z-index: 10;
         }
 
-        /* Боксы для грибов */
         .mushroom-box {
             position: relative;
             width: 200px; height: 260px;
@@ -157,11 +156,9 @@
             border-radius: 40px;
         }
 
-        /* Плавающий гриб */
         .floating { animation: float-anim 7s ease-in-out infinite; transition: opacity 0.5s; }
         @keyframes float-anim { 50% { transform: translateY(-30px); } }
 
-        /* Падающий гриб (фиксирован) */
         #falling-mushroom {
             position: fixed;
             left: 50%; top: 0;
@@ -186,7 +183,6 @@
             letter-spacing: 3px;
             font-weight: bold;
             text-decoration: none;
-            box-shadow: 0 0 20px rgba(127,191,162,0.2);
         }
         .btn-cta:hover {
             background: var(--accent);
@@ -197,7 +193,7 @@
 
         /* 
         ========================================
-        5. СЕКЦИИ И СЕТКИ (REVEAL)
+        5. СЕКЦИИ И СЕТКИ
         ========================================
         */
         section { margin-top: 200px; position: relative; }
@@ -238,12 +234,11 @@
             border-radius: 50%; border: 1px solid var(--accent);
             display: flex; align-items: center; justify-content: center;
             font-size: 24px; color: var(--accent);
-            box-shadow: 0 0 20px rgba(127,191,162,0.2);
         }
 
         /* 
         ========================================
-        6. СТОЛКНОВЕНИЕ СКАЛ (IMPACT ZONE)
+        6. СТОЛКНОВЕНИЕ СКАЛ (IMPACT)
         ========================================
         */
         .collision-container {
@@ -277,7 +272,6 @@
             border-left: none;
         }
 
-        /* Состояние активации */
         .active-impact .mountain-left,
         .active-impact .mountain-right {
             opacity: 1; transform: translateX(0) rotateY(0);
@@ -307,20 +301,21 @@
 
         /* 
         ========================================
-        7. КАТАЛОГ В СТИЛЕ МУХОМОРЫЧА
+        7. КАТАЛОГ С ФОТО ТОВАРОВ
         ========================================
         */
         .product-card {
             position: relative;
-            padding: 30px;
+            padding: 20px;
             border-radius: 24px;
             background: var(--card-bg);
             border: 1px solid rgba(127,191,162,0.15);
             transition: 0.4s;
             text-align: left;
             display: flex; flex-direction: column;
-            min-height: 280px;
+            min-height: 420px; /* Увеличили высоту под фото */
             cursor: pointer;
+            overflow: hidden;
         }
         .product-card:hover {
             transform: translateY(-10px);
@@ -328,10 +323,31 @@
             background: rgba(127,191,162,0.06);
         }
 
+        /* Контейнер для фото */
+        .product-img-box {
+            width: 100%;
+            height: 220px;
+            border-radius: 18px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(127,191,162,0.1);
+        }
+        .product-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Фото заполнит область без искажения */
+            transition: transform 0.6s ease;
+        }
+        .product-card:hover .product-img-box img {
+            transform: scale(1.1); /* Легкий зум фото при наведении */
+        }
+
         .badge {
-            position: absolute; top: 15px; right: 15px;
+            position: absolute; top: 30px; right: 30px;
             padding: 5px 12px; border-radius: 50px;
             font-size: 11px; font-weight: bold; text-transform: uppercase;
+            z-index: 2;
         }
         .badge-hit { background: var(--accent); color: #000; }
         .badge-sale { background: #ff5a5a; color: #fff; }
@@ -378,10 +394,10 @@
             pointer-events: none;
         }
         @keyframes spore-movement {
-            from { transform: translateY(110vh) translateX(0); opacity: 0; }
+            from { transform: translateY(110vh); opacity: 0; }
             10% { opacity: 1; }
             90% { opacity: 1; }
-            to { transform: translateY(-10vh) translateX(80px); opacity: 0; }
+            to { transform: translateY(-10vh); opacity: 0; }
         }
 
         /* 
@@ -392,17 +408,15 @@
         @media (max-width: 768px) {
             nav ul { gap: 12px; padding: 14px 5px; }
             nav a { font-size: 10px; }
-            
             .container { padding-top: 100px; }
             section { margin-top: 120px; }
-            
             .collision-container { flex-direction: column; }
             .mountain { width: 100%; border-radius: 25px; border: 1px solid rgba(127,191,162,0.2); margin-bottom: 20px; transform: none !important; opacity: 1 !important; }
             .crack-glow { display: none; }
-            
             .grid { grid-template-columns: 1fr; }
             h1 { font-size: 34px; }
             h2 { font-size: 28px; }
+            .product-card { min-height: auto; }
         }
 
         footer {
@@ -420,13 +434,11 @@
     <div id="progress-bar"></div>
     <div class="bg-fix"></div>
 
-    <!-- Теневой гриб для падения -->
     <div id="falling-mushroom" class="mushroom-box">
         <div class="cap"></div>
         <div class="stem"></div>
     </div>
 
-    <!-- Навигация -->
     <nav>
         <ul>
             <li><a href="#home">Главная</a></li>
@@ -438,7 +450,6 @@
     </nav>
 
     <div class="container" id="home">
-        <!-- Гриб на главном экране -->
         <div class="mushroom-box floating" id="hero-mushroom">
             <div class="cap"></div>
             <div class="stem"></div>
@@ -448,7 +459,7 @@
         <p class="hero-p reveal">Премиальный Алтайский микродозинг. Путь к внутренней тишине через чистоту дикой природы.</p>
         <div class="btn-cta reveal" onclick="openPortal('https://t.me/Altai_Amanita_bot')">Открыть Telegram-Бот</div>
 
-        <!-- Блок: 6 Граней Силы -->
+        <!-- 6 Граней Силы -->
         <section id="effects" class="reveal">
             <h2>Природный Союзник</h2>
             <div class="grid">
@@ -485,13 +496,12 @@
             </div>
         </section>
 
-        <!-- БЛОК УДАРА: СТОЛКНОВЕНИЕ СКАЛ -->
+        <!-- СТОЛКНОВЕНИЕ СКАЛ -->
         <section id="deep-impact">
             <h2 class="reveal">Слияние Двух Миров</h2>
             <div class="collision-container" id="impact-trigger">
                 <div class="crack-glow"></div>
                 
-                <!-- Психология -->
                 <div class="mountain mountain-left">
                     <h3>Ментальный План</h3>
                     <ul class="benefit-list">
@@ -502,7 +512,6 @@
                     </ul>
                 </div>
 
-                <!-- Физиология -->
                 <div class="mountain mountain-right">
                     <h3>Физический План</h3>
                     <ul class="benefit-list">
@@ -515,33 +524,52 @@
             </div>
         </section>
 
-        <!-- КАТАЛОГ (Мухоморыч Style) -->
+        <!-- КАТАЛОГ С ФОТО -->
         <section id="catalog" class="reveal">
             <h2>Дары Глубокого Леса</h2>
             <div class="grid">
                 <!-- Товар 1 -->
                 <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
                     <span class="badge badge-hit">Хит</span>
+                    <div class="product-img-box">
+                        <!-- ВСТАВЬ СВОЮ ССЫЛКУ НИЖЕ -->
+                        <img src="ССЫЛКА_НА_ФОТО" alt="Красный мухомор">
+                    </div>
                     <span class="p-tag">Ручной Сбор</span>
                     <div class="p-title">Красный Мухомор<br>(Цельные шляпки)</div>
                     <div class="p-price"><span>2 100 ₽</span> от 1 590 ₽</div>
                 </div>
+
                 <!-- Товар 2 -->
                 <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
                     <span class="badge badge-sale">Скидка -20%</span>
+                    <div class="product-img-box">
+                        <!-- ВСТАВЬ СВОЮ ССЫЛКУ НИЖЕ -->
+                        <img src="ССЫЛКА_НА_ФОТО" alt="Пантерный мухомор">
+                    </div>
                     <span class="p-tag">Мощный Фокус</span>
                     <div class="p-title">Пантерный Мухомор<br>(Экстракт 10:1)</div>
                     <div class="p-price"><span>4 400 ₽</span> 3 490 ₽</div>
                 </div>
+
                 <!-- Товар 3 -->
                 <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
+                    <div class="product-img-box">
+                        <!-- ВСТАВЬ СВОЮ ССЫЛКУ НИЖЕ -->
+                        <img src="https://assets.grok.com/users/b805b554-d056-49fc-bc9e-357b47597337/generated/5f665c42-f799-486b-b4cd-5e68783696af/image.jpg" alt="Микродозинг">
+                    </div>
                     <span class="p-tag">Курс 30 дней</span>
                     <div class="p-title">Микродозинг Mix<br>(60 капсул)</div>
                     <div class="p-price">2 250 ₽</div>
                 </div>
+
                 <!-- Товар 4 -->
                 <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
                     <span class="badge badge-hit">New</span>
+                    <div class="product-img-box">
+                        <!-- ВСТАВЬ СВОЮ ССЫЛКУ НИЖЕ -->
+                        <img src="ССЫЛКА_НА_ФОТО" alt="Сбор Лесная тишина">
+                    </div>
                     <span class="p-tag">Глубокий Сон</span>
                     <div class="p-title">Сбор «Лесная Тишина»<br>(Травы + Грибы)</div>
                     <div class="p-price">1 890 ₽</div>
@@ -549,7 +577,7 @@
             </div>
         </section>
 
-        <!-- БЛОК ДОВЕРИЯ -->
+        <!-- Гарантии -->
         <section id="trust" class="reveal">
             <h2>Наши Гарантии</h2>
             <div class="grid">
@@ -571,16 +599,16 @@
             </div>
         </section>
 
-        <!-- ОТЗЫВЫ -->
+        <!-- Отзывы -->
         <section id="reviews" class="reveal">
             <h2>Отзывы Проводников</h2>
             <div class="grid">
                 <div class="card" style="text-align: left;">
-                    <p style="font-style: italic;">«Работаю программистом, пантерный экстракт помог выключить шум в голове и сосредоточиться на коде. Качество Алтая чувствуется сразу.»</p>
+                    <p style="font-style: italic;">«Работаю программистом, пантерный экстракт помог выключить шум в голове и сосредоточиться на коде.»</p>
                     <strong style="color: var(--accent);">— Алексей, 29 лет</strong>
                 </div>
                 <div class="card" style="text-align: left;">
-                    <p style="font-style: italic;">«Наладила сон после двух лет бессонницы. Стала намного спокойнее реагировать на жизненные трудности. Благодарю!»</p>
+                    <p style="font-style: italic;">«Наладила сон после двух лет бессонницы. Стала намного спокойнее. Благодарю!»</p>
                     <strong style="color: var(--accent);">— Елена, 34 года</strong>
                 </div>
             </div>
@@ -589,20 +617,16 @@
 
         <footer>
             <strong>FOREST MAGIC © 2025. ДАРЫ ГОРНОГО АЛТАЯ.</strong><br><br>
-            Вся информация на сайте носит ознакомительный характер. Мы не призываем к самолечению. <br>
-            Продукция не является лекарственным средством или БАД. <br>
             Продажа строго 18+. Соблюдайте культуру употребления.
         </footer>
     </div>
 
-    <!-- Портал перехода -->
     <div class="portal-overlay" id="portal-ui">
         <div class="portal-ring"></div>
         <p style="margin-top: 30px; letter-spacing: 5px; color: var(--accent); font-size: 12px;">СОЕДИНЕНИЕ С ЛЕСОМ...</p>
     </div>
 
     <script>
-        /* 1. ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ */
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) entry.target.classList.add('active');
@@ -611,7 +635,6 @@
 
         document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-        /* 2. ЛОГИКА УДАРА (IMPACT) И ПАДЕНИЯ ГРИБА */
         const impactTrigger = document.getElementById('impact-trigger');
         const heroMushroom = document.getElementById('hero-mushroom');
         const fallingMushroom = document.getElementById('falling-mushroom');
@@ -625,17 +648,12 @@
                     impactTriggered = true;
                     entry.target.classList.add('active-impact');
                     
-                    // Момент столкновения (0.7-0.8 сек)
                     setTimeout(() => {
-                        // Эффекты встряски и вспышки
                         bodyElement.classList.add('shake-active');
                         bodyElement.classList.add('flash-active');
-                        
-                        // "Уничтожение" гриба на главной и запуск падающего
                         heroMushroom.style.opacity = '0';
                         fallingMushroom.classList.add('animate-fall');
                         
-                        // Удаление классов после анимации
                         setTimeout(() => {
                             bodyElement.classList.remove('shake-active');
                             bodyElement.classList.remove('flash-active');
@@ -647,7 +665,6 @@
 
         impactObserver.observe(impactTrigger);
 
-        /* 3. ПРОГРЕСС-БАР И СКРОЛЛ */
         window.onscroll = () => {
             let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -655,7 +672,6 @@
             document.getElementById("progress-bar").style.width = scrolled + "%";
         };
 
-        /* 4. ФУНКЦИЯ ПОРТАЛА */
         function openPortal(url) {
             const portal = document.getElementById('portal-ui');
             portal.classList.add('active');
@@ -665,19 +681,15 @@
             }, 1200);
         }
 
-        /* 5. ГЕНЕРАЦИЯ ЧАСТИЦ (СПОРЫ) */
-        function createParticles() {
-            for(let i = 0; i < 40; i++) {
-                let spore = document.createElement('div');
-                spore.className = 'spore';
-                spore.style.left = Math.random() * 100 + 'vw';
-                spore.style.animationDuration = (Math.random() * 8 + 10) + 's';
-                spore.style.animationDelay = Math.random() * 15 + 's';
-                spore.style.opacity = Math.random() * 0.6;
-                document.body.appendChild(spore);
-            }
+        for(let i = 0; i < 40; i++) {
+            let spore = document.createElement('div');
+            spore.className = 'spore';
+            spore.style.left = Math.random() * 100 + 'vw';
+            spore.style.animationDuration = (Math.random() * 8 + 10) + 's';
+            spore.style.animationDelay = Math.random() * 15 + 's';
+            spore.style.opacity = Math.random() * 0.6;
+            document.body.appendChild(spore);
         }
-        createParticles();
     </script>
 </body>
 </html>
