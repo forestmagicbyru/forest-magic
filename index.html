@@ -1,372 +1,683 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<title>Forest Magic — Сила Алтая</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Forest Magic — Сила Алтайской Тайги</title>
+    
+    <style>
+        /* 
+        ========================================
+        1. ГЛОБАЛЬНЫЕ НАСТРОЙКИ (CORE)
+        ========================================
+        */
+        :root {
+            --accent: #7fbfa2;
+            --accent-dark: #4a7c44;
+            --bg-dark: #020403;
+            --text-main: #e6e6e6;
+            --text-dim: #adc9bd;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --transition: all 0.5s cubic-bezier(0.2, 0.6, 0.2, 1);
+        }
 
-<style>
-/* 
-========================================
-1. ОСНОВНЫЕ НАСТРОЙКИ
-========================================
-*/
-html { scroll-behavior: smooth; }
-body {
-  margin: 0; padding: 0;
-  font-family: 'Segoe UI', Roboto, sans-serif;
-  background-color: #020403; color: #e6e6e6;
-  overflow-x: hidden;
-}
+        html { scroll-behavior: smooth; }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
 
-/* ФИКСИРОВАННЫЙ ФОН */
-.bg-fix {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
-  background: linear-gradient(180deg, rgba(6,16,12,0.92) 0%, rgba(2,4,3,0.98) 100%), 
-              url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2000&auto=format&fit=crop');
-  background-size: cover; background-position: center;
-}
+        /* Фиксированный фон леса */
+        .bg-fix {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            background: linear-gradient(180deg, rgba(6,16,12,0.92) 0%, rgba(2,4,3,0.98) 100%), 
+                        url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
 
-#progress-bar {
-  position: fixed; top: 0; left: 0; width: 0%; height: 4px;
-  background: #7fbfa2; z-index: 200;
-}
+        /* Полоса прогресса */
+        #progress-bar {
+            position: fixed;
+            top: 0; left: 0; width: 0%; height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+            z-index: 1000;
+            box-shadow: 0 0 15px var(--accent);
+        }
 
-/* 
-========================================
-2. АНИМАЦИИ УДАРА И ПАДЕНИЯ
-========================================
-*/
+        /* 
+        ========================================
+        2. ЭФФЕКТЫ УДАРА (IMPACT & PHYSICS)
+        ========================================
+        */
 
-/* Тряска всего тела */
-@keyframes mega-shake {
-  0% { transform: translate(0,0); }
-  10% { transform: translate(-15px,-15px); }
-  20% { transform: translate(15px,15px); }
-  30% { transform: translate(-15px,15px); }
-  40% { transform: translate(15px,-15px); }
-  100% { transform: translate(0,0); }
-}
-.shake-active { animation: mega-shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+        /* Тряска всего экрана */
+        @keyframes mega-shake {
+            0%, 100% { transform: translate(0,0); }
+            10%, 30%, 50%, 70%, 90% { transform: translate(-12px, -12px); }
+            20%, 40%, 60%, 80% { transform: translate(12px, 12px); }
+        }
+        .shake-active { animation: mega-shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
 
-/* Вспышка на весь экран */
-@keyframes white-flash {
-  0% { background: transparent; }
-  50% { background: rgba(255,255,255,0.4); }
-  100% { background: transparent; }
-}
-.flash-active { animation: white-flash 0.4s ease-out; }
+        /* Вспышка */
+        @keyframes impact-flash {
+            0% { background: transparent; }
+            50% { background: rgba(255, 255, 255, 0.3); }
+            100% { background: transparent; }
+        }
+        .flash-active { animation: impact-flash 0.4s ease-out; }
 
-/* Падение гриба (вылетает из темноты сверху) */
-@keyframes mushroom-impact-fall {
-  0% { transform: translate(-50%, -200px) scale(1) rotate(0deg); opacity: 0; }
-  10% { opacity: 1; transform: translate(-50%, -100px) scale(1.2) rotate(-10deg); } /* Подскок */
-  100% { transform: translate(-50%, 150vh) scale(0.8) rotate(40deg); opacity: 0; } /* Провал вниз */
-}
-.animate-mushroom-fall {
-  display: block !important;
-  animation: mushroom-impact-fall 1.5s cubic-bezier(0.5, 0, 0.5, 1) forwards;
-}
+        /* Падение гриба (из темноты над головой) */
+        @keyframes mushroom-impact-fall {
+            0% { transform: translate(-50%, -300px) scale(1) rotate(0deg); opacity: 0; }
+            15% { opacity: 1; transform: translate(-50%, -150px) scale(1.2) rotate(-15deg); } /* Подброс от удара */
+            100% { transform: translate(-50%, 130vh) scale(0.7) rotate(45deg); opacity: 0; } /* Улет в бездну */
+        }
+        .animate-fall {
+            display: block !important;
+            animation: mushroom-impact-fall 1.6s cubic-bezier(0.5, 0, 0.5, 1) forwards;
+        }
 
-/* 
-========================================
-3. ГРИБ И ГЕРОЙ
-========================================
-*/
-.container { max-width: 1100px; margin: auto; padding: 140px 20px; text-align: center; position: relative; z-index: 10; }
+        /* 
+        ========================================
+        3. НАВИГАЦИЯ
+        ========================================
+        */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            background: rgba(5,15,10,0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 500;
+            border-bottom: 1px solid rgba(127,191,162,0.1);
+        }
+        nav ul {
+            display: flex; justify-content: center;
+            gap: clamp(10px, 4vw, 35px);
+            list-style: none; padding: 18px; margin: 0;
+        }
+        nav a {
+            color: #cfe6dc;
+            text-decoration: none;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: 0.3s;
+            opacity: 0.8;
+        }
+        nav a:hover { opacity: 1; color: var(--accent); text-shadow: 0 0 10px var(--accent); }
 
-.mushroom-box {
-  position: relative; width: 200px; height: 260px;
-  margin: 40px auto; z-index: 50; transition: opacity 0.5s;
-}
-.cap { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 200px; height: 110px; background: radial-gradient(circle at 50% 30%, #ff5a5a, #8b0d0d); border-radius: 100px 100px 70px 70px; box-shadow: 0 0 80px rgba(255,80,80,0.5); }
-.cap::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 20% 40%, #fff 6px, transparent 7px), radial-gradient(circle at 75% 35%, #fff 6px, transparent 7px); opacity: 0.9; }
-.stem { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 70px; height: 160px; background: linear-gradient(180deg, #f4f1e8, #cfc7b8); border-radius: 40px; }
+        /* 
+        ========================================
+        4. ГЕРОЙ-СЕКЦИЯ (HERO)
+        ========================================
+        */
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 140px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
 
-.floating { animation: float-anim 7s ease-in-out infinite; }
-@keyframes float-anim { 50% { transform: translateY(-25px); } }
+        /* Боксы для грибов */
+        .mushroom-box {
+            position: relative;
+            width: 200px; height: 260px;
+            margin: 40px auto;
+            z-index: 50;
+        }
+        .cap {
+            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 200px; height: 110px;
+            background: radial-gradient(circle at 50% 30%, #ff5a5a, #8b0d0d);
+            border-radius: 100px 100px 70px 70px;
+            box-shadow: 0 0 100px rgba(255,80,80,0.5);
+        }
+        .cap::before {
+            content: ""; position: absolute; inset: 0;
+            background: radial-gradient(circle at 20% 40%, #fff 7px, transparent 8px),
+                        radial-gradient(circle at 75% 35%, #fff 6px, transparent 7px);
+            opacity: 0.9;
+        }
+        .stem {
+            position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 70px; height: 160px;
+            background: linear-gradient(180deg, #f4f1e8, #cfc7b8);
+            border-radius: 40px;
+        }
 
-/* Призрачный гриб, который будет падать */
-#falling-mushroom-element {
-  position: fixed; left: 50%; top: 0; z-index: 1000; display: none;
-}
+        /* Плавающий гриб */
+        .floating { animation: float-anim 7s ease-in-out infinite; transition: opacity 0.5s; }
+        @keyframes float-anim { 50% { transform: translateY(-30px); } }
 
-/* 
-========================================
-4. БЛОК СТОЛКНОВЕНИЯ (РУКОПОЖАТИЕ СКАЛ)
-========================================
-*/
-.impact-section { margin-top: 250px; position: relative; }
+        /* Падающий гриб (фиксирован) */
+        #falling-mushroom {
+            position: fixed;
+            left: 50%; top: 0;
+            z-index: 2000;
+            display: none;
+            pointer-events: none;
+        }
 
-.collision-wrapper {
-  display: flex; justify-content: center; align-items: stretch;
-  perspective: 2000px; position: relative; padding: 60px 0; gap: 0;
-}
+        h1 { font-size: clamp(38px, 10vw, 80px); letter-spacing: 6px; margin-bottom: 10px; color: #fff; }
+        .hero-p { font-size: clamp(16px, 3vw, 22px); color: var(--text-dim); max-width: 800px; margin: 0 auto 40px; }
 
-.rock {
-  width: 50%; padding: 50px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 2px solid rgba(127,191,162,0.3);
-  backdrop-filter: blur(20px); opacity: 0;
-  transition: transform 0.8s cubic-bezier(0.17, 0.89, 0.32, 1.3), opacity 0.5s;
-}
+        .btn-cta {
+            display: inline-block;
+            padding: 20px 50px;
+            border: 1px solid var(--accent);
+            color: #fff;
+            border-radius: 60px;
+            background: rgba(127,191,162,0.05);
+            cursor: pointer;
+            transition: 0.4s;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 0 20px rgba(127,191,162,0.2);
+        }
+        .btn-cta:hover {
+            background: var(--accent);
+            color: #000;
+            box-shadow: 0 0 50px var(--accent);
+            transform: scale(1.05);
+        }
 
-.rock-left {
-  border-radius: 30px 0 0 30px; border-right: none;
-  transform: translateX(-150%) rotateY(45deg);
-}
-.rock-right {
-  border-radius: 0 30px 30px 0; border-left: none;
-  transform: translateX(150%) rotateY(-45deg);
-}
+        /* 
+        ========================================
+        5. СЕКЦИИ И СЕТКИ (REVEAL)
+        ========================================
+        */
+        section { margin-top: 200px; position: relative; }
 
-/* Состояние при ударе */
-.active-impact .rock-left, .active-impact .rock-right {
-  opacity: 1; transform: translateX(0) rotateY(0);
-}
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1.2s cubic-bezier(0.2, 0.6, 0.2, 1);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
-/* Линия разлома/энергии */
-.impact-line {
-  position: absolute; left: 50%; top: 0; bottom: 0;
-  width: 4px; background: #7fbfa2; z-index: 10;
-  box-shadow: 0 0 40px #7fbfa2, 0 0 80px #7fbfa2;
-  opacity: 0; transform: scaleY(0); transition: 0.4s;
-}
-.active-impact .impact-line {
-  opacity: 1; transform: scaleY(1); transition-delay: 0.7s;
-}
+        h2 { font-size: clamp(30px, 5vw, 42px); margin-bottom: 60px; color: #8eb387; letter-spacing: 2px; }
 
-/* 
-========================================
-5. КАТАЛОГ И СЕТКИ
-========================================
-*/
-section { margin-top: 180px; }
-.reveal { opacity: 0; transform: translateY(50px); transition: 1.2s cubic-bezier(0.2, 0.6, 0.2, 1); }
-.reveal.active { opacity: 1; transform: translateY(0); }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
 
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 50px; }
-.card-pro {
-  padding: 40px; border-radius: 25px;
-  background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(127,191,162,0.2);
-  backdrop-filter: blur(10px); transition: 0.4s;
-}
-.card-pro:hover { transform: translateY(-10px); border-color: #7fbfa2; }
+        .card {
+            padding: 45px 30px;
+            border-radius: 24px;
+            background: var(--card-bg);
+            border: 1px solid rgba(127,191,162,0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: var(--transition);
+        }
+        .card:hover {
+            transform: translateY(-15px);
+            border-color: var(--accent);
+            background: rgba(127,191,162,0.08);
+        }
 
-/* КАТАЛОГ */
-.catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 50px; }
-.product-card {
-  position: relative; padding: 30px; border-radius: 25px; text-align: left;
-  background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(127,191,162,0.15);
-  transition: 0.4s; min-height: 250px; display: flex; flex-direction: column; cursor: pointer;
-}
-.product-card:hover { border-color: #7fbfa2; background: rgba(127,191,162,0.06); transform: translateY(-10px); }
-.badge { position: absolute; top: 15px; right: 15px; padding: 5px 12px; background: #7fbfa2; color: #000; font-size: 11px; font-weight: bold; border-radius: 50px; }
-.price { font-size: 20px; font-weight: bold; margin-top: auto; color: #fff; }
-.price span { font-size: 14px; text-decoration: line-through; opacity: 0.4; margin-right: 10px; }
+        .icon-round {
+            width: 65px; height: 65px; margin: 0 auto 25px;
+            border-radius: 50%; border: 1px solid var(--accent);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; color: var(--accent);
+            box-shadow: 0 0 20px rgba(127,191,162,0.2);
+        }
 
-/* 
-========================================
-6. ПОРТАЛ И ПРОЧЕЕ
-========================================
-*/
-nav { position: fixed; top: 0; width: 100%; background: rgba(5,15,10,0.9); backdrop-filter: blur(15px); z-index: 150; border-bottom: 1px solid rgba(127,191,162,0.1); }
-nav ul { display: flex; justify-content: center; gap: 30px; list-style: none; padding: 18px; margin: 0; }
-nav a { color: #cfe6dc; text-decoration: none; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
+        /* 
+        ========================================
+        6. СТОЛКНОВЕНИЕ СКАЛ (IMPACT ZONE)
+        ========================================
+        */
+        .collision-container {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            perspective: 2000px;
+            position: relative;
+            padding: 60px 0;
+            gap: 0;
+        }
 
-.portal { position: fixed; inset: 0; background: #000; display: flex; align-items: center; justify-content: center; flex-direction: column; opacity: 0; pointer-events: none; transition: 0.8s; z-index: 1000; }
-.portal.active { opacity: 1; pointer-events: all; }
-.portal-circle { width: 150px; height: 150px; border-radius: 50%; border: 2px solid #7fbfa2; animation: portal-p 1.5s infinite; }
-@keyframes portal-p { 0% { transform: scale(0.8); opacity: 0.5; } 100% { transform: scale(1.5); box-shadow: 0 0 100px #7fbfa2; opacity: 0; } }
+        .mountain {
+            width: 50%;
+            padding: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(127,191,162,0.3);
+            backdrop-filter: blur(20px);
+            opacity: 0;
+            transition: transform 0.8s cubic-bezier(0.17, 0.89, 0.32, 1.3), opacity 0.5s;
+        }
 
-/* Мобилки */
-@media (max-width: 768px) {
-  .rock { width: 100%; border-radius: 25px; margin-bottom: 20px; transform: translateX(0) !important; opacity: 1; }
-  .collision-wrapper { flex-direction: column; }
-  .impact-line { display: none; }
-}
-</style>
+        .mountain-left {
+            border-radius: 35px 0 0 35px;
+            transform: translateX(-160%) rotateY(45deg);
+            border-right: none;
+        }
+        .mountain-right {
+            border-radius: 0 35px 35px 0;
+            transform: translateX(160%) rotateY(-45deg);
+            border-left: none;
+        }
+
+        /* Состояние активации */
+        .active-impact .mountain-left,
+        .active-impact .mountain-right {
+            opacity: 1; transform: translateX(0) rotateY(0);
+        }
+
+        .crack-glow {
+            position: absolute;
+            left: 50%; top: 0; bottom: 0;
+            width: 4px; background: var(--accent);
+            box-shadow: 0 0 40px var(--accent), 0 0 80px var(--accent);
+            z-index: 10;
+            opacity: 0; transform: scaleY(0);
+            transition: 0.4s;
+        }
+        .active-impact .crack-glow {
+            opacity: 1; transform: scaleY(1);
+            transition-delay: 0.7s;
+        }
+
+        .benefit-list {
+            text-align: left; list-style: none; padding: 0; margin: 20px 0 0;
+        }
+        .benefit-list li {
+            margin-bottom: 15px; display: flex; gap: 12px; font-size: 16px; color: var(--text-dim);
+        }
+        .benefit-list li span { color: var(--accent); font-weight: bold; }
+
+        /* 
+        ========================================
+        7. КАТАЛОГ В СТИЛЕ МУХОМОРЫЧА
+        ========================================
+        */
+        .product-card {
+            position: relative;
+            padding: 30px;
+            border-radius: 24px;
+            background: var(--card-bg);
+            border: 1px solid rgba(127,191,162,0.15);
+            transition: 0.4s;
+            text-align: left;
+            display: flex; flex-direction: column;
+            min-height: 280px;
+            cursor: pointer;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            background: rgba(127,191,162,0.06);
+        }
+
+        .badge {
+            position: absolute; top: 15px; right: 15px;
+            padding: 5px 12px; border-radius: 50px;
+            font-size: 11px; font-weight: bold; text-transform: uppercase;
+        }
+        .badge-hit { background: var(--accent); color: #000; }
+        .badge-sale { background: #ff5a5a; color: #fff; }
+
+        .p-tag { color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .p-title { font-size: 21px; font-weight: bold; margin-bottom: 15px; line-height: 1.2; flex-grow: 1; }
+        .p-price { font-size: 20px; font-weight: bold; color: #fff; }
+        .p-price span { font-size: 14px; text-decoration: line-through; opacity: 0.4; margin-right: 10px; }
+
+        /* 
+        ========================================
+        8. ПОРТАЛ И ЧАСТИЦЫ
+        ========================================
+        */
+        .portal-overlay {
+            position: fixed; inset: 0;
+            background: #000;
+            display: flex; align-items: center; justify-content: center;
+            flex-direction: column;
+            opacity: 0; pointer-events: none;
+            transition: 0.8s ease-in-out;
+            z-index: 5000;
+        }
+        .portal-overlay.active { opacity: 1; pointer-events: all; }
+
+        .portal-ring {
+            width: 160px; height: 160px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            animation: portal-ring-pulse 1.4s infinite;
+        }
+        @keyframes portal-ring-pulse {
+            0% { transform: scale(0.8); opacity: 0.4; }
+            100% { transform: scale(1.6); box-shadow: 0 0 100px var(--accent); opacity: 0; }
+        }
+
+        .spore {
+            position: fixed;
+            width: 2px; height: 2px;
+            background: rgba(200, 255, 230, 0.4);
+            border-radius: 50%;
+            animation: spore-movement 15s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+        @keyframes spore-movement {
+            from { transform: translateY(110vh) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            to { transform: translateY(-10vh) translateX(80px); opacity: 0; }
+        }
+
+        /* 
+        ========================================
+        9. МОБИЛЬНАЯ АДАПТАЦИЯ
+        ========================================
+        */
+        @media (max-width: 768px) {
+            nav ul { gap: 12px; padding: 14px 5px; }
+            nav a { font-size: 10px; }
+            
+            .container { padding-top: 100px; }
+            section { margin-top: 120px; }
+            
+            .collision-container { flex-direction: column; }
+            .mountain { width: 100%; border-radius: 25px; border: 1px solid rgba(127,191,162,0.2); margin-bottom: 20px; transform: none !important; opacity: 1 !important; }
+            .crack-glow { display: none; }
+            
+            .grid { grid-template-columns: 1fr; }
+            h1 { font-size: 34px; }
+            h2 { font-size: 28px; }
+        }
+
+        footer {
+            margin-top: 150px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 60px 20px;
+            font-size: 11px;
+            opacity: 0.5;
+            line-height: 1.8;
+        }
+    </style>
 </head>
-<body id="body-wrap">
+<body id="master-body">
 
-<div id="progress-bar"></div>
-<div class="bg-fix"></div>
+    <div id="progress-bar"></div>
+    <div class="bg-fix"></div>
 
-<!-- Падающий гриб -->
-<div id="falling-mushroom-element" class="mushroom-box">
-  <div class="cap"></div>
-  <div class="stem"></div>
-</div>
-
-<nav>
-  <ul>
-    <li><a href="#home">Главная</a></li>
-    <li><a href="#catalog">Каталог</a></li>
-    <li><a href="#impact">Сила</a></li>
-    <li><a href="#reviews">Отзывы</a></li>
-  </ul>
-</nav>
-
-<div class="container" id="home">
-  <!-- Гриб на главной -->
-  <div class="mushroom-box floating" id="hero-mushroom">
-    <div class="cap"></div>
-    <div class="stem"></div>
-  </div>
-  
-  <h1 class="reveal">Forest Magic</h1>
-  <p class="reveal" style="font-size: 20px; color: #adc9bd;">Глубинный микродозинг из сердца Алтайской тайги.</p>
-  <div class="btn reveal" style="display:inline-block; margin-top: 30px; border: 1px solid #7fbfa2; padding: 15px 40px; border-radius: 50px; cursor: pointer;" onclick="portalTelegram()">Открыть Бот</div>
-
-  <!-- Блок: Эффекты -->
-  <section id="effects" class="reveal">
-    <h2>6 Граней Силы</h2>
-    <div class="grid">
-      <div class="card-pro">☽ Глубокий сон</div>
-      <div class="card-pro">✦ Без привычек</div>
-      <div class="card-pro">◉ Стойкость</div>
-      <div class="card-pro">❍ Баланс</div>
-      <div class="card-pro">✧ Ясность</div>
-      <div class="card-pro">◈ Тишина</div>
+    <!-- Теневой гриб для падения -->
+    <div id="falling-mushroom" class="mushroom-box">
+        <div class="cap"></div>
+        <div class="stem"></div>
     </div>
-  </section>
 
-  <!-- БЛОК СТОЛКНОВЕНИЯ (РУКОПОЖАТИЕ) -->
-  <section class="impact-section" id="impact">
-    <h2 class="reveal">Слияние Духа и Тела</h2>
-    <div class="collision-wrapper" id="impact-trigger">
-      <div class="impact-line"></div>
-      
-      <div class="rock rock-left">
-        <h3>Ментальное</h3>
-        <p>✦ Ясность ума<br>✦ Остановка диалога<br>✦ Творческий поток<br>✦ Уверенность</p>
-      </div>
+    <!-- Навигация -->
+    <nav>
+        <ul>
+            <li><a href="#home">Главная</a></li>
+            <li><a href="#effects">Эффекты</a></li>
+            <li><a href="#catalog">Каталог</a></li>
+            <li><a href="#trust">Качество</a></li>
+            <li><a href="#reviews">Отзывы</a></li>
+        </ul>
+    </nav>
 
-      <div class="rock rock-right">
-        <h3>Физическое</h3>
-        <p>✦ Тонус тела<br>✦ Энергия Алтая<br>✦ Здоровый сон<br>✦ Легкость</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- КАТАЛОГ -->
-  <section id="catalog" class="reveal">
-    <h2>Витрина Леса</h2>
-    <div class="catalog-grid">
-      <div class="product-card" onclick="portalTelegram()">
-        <span class="badge">Хит</span>
-        <strong>Красный мухомор</strong>
-        <p style="font-size: 13px; opacity: 0.7;">Цельные шляпки ручного сбора</p>
-        <div class="price"><span>1 990 ₽</span> 1 590 ₽</div>
-      </div>
-      <div class="product-card" onclick="portalTelegram()">
-        <span class="badge" style="background:#ff5a5a">Акция</span>
-        <strong>Пантерный мухомор</strong>
-        <p style="font-size: 13px; opacity: 0.7;">Мощный экстракт 10:1</p>
-        <div class="price"><span>4 200 ₽</span> 3 450 ₽</div>
-      </div>
-      <div class="product-card" onclick="portalTelegram()">
-        <strong>Микродозинг</strong>
-        <p style="font-size: 13px; opacity: 0.7;">60 капсул для курса 30 дней</p>
-        <div class="price">2 300 ₽</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ОТЗЫВЫ -->
-  <section id="reviews" class="reveal">
-    <h2>Голоса</h2>
-    <div class="grid">
-      <div class="card-pro">«Сон наладился через неделю. Такого покоя я не чувствовал давно.»</div>
-      <div class="card-pro">«Пантерный дает нереальный фокус. Работа летит.»</div>
-    </div>
-  </section>
-
-  <footer style="margin-top: 150px; opacity: 0.4; font-size: 12px; padding-bottom: 50px;">
-    FOREST MAGIC © 2025. НЕ ЯВЛЯЕТСЯ ЛЕКАРСТВОМ. 18+
-  </footer>
-</div>
-
-<!-- Портал -->
-<div class="portal" id="portal-wrap">
-  <div class="portal-circle"></div>
-  <p style="margin-top: 30px; letter-spacing: 4px;">ПЕРЕХОД...</p>
-</div>
-
-<script>
-// Наблюдатель скролла
-const revealObs = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) entry.target.classList.add('active');
-  });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
-
-// ЛОГИКА УДАРА И ПАДЕНИЯ ГРИБА
-const impactTrigger = document.getElementById('impact-trigger');
-const heroMush = document.getElementById('hero-mushroom');
-const fallingMush = document.getElementById('falling-mushroom-element');
-const bodyWrap = document.getElementById('body-wrap');
-
-let impactHappened = false;
-
-const impactObs = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting && !impactHappened) {
-      impactHappened = true;
-      entry.target.classList.add('active-impact');
-      
-      // Момент удара скал (через 0.7-0.8 сек)
-      setTimeout(() => {
-        // 1. Тряска экрана
-        bodyWrap.classList.add('shake-active');
-        // 2. Световая вспышка
-        bodyWrap.classList.add('flash-active');
+    <div class="container" id="home">
+        <!-- Гриб на главном экране -->
+        <div class="mushroom-box floating" id="hero-mushroom">
+            <div class="cap"></div>
+            <div class="stem"></div>
+        </div>
         
-        // 3. Гриб на главной исчезает
-        heroMush.style.opacity = '0';
-        
-        // 4. Падающий гриб летит из темноты сверху
-        fallingMush.classList.add('animate-mushroom-fall');
-        
-        setTimeout(() => {
-          bodyWrap.classList.remove('shake-active');
-          bodyWrap.classList.remove('flash-active');
-        }, 600);
-      }, 750);
-    }
-  });
-}, { threshold: 0.5 });
-impactObs.observe(impactTrigger);
+        <h1 class="reveal">Forest Magic</h1>
+        <p class="hero-p reveal">Премиальный Алтайский микродозинг. Путь к внутренней тишине через чистоту дикой природы.</p>
+        <div class="btn-cta reveal" onclick="openPortal('https://t.me/Altai_Amanita_bot')">Открыть Telegram-Бот</div>
 
-// Прогресс-бар
-window.onscroll = () => {
-  let scroll = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-  document.getElementById("progress-bar").style.width = scroll + "%";
-};
+        <!-- Блок: 6 Граней Силы -->
+        <section id="effects" class="reveal">
+            <h2>Природный Союзник</h2>
+            <div class="grid">
+                <div class="card">
+                    <div class="icon-round">☽</div>
+                    <strong>Глубокий Сон</strong>
+                    <p style="font-size: 14px; opacity: 0.7; margin-top: 10px;">Полная регенерация психики и тела за ночь.</p>
+                </div>
+                <div class="card">
+                    <div class="icon-round">✦</div>
+                    <strong>Без Привычек</strong>
+                    <p style="font-size: 14px; opacity: 0.7; margin-top: 10px;">Мягкое освобождение от деструктивных зависимостей.</p>
+                </div>
+                <div class="card">
+                    <div class="icon-round">◉</div>
+                    <strong>Стойкость</strong>
+                    <p style="font-size: 14px; opacity: 0.7; margin-top: 10px;">Абсолютное спокойствие в океане стресса.</p>
+                </div>
+                <div class="card">
+                    <div class="icon-round">❍</div>
+                    <strong>Баланс</strong>
+                    <p style="font-size: 14px; opacity: 0.7; margin-top: 10px;">Синхронизация работы полушарий и фокус.</p>
+                </div>
+                <div class="card">
+                    <div class="icon-round">✧</div>
+                    <strong>Ясность</strong>
+                    <p style="font-size: 14px; opacity: 0.7; margin-top: 10px;">Чистый разум без ментального тумана.</p>
+                </div>
+                <div class="card">
+                    <div class="icon-round">◈</div>
+                    <strong>Тишина</strong>
+                    <p style="font-size: 14px; opacity: 0.7; margin-top: 10px;">Остановка навязчивого внутреннего диалога.</p>
+                </div>
+            </div>
+        </section>
 
-// Портал
-function portalTelegram() {
-  const p = document.getElementById('portal-wrap');
-  p.classList.add('active');
-  setTimeout(() => {
-    window.open('https://t.me/Altai_Amanita_bot', '_blank');
-    setTimeout(() => p.classList.remove('active'), 1000);
-  }, 1200);
-}
+        <!-- БЛОК УДАРА: СТОЛКНОВЕНИЕ СКАЛ -->
+        <section id="deep-impact">
+            <h2 class="reveal">Слияние Двух Миров</h2>
+            <div class="collision-container" id="impact-trigger">
+                <div class="crack-glow"></div>
+                
+                <!-- Психология -->
+                <div class="mountain mountain-left">
+                    <h3>Ментальный План</h3>
+                    <ul class="benefit-list">
+                        <li><span>✦</span> <strong>Фокус:</strong> Резкое повышение обучаемости.</li>
+                        <li><span>✦</span> <strong>Свобода:</strong> Отказ от курения и алкоголя.</li>
+                        <li><span>✦</span> <strong>Покой:</strong> Избавление от тревожных мыслей.</li>
+                        <li><span>✦</span> <strong>Творчество:</strong> Поток новых идей и решений.</li>
+                    </ul>
+                </div>
 
-// Споры
-for(let i=0; i<30; i++) {
-  let s = document.createElement('div');
-  s.style.cssText = `position:fixed; width:2px; height:2px; background:rgba(200,255,230,0.4); border-radius:50%; left:${Math.random()*100}vw; top:110vh; z-index:-1; pointer-events:none;`;
-  document.body.appendChild(s);
-  s.animate([{transform: 'translateY(0)'}, {transform: 'translateY(-120vh)'}], {
-    duration: Math.random() * 5000 + 10000,
-    iterations: Infinity,
-    delay: Math.random() * 10000
-  });
-}
-</script>
+                <!-- Физиология -->
+                <div class="mountain mountain-right">
+                    <h3>Физический План</h3>
+                    <ul class="benefit-list">
+                        <li><span>✦</span> <strong>Тонус:</strong> Энергия без "откатов" и кофеина.</li>
+                        <li><span>✦</span> <strong>Сон:</strong> Быстрое засыпание и яркие сновидения.</li>
+                        <li><span>✦</span> <strong>Либидо:</strong> Поддержка витальной силы организма.</li>
+                        <li><span>✦</span> <strong>Мышцы:</strong> Снятие хронических зажимов и болей.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
+        <!-- КАТАЛОГ (Мухоморыч Style) -->
+        <section id="catalog" class="reveal">
+            <h2>Дары Глубокого Леса</h2>
+            <div class="grid">
+                <!-- Товар 1 -->
+                <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
+                    <span class="badge badge-hit">Хит</span>
+                    <span class="p-tag">Ручной Сбор</span>
+                    <div class="p-title">Красный Мухомор<br>(Цельные шляпки)</div>
+                    <div class="p-price"><span>2 100 ₽</span> от 1 590 ₽</div>
+                </div>
+                <!-- Товар 2 -->
+                <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
+                    <span class="badge badge-sale">Скидка -20%</span>
+                    <span class="p-tag">Мощный Фокус</span>
+                    <div class="p-title">Пантерный Мухомор<br>(Экстракт 10:1)</div>
+                    <div class="p-price"><span>4 400 ₽</span> 3 490 ₽</div>
+                </div>
+                <!-- Товар 3 -->
+                <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
+                    <span class="p-tag">Курс 30 дней</span>
+                    <div class="p-title">Микродозинг Mix<br>(60 капсул)</div>
+                    <div class="p-price">2 250 ₽</div>
+                </div>
+                <!-- Товар 4 -->
+                <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
+                    <span class="badge badge-hit">New</span>
+                    <span class="p-tag">Глубокий Сон</span>
+                    <div class="p-title">Сбор «Лесная Тишина»<br>(Травы + Грибы)</div>
+                    <div class="p-price">1 890 ₽</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- БЛОК ДОВЕРИЯ -->
+        <section id="trust" class="reveal">
+            <h2>Наши Гарантии</h2>
+            <div class="grid">
+                <div class="card">
+                    <div class="icon-round">🏔</div>
+                    <h3>Дикий Алтай</h3>
+                    <p style="font-size: 14px; opacity: 0.8;">Сбор только в экологически чистых районах Алтайского края.</p>
+                </div>
+                <div class="card">
+                    <div class="icon-round">🧪</div>
+                    <h3>Технология</h3>
+                    <p style="font-size: 14px; opacity: 0.8;">Правильная сушка при 35-40°C. Лабораторный контроль.</p>
+                </div>
+                <div class="card">
+                    <div class="icon-round">📦</div>
+                    <h3>Анонимность</h3>
+                    <p style="font-size: 14px; opacity: 0.8;">Нейтральная упаковка без логотипов. Ваша тайна в безопасности.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ОТЗЫВЫ -->
+        <section id="reviews" class="reveal">
+            <h2>Отзывы Проводников</h2>
+            <div class="grid">
+                <div class="card" style="text-align: left;">
+                    <p style="font-style: italic;">«Работаю программистом, пантерный экстракт помог выключить шум в голове и сосредоточиться на коде. Качество Алтая чувствуется сразу.»</p>
+                    <strong style="color: var(--accent);">— Алексей, 29 лет</strong>
+                </div>
+                <div class="card" style="text-align: left;">
+                    <p style="font-style: italic;">«Наладила сон после двух лет бессонницы. Стала намного спокойнее реагировать на жизненные трудности. Благодарю!»</p>
+                    <strong style="color: var(--accent);">— Елена, 34 года</strong>
+                </div>
+            </div>
+            <div class="btn-cta" style="margin-top: 50px;" onclick="openPortal('https://t.me/REVIEWS_ForestMagic')">Больше отзывов в Telegram</div>
+        </section>
+
+        <footer>
+            <strong>FOREST MAGIC © 2025. ДАРЫ ГОРНОГО АЛТАЯ.</strong><br><br>
+            Вся информация на сайте носит ознакомительный характер. Мы не призываем к самолечению. <br>
+            Продукция не является лекарственным средством или БАД. <br>
+            Продажа строго 18+. Соблюдайте культуру употребления.
+        </footer>
+    </div>
+
+    <!-- Портал перехода -->
+    <div class="portal-overlay" id="portal-ui">
+        <div class="portal-ring"></div>
+        <p style="margin-top: 30px; letter-spacing: 5px; color: var(--accent); font-size: 12px;">СОЕДИНЕНИЕ С ЛЕСОМ...</p>
+    </div>
+
+    <script>
+        /* 1. ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ */
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        /* 2. ЛОГИКА УДАРА (IMPACT) И ПАДЕНИЯ ГРИБА */
+        const impactTrigger = document.getElementById('impact-trigger');
+        const heroMushroom = document.getElementById('hero-mushroom');
+        const fallingMushroom = document.getElementById('falling-mushroom');
+        const bodyElement = document.getElementById('master-body');
+
+        let impactTriggered = false;
+
+        const impactObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !impactTriggered) {
+                    impactTriggered = true;
+                    entry.target.classList.add('active-impact');
+                    
+                    // Момент столкновения (0.7-0.8 сек)
+                    setTimeout(() => {
+                        // Эффекты встряски и вспышки
+                        bodyElement.classList.add('shake-active');
+                        bodyElement.classList.add('flash-active');
+                        
+                        // "Уничтожение" гриба на главной и запуск падающего
+                        heroMushroom.style.opacity = '0';
+                        fallingMushroom.classList.add('animate-fall');
+                        
+                        // Удаление классов после анимации
+                        setTimeout(() => {
+                            bodyElement.classList.remove('shake-active');
+                            bodyElement.classList.remove('flash-active');
+                        }, 600);
+                    }, 750);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        impactObserver.observe(impactTrigger);
+
+        /* 3. ПРОГРЕСС-БАР И СКРОЛЛ */
+        window.onscroll = () => {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+        };
+
+        /* 4. ФУНКЦИЯ ПОРТАЛА */
+        function openPortal(url) {
+            const portal = document.getElementById('portal-ui');
+            portal.classList.add('active');
+            setTimeout(() => {
+                window.open(url, '_blank');
+                setTimeout(() => portal.classList.remove('active'), 1000);
+            }, 1200);
+        }
+
+        /* 5. ГЕНЕРАЦИЯ ЧАСТИЦ (СПОРЫ) */
+        function createParticles() {
+            for(let i = 0; i < 40; i++) {
+                let spore = document.createElement('div');
+                spore.className = 'spore';
+                spore.style.left = Math.random() * 100 + 'vw';
+                spore.style.animationDuration = (Math.random() * 8 + 10) + 's';
+                spore.style.animationDelay = Math.random() * 15 + 's';
+                spore.style.opacity = Math.random() * 0.6;
+                document.body.appendChild(spore);
+            }
+        }
+        createParticles();
+    </script>
 </body>
 </html>
