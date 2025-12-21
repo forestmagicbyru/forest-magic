@@ -61,7 +61,7 @@ nav a:hover { color: #7fbfa2; text-shadow: 0 0 10px #7fbfa2; }
   position: relative; z-index: 3;
 }
 
-/* АНИМАЦИЯ ПОЯВЛЕНИЯ ПРИ СКРОЛЛЕ (Reveal) */
+/* АНИМАЦИЯ ПОЯВЛЕНИЯ ПРИ СКРОЛЛЕ */
 .reveal {
   opacity: 0;
   transform: translateY(40px);
@@ -72,10 +72,12 @@ nav a:hover { color: #7fbfa2; text-shadow: 0 0 10px #7fbfa2; }
   transform: translateY(0);
 }
 
-section { margin-top: 200px; position: relative; }
+section { margin-top: 180px; position: relative; }
 
 h1 { font-size: clamp(32px, 8vw, 64px); letter-spacing: 5px; margin-bottom: 10px; }
 h2 { font-size: 38px; margin-bottom: 40px; color: #8eb387; }
+h3 { color: #7fbfa2; margin-bottom: 20px; letter-spacing: 1px; }
+
 p { max-width: 700px; margin: 20px auto; color: #adc9bd; line-height: 1.8; font-size: 18px; }
 
 /* ГРИБ-СИМВОЛ */
@@ -101,19 +103,27 @@ p { max-width: 700px; margin: 20px auto; color: #adc9bd; line-height: 1.8; font-
   width: 70px; height: 160px;
   background: linear-gradient(180deg, #f4f1e8, #cfc7b8); border-radius: 40px;
 }
-
-/* Анимированная стрелка вниз */
-.scroll-down {
-  margin-top: 50px; font-size: 30px; color: #7fbfa2;
-  animation: bounce 2s infinite; cursor: pointer;
-}
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-  40% {transform: translateY(-10px);}
-  60% {transform: translateY(-5px);}
-}
-
 @keyframes float { 50% { transform: translateY(-20px); } }
+
+/* Списки эффектов */
+.benefit-list {
+  text-align: left;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.benefit-list li {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 16px;
+  color: #cddfd7;
+}
+.benefit-list li span {
+  color: #7fbfa2;
+  text-shadow: 0 0 8px #7fbfa2;
+}
 
 /* КНОПКИ */
 .btn {
@@ -121,16 +131,15 @@ p { max-width: 700px; margin: 20px auto; color: #adc9bd; line-height: 1.8; font-
   border: 1px solid #7fbfa2; color: #fff; border-radius: 50px;
   background: rgba(127,191,162,0.05); cursor: pointer;
   transition: 0.4s; text-transform: uppercase; letter-spacing: 2px;
-  box-shadow: 0 0 20px rgba(127,191,162,0.2);
 }
 .btn:hover {
   background: #7fbfa2; color: #020403;
   box-shadow: 0 0 40px #7fbfa2; transform: scale(1.05);
 }
 
-/* КАРТОЧКИ И ТОВАРЫ */
+/* КАРТОЧКИ */
 .grid, .catalog {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 30px; margin-top: 60px;
 }
 .card, .product {
@@ -138,22 +147,19 @@ p { max-width: 700px; margin: 20px auto; color: #adc9bd; line-height: 1.8; font-
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(127,191,162,0.15);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  transition: 0.5s cubic-bezier(0.2, 0.6, 0.2, 1);
+  transition: 0.5s;
 }
-.product { aspect-ratio: 1/1; display: flex; align-items: flex-end; justify-content: center; }
-
 .card:hover, .product:hover {
   background: rgba(127,191,162,0.08);
   border-color: #7fbfa2;
-  transform: translateY(-15px) scale(1.02);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 20px rgba(127,191,162,0.2);
+  transform: translateY(-10px);
 }
 
 .icon {
   width: 60px; height: 60px; margin: 0 auto 25px;
   border-radius: 50%; border: 1px solid #7fbfa2;
   display: flex; align-items: center; justify-content: center;
-  font-size: 24px; color: #7fbfa2; box-shadow: 0 0 20px rgba(127,191,162,0.3);
+  font-size: 24px; color: #7fbfa2;
 }
 
 /* СПОРЫ */
@@ -163,8 +169,8 @@ p { max-width: 700px; margin: 20px auto; color: #adc9bd; line-height: 1.8; font-
   animation: spore 14s linear infinite; z-index: 1; pointer-events: none;
 }
 @keyframes spore {
-  from { transform: translateY(110vh) translateX(0); opacity: 0; }
-  to { transform: translateY(-10vh) translateX(50px); opacity: 1; }
+  from { transform: translateY(110vh); opacity: 0; }
+  to { transform: translateY(-10vh); opacity: 1; }
 }
 
 /* ПОРТАЛ */
@@ -175,18 +181,9 @@ p { max-width: 700px; margin: 20px auto; color: #adc9bd; line-height: 1.8; font-
   transition: 0.8s; z-index: 999;
 }
 .portal.active { opacity: 1; pointer-events: all; }
-.portal-circle {
-  width: 200px; height: 200px; border-radius: 50%;
-  border: 2px solid #7fbfa2; animation: portalPulse 1.5s infinite;
-}
-@keyframes portalPulse {
-  0% { transform: scale(0.8); box-shadow: 0 0 0 #7fbfa2; opacity: 0.5; }
-  100% { transform: scale(1.5); box-shadow: 0 0 100px #7fbfa2; opacity: 0; }
-}
 
 /* Мобилки */
 @media (max-width: 768px) {
-  h1 { font-size: 38px; }
   section { margin-top: 100px; }
   .grid, .catalog { grid-template-columns: 1fr; }
 }
@@ -214,15 +211,44 @@ p { max-width: 700px; margin: 20px auto; color: #adc9bd; line-height: 1.8; font-
   <h1 class="reveal">Forest Magic</h1>
   <p class="reveal">Осознанный проект из глубины Алтая. Лес. Тишина. Личный опыт.</p>
   <div class="btn reveal" onclick="portalTelegram()">В Telegram-бот</div>
-  <div class="scroll-down" onclick="document.getElementById('effects').scrollIntoView()">↓</div>
 
+  <!-- Блок 1: Краткие эффекты -->
   <section id="effects" class="reveal">
-    <h2>Мухомор — природный союзник</h2>
+    <h2>Природный союзник</h2>
     <div class="grid">
-      <div class="card"><div class="icon">☽</div>Глубокое расслабление и восстановление сна</div>
-      <div class="card"><div class="icon">✦</div>Снижение тяги к привычкам</div>
-      <div class="card"><div class="icon">◉</div>Устойчивость к стрессу</div>
-      <div class="card"><div class="icon">❍</div>Внутреннее равновесие</div>
+      <div class="card"><div class="icon">☽</div>Глубокое расслабление и сон</div>
+      <div class="card"><div class="icon">✦</div>Освобождение от привычек</div>
+      <div class="card"><div class="icon">◉</div>Психологическая устойчивость</div>
+      <div class="card"><div class="icon">❍</div>Внутренний баланс</div>
+    </div>
+  </section>
+
+  <!-- НОВЫЙ БЛОК: Глубокое действие (как у Мухоморыча) -->
+  <section id="deep-effects" class="reveal">
+    <h2>Две стороны воздействия</h2>
+    <div class="grid">
+      <!-- Психология -->
+      <div class="card">
+        <h3>Ментальное здоровье</h3>
+        <ul class="benefit-list">
+          <li><span>✦</span> <strong>Ясность ума:</strong> Улучшение памяти и когнитивной гибкости.</li>
+          <li><span>✦</span> <strong>Свобода:</strong> Мягкий отказ от курения, алкоголя и других зависимостей.</li>
+          <li><span>✦</span> <strong>Тишина:</strong> Прекращение утомительного «внутреннего диалога».</li>
+          <li><span>✦</span> <strong>Ресурс:</strong> Стабильно позитивное настроение и вера в свои силы.</li>
+          <li><span>✦</span> <strong>Поток:</strong> Раскрытие творческого потенциала и решение сложных задач.</li>
+        </ul>
+      </div>
+      <!-- Физиология -->
+      <div class="card">
+        <h3>Физическое состояние</h3>
+        <ul class="benefit-list">
+          <li><span>✦</span> <strong>Регенерация:</strong> Восстановление фаз сна и борьба с бессонницей.</li>
+          <li><span>✦</span> <strong>Тонус:</strong> Избавление от хронической усталости и апатии.</li>
+          <li><span>✦</span> <strong>Баланс:</strong> Настройка работы всех внутренних систем организма.</li>
+          <li><span>✦</span> <strong>Витальность:</strong> Природная поддержка либидо и внутренней энергии.</li>
+          <li><span>✦</span> <strong>Легкость:</strong> Снятие мышечного напряжения и дискомфорта в теле.</li>
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -240,10 +266,9 @@ p { max-width: 700px; margin: 20px auto; color: #adc9bd; line-height: 1.8; font-
 
   <section id="reviews" class="reveal">
     <h2>Отзывы</h2>
-    <p>Люди говорят о нас:</p>
     <div class="grid">
-      <div class="card review">«Очень мягкое и глубокое состояние.»</div>
-      <div class="card review">«Спокойствие и тишина внутри.»</div>
+      <div class="card">«Очень мягкое и глубокое состояние.»</div>
+      <div class="card">«Спокойствие и тишина внутри.»</div>
     </div>
     <div class="btn" onclick="portalReviews()">Все отзывы</div>
   </section>
@@ -268,18 +293,14 @@ p { max-width: 700px; margin: 20px auto; color: #adc9bd; line-height: 1.8; font-
 </div>
 
 <script>
-// 1. Скрипт появления блоков при скролле
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('active');
-    }
+    if (entry.isIntersecting) entry.target.classList.add('active');
   });
 }, { threshold: 0.1 });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// 2. Индикатор прогресса скролла
 window.onscroll = function() {
   let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
   let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -287,7 +308,6 @@ window.onscroll = function() {
   document.getElementById("progress-bar").style.width = scrolled + "%";
 };
 
-// 3. Функции портала
 function portalTelegram(){ showPortal(()=>window.open('https://t.me/Altai_Amanita_bot','_blank')); }
 function portalReviews(){ showPortal(()=>window.open('https://t.me/REVIEWS_ForestMagic','_blank')); }
 
@@ -300,13 +320,11 @@ function showPortal(action){
   }, 1200);
 }
 
-// 4. Генерация спор
 for(let i=0;i<35;i++){
  let s=document.createElement('div');
  s.className='spore';
  s.style.left=Math.random()*100+'vw';
  s.style.animationDelay=Math.random()*15+'s';
- s.style.opacity=Math.random();
  document.body.appendChild(s);
 }
 </script>
