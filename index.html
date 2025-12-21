@@ -2,286 +2,669 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Forest Magic — Глубина Алтая</title>
+<title>Forest Magic — Глубина Алтая | Премиальный Микродозинг</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-/* 1. БАЗОВЫЕ НАСТРОЙКИ */
+/* 
+========================================
+1. ОСНОВНЫЕ СТИЛИ (RESET & BASE)
+========================================
+*/
 html { scroll-behavior: smooth; }
 body {
-  margin: 0; font-family: 'Segoe UI', Roboto, sans-serif;
-  background-color: #020403; color: #e6e6e6; overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+  background-color: #020403;
+  color: #e6e6e6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* ФОН */
+/* ФИКСИРОВАННЫЙ ФОН (Работает везде) */
 .bg-fix {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-  background: linear-gradient(180deg, rgba(6,16,12,0.9), rgba(2,4,3,0.98)), 
-              url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2000&auto=format&fit=crop');
-  background-size: cover; background-position: center;
-}
-
-#progress-bar {
-  position: fixed; top: 0; left: 0; width: 0%; height: 3px;
-  background: linear-gradient(90deg, #7fbfa2, #4a7c44); z-index: 101;
-}
-
-/* 2. МЕНЮ */
-nav {
-  position: fixed; top: 0; width: 100%; background: rgba(5,15,10,0.85);
-  backdrop-filter: blur(12px); z-index: 100; border-bottom: 1px solid rgba(127,191,162,0.1);
-}
-nav ul { display: flex; justify-content: center; gap: 30px; list-style: none; padding: 18px; margin: 0; }
-nav a { color: #cfe6dc; text-decoration: none; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
-
-.container { max-width: 1100px; margin: auto; padding: 120px 20px; text-align: center; position: relative; z-index: 3; }
-
-.reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s ease; }
-.reveal.active { opacity: 1; transform: translateY(0); }
-
-section { margin-top: 180px; position: relative; }
-h1 { font-size: clamp(32px, 8vw, 64px); letter-spacing: 5px; margin-bottom: 10px; }
-h2 { font-size: 38px; margin-bottom: 40px; color: #8eb387; }
-
-/* 3. СТИЛИ ГРИБА (Общие) */
-.mushroom-box {
-  position: relative; width: 160px; height: 220px;
-  margin: 40px auto; z-index: 10;
-}
-.cap { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 160px; height: 90px; background: radial-gradient(circle at 50% 30%, #ff5a5a, #8b0d0d); border-radius: 80px 80px 50px 50px; box-shadow: 0 0 80px rgba(255,80,80,0.4); }
-.cap::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 20% 40%, #fff 5px, transparent 6px), radial-gradient(circle at 75% 35%, #fff 6px, transparent 7px); opacity: 0.9; }
-.stem { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 50px; height: 130px; background: linear-gradient(180deg, #f4f1e8, #cfc7b8); border-radius: 30px; }
-
-/* ПЛАВАЮЩИЙ ГРИБ (на главной) */
-.floating { animation: float 7s ease-in-out infinite; transition: opacity 0.5s; }
-@keyframes float { 50% { transform: translateY(-20px); } }
-
-/* ПАДАЮЩИЙ ГРИБ (скрытый по умолчанию) */
-#falling-mushroom {
   position: fixed;
-  left: 50%;
-  margin-left: -80px; /* Половина ширины гриба для центровки */
-  top: -300px; /* Начинает глубоко в темноте над экраном */
-  z-index: 9999;
-  pointer-events: none;
-  display: none; /* Скрыт до удара */
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: -2;
+  background: linear-gradient(180deg, rgba(6,16,12,0.92) 0%, rgba(2,4,3,0.98) 100%), 
+              url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2000&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
 }
 
-/* АНИМАЦИЯ ПАДЕНИЯ */
-@keyframes smooth-fall {
-  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-  10% { opacity: 1; }
-  100% { transform: translateY(140vh) rotate(25deg); opacity: 0; }
-}
-.animate-fall {
-  display: block !important;
-  animation: smooth-fall 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+/* Полоса прогресса скролла */
+#progress-bar {
+  position: fixed;
+  top: 0; left: 0; width: 0%; height: 4px;
+  background: linear-gradient(90deg, #7fbfa2, #4a7c44, #7fbfa2);
+  z-index: 200;
+  box-shadow: 0 0 10px rgba(127,191,162,0.5);
 }
 
-/* 4. ТРЯСКА И ВСПЫШКА */
-@keyframes shake {
-  0%, 100% { transform: translate(0,0); }
-  10%, 30%, 50%, 70%, 90% { transform: translate(-10px, -10px); }
-  20%, 40%, 60%, 80% { transform: translate(10px, 10px); }
-}
-.shake-active { animation: shake 0.5s ease-in-out both; }
+/* 
+========================================
+2. АНИМАЦИИ (SHAKE, FALL, FLASH)
+========================================
+*/
 
-@keyframes flash-anim {
+/* Тряска экрана */
+@keyframes shake-impact {
+  0%, 100% { transform: translate(0, 0); }
+  10%, 30%, 50%, 70%, 90% { transform: translate(-12px, -12px); }
+  20%, 40%, 60%, 80% { transform: translate(12px, 12px); }
+}
+.shake-active { animation: shake-impact 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+
+/* Вспышка при ударе */
+@keyframes flash-impact {
   0% { background: transparent; }
-  50% { background: rgba(127,191,162,0.2); }
+  50% { background: rgba(127,191,162,0.25); }
   100% { background: transparent; }
 }
-.flash-active { animation: flash-anim 0.5s ease-out; }
+.flash-active { animation: flash-impact 0.6s ease-out; }
 
-/* 5. СТОЛКНОВЕНИЕ СКАЛ */
-.collision-wrapper { display: flex; justify-content: center; align-items: stretch; perspective: 1200px; position: relative; padding: 60px 0; }
-.mountain-card { width: 50%; padding: 40px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(127,191,162,0.2); backdrop-filter: blur(15px); opacity: 0; transition: transform 0.8s cubic-bezier(0.17, 0.89, 0.32, 1.2), opacity 0.5s; }
-.card-left { border-radius: 30px 0 0 30px; transform: translateX(-150%) rotateY(30deg); border-right: none; }
-.card-right { border-radius: 0 30px 30px 0; transform: translateX(150%) rotateY(-30deg); border-left: none; }
+/* Падение гриба из темноты */
+@keyframes mushroom-fall-path {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  15% { opacity: 1; transform: translateY(50px) rotate(-5deg); }
+  100% { transform: translateY(150vh) rotate(30deg); opacity: 0; }
+}
+.animate-mushroom-fall {
+  display: block !important;
+  animation: mushroom-fall-path 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
 
-.active-collision .card-left, .active-collision .card-right { opacity: 1; transform: translateX(0) rotateY(0); }
+/* 
+========================================
+3. НАВИГАЦИЯ
+========================================
+*/
+nav {
+  position: fixed;
+  top: 0; width: 100%;
+  background: rgba(5,15,10,0.85);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  z-index: 150;
+  border-bottom: 1px solid rgba(127,191,162,0.1);
+}
+nav ul {
+  display: flex; justify-content: center;
+  gap: clamp(15px, 4vw, 35px);
+  list-style: none; padding: 18px; margin: 0;
+}
+nav a {
+  color: #cfe6dc;
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: 0.4s;
+  opacity: 0.8;
+}
+nav a:hover { opacity: 1; color: #7fbfa2; text-shadow: 0 0 10px rgba(127,191,162,0.5); }
 
-.crack { position: absolute; left: 50%; top: 0; bottom: 0; width: 3px; background: #7fbfa2; box-shadow: 0 0 30px #7fbfa2; z-index: 5; opacity: 0; transform: scaleY(0); transition: 0.4s; }
-.active-collision .crack { opacity: 1; transform: scaleY(1); transition-delay: 0.7s; }
+/* 
+========================================
+4. ГЕРОЙ-СЕКЦИЯ И ГРИБ
+========================================
+*/
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 140px 25px;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
 
-/* КАТАЛОГ И ПРОЧЕЕ */
-.grid, .catalog { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 50px; }
-.card-simple { padding: 30px; border-radius: 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(127,191,162,0.15); backdrop-filter: blur(10px); }
-.product { position: relative; padding: 25px; border-radius: 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(127,191,162,0.15); transition: 0.4s; text-align: left; min-height: 220px; cursor: pointer; display: flex; flex-direction: column; }
-.product:hover { transform: translateY(-8px); border-color: #7fbfa2; }
-.benefit-list { text-align: left; list-style: none; padding: 0; }
-.benefit-list li { margin-bottom: 10px; display: flex; gap: 10px; font-size: 15px; }
-.btn { display: inline-block; margin-top: 30px; padding: 16px 40px; border: 1px solid #7fbfa2; color: #fff; border-radius: 50px; background: rgba(127,191,162,0.05); cursor: pointer; transition: 0.4s; text-transform: uppercase; letter-spacing: 2px; }
+.mushroom-box {
+  position: relative;
+  width: 200px; height: 260px;
+  margin: 40px auto;
+  z-index: 50;
+}
+.cap {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 200px; height: 110px;
+  background: radial-gradient(circle at 50% 30%, #ff5a5a, #8b0d0d);
+  border-radius: 100% 100% 70% 70%;
+  box-shadow: 0 0 100px rgba(255,80,80,0.5);
+}
+.cap::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at 20% 40%, #fff 7px, transparent 8px),
+              radial-gradient(circle at 75% 35%, #fff 6px, transparent 7px);
+  opacity: 0.9;
+}
+.stem {
+  position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 70px; height: 160px;
+  background: linear-gradient(180deg, #f4f1e8, #cfc7b8);
+  border-radius: 40px;
+}
 
-/* СПОРЫ И ПОРТАЛ */
-.spore { position: fixed; width: 2px; height: 2px; background: rgba(200,255,230,0.5); border-radius: 50%; animation: spore 14s linear infinite; z-index: 1; pointer-events: none; }
-@keyframes spore { from { transform: translateY(110vh); opacity: 0; } to { transform: translateY(-10vh); opacity: 1; } }
-.portal { position: fixed; inset: 0; background: #000; display: flex; align-items: center; justify-content: center; flex-direction: column; opacity: 0; pointer-events: none; transition: 0.8s; z-index: 999; }
-.portal.active { opacity: 1; pointer-events: all; }
+.floating { animation: float-anim 7s ease-in-out infinite; transition: opacity 0.6s ease; }
+@keyframes float-anim { 50% { transform: translateY(-25px); } }
 
+#falling-mushroom-element {
+  position: fixed;
+  left: 50%; top: -350px;
+  margin-left: -100px;
+  z-index: 1000;
+  pointer-events: none;
+  display: none;
+}
+
+h1 { font-size: clamp(40px, 10vw, 85px); letter-spacing: 8px; margin-bottom: 20px; color: #fff; text-shadow: 0 0 30px rgba(255,255,255,0.1); }
+.hero-p { font-size: clamp(18px, 3vw, 24px); max-width: 800px; margin: 0 auto 40px; color: #adc9bd; line-height: 1.6; }
+
+/* 
+========================================
+5. СЕКЦИИ И КАРТОЧКИ
+========================================
+*/
+section { margin-top: 220px; position: relative; }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: all 1.4s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+h2 { font-size: clamp(30px, 5vw, 48px); margin-bottom: 60px; color: #8eb387; letter-spacing: 3px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 35px;
+  margin-top: 60px;
+}
+
+.card-common {
+  padding: 50px 35px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(127,191,162,0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: 0.5s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+.card-common:hover {
+  transform: translateY(-15px);
+  background: rgba(127,191,162,0.08);
+  border-color: #7fbfa2;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.icon-box {
+  width: 70px; height: 70px; margin: 0 auto 30px;
+  border-radius: 50%; border: 1px solid #7fbfa2;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; color: #7fbfa2;
+  box-shadow: 0 0 25px rgba(127,191,162,0.2);
+}
+
+/* 
+========================================
+6. ЭФФЕКТ СТОЛКНОВЕНИЯ (Impact)
+========================================
+*/
+.collision-container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  perspective: 1500px;
+  position: relative;
+  padding: 80px 0;
+  gap: 0;
+}
+
+.mountain {
+  width: 50%;
+  padding: 50px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(127,191,162,0.25);
+  backdrop-filter: blur(20px);
+  opacity: 0;
+  transition: transform 1s cubic-bezier(0.17, 0.89, 0.32, 1.2), opacity 0.6s;
+}
+
+.mountain-left {
+  border-radius: 35px 0 0 35px;
+  transform: translateX(-160%) rotateY(35deg);
+  border-right: none;
+}
+.mountain-right {
+  border-radius: 0 35px 35px 0;
+  transform: translateX(160%) rotateY(-35deg);
+  border-left: none;
+}
+
+.active-collision .mountain-left, 
+.active-collision .mountain-right {
+  opacity: 1; transform: translateX(0) rotateY(0);
+}
+
+.crack-line {
+  position: absolute;
+  left: 50%; top: 0; bottom: 0;
+  width: 4px; background: #7fbfa2;
+  box-shadow: 0 0 40px #7fbfa2;
+  z-index: 10;
+  opacity: 0; transform: scaleY(0);
+  transition: 0.5s;
+}
+.active-collision .crack-line {
+  opacity: 1; transform: scaleY(1);
+  transition-delay: 0.8s;
+}
+
+.benefit-list {
+  text-align: left; list-style: none; padding: 0; margin: 20px 0 0;
+}
+.benefit-list li {
+  margin-bottom: 18px; display: flex; gap: 15px; font-size: 16px; color: #cddfd7;
+}
+.benefit-list li b { color: #7fbfa2; font-size: 18px; }
+
+/* 
+========================================
+7. КАТАЛОГ ПРО
+========================================
+*/
+.product-card {
+  position: relative;
+  padding: 35px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(127,191,162,0.15);
+  transition: 0.5s;
+  text-align: left;
+  display: flex; flex-direction: column;
+  min-height: 300px;
+  cursor: pointer;
+}
+.product-card:hover {
+  transform: translateY(-12px);
+  border-color: #7fbfa2;
+  background: rgba(127,191,162,0.06);
+}
+
+.badge {
+  position: absolute; top: 20px; right: 20px;
+  padding: 5px 15px; border-radius: 50px;
+  font-size: 12px; font-weight: bold; text-transform: uppercase;
+}
+.badge-hit { background: #7fbfa2; color: #000; }
+.badge-sale { background: #ff5a5a; color: #fff; }
+
+.p-tag { color: #7fbfa2; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+.p-title { font-size: 22px; font-weight: bold; margin-bottom: 20px; line-height: 1.3; flex-grow: 1; }
+.p-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
+.p-price { font-size: 20px; font-weight: bold; }
+.p-price span { font-size: 14px; text-decoration: line-through; opacity: 0.4; margin-right: 10px; }
+
+/* 
+========================================
+8. КНОПКИ
+========================================
+*/
+.btn-main {
+  display: inline-block;
+  padding: 20px 50px;
+  border: 1px solid #7fbfa2;
+  color: #fff;
+  border-radius: 60px;
+  background: rgba(127,191,162,0.05);
+  cursor: pointer;
+  transition: 0.4s;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: bold;
+  text-decoration: none;
+}
+.btn-main:hover {
+  background: #7fbfa2;
+  color: #020403;
+  box-shadow: 0 0 50px rgba(127,191,162,0.6);
+  transform: scale(1.05);
+}
+
+/* 
+========================================
+9. ПОРТАЛ И СПОРЫ
+========================================
+*/
+.portal-screen {
+  position: fixed; inset: 0;
+  background: #000;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  opacity: 0; pointer-events: none;
+  transition: 0.8s ease-in-out;
+  z-index: 2000;
+}
+.portal-screen.active { opacity: 1; pointer-events: all; }
+
+.portal-loader {
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  border: 2px solid #7fbfa2;
+  animation: portal-pulse 1.4s infinite;
+}
+@keyframes portal-pulse {
+  0% { transform: scale(0.8); opacity: 0.3; }
+  100% { transform: scale(1.6); box-shadow: 0 0 120px #7fbfa2; opacity: 0; }
+}
+
+.spore-particle {
+  position: fixed;
+  width: 2px; height: 2px;
+  background: rgba(200, 255, 230, 0.4);
+  border-radius: 50%;
+  animation: spore-fly 15s linear infinite;
+  z-index: -1;
+  pointer-events: none;
+}
+@keyframes spore-fly {
+  from { transform: translateY(110vh) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  to { transform: translateY(-10vh) translateX(100px); opacity: 0; }
+}
+
+/* 
+========================================
+10. МОБИЛЬНАЯ ВЕРСИЯ
+========================================
+*/
 @media (max-width: 768px) {
-  .collision-wrapper { flex-direction: column; }
-  .mountain-card { width: 100%; border-radius: 20px; margin-bottom: 20px; border: 1px solid rgba(127,191,162,0.2); }
-  .crack { display: none; }
+  nav ul { gap: 12px; padding: 14px 5px; }
+  nav a { font-size: 10px; letter-spacing: 1px; }
+  
+  .container { padding-top: 100px; }
+  section { margin-top: 120px; }
+  
+  .collision-container { flex-direction: column; }
+  .mountain { width: 100%; border-radius: 30px; border: 1px solid rgba(127,191,162,0.2); margin-bottom: 25px; }
+  .crack-line { display: none; }
+  
+  .grid { grid-template-columns: 1fr; }
+  h1 { font-size: 36px; }
+  h2 { font-size: 28px; }
 }
 </style>
 </head>
-<body id="main-body">
+<body id="master-body">
 
 <div id="progress-bar"></div>
 <div class="bg-fix"></div>
 
-<!-- ПРИЗРАЧНЫЙ ГРИБ ДЛЯ ПАДЕНИЯ -->
-<div id="falling-mushroom" class="mushroom-box">
+<!-- Падающий гриб (скрыт до столкновения) -->
+<div id="falling-mushroom-element" class="mushroom-box">
   <div class="cap"></div>
   <div class="stem"></div>
 </div>
 
 <nav>
-<ul>
-<li><a href="#home">Главная</a></li>
-<li><a href="#catalog">Каталог</a></li>
-<li><a href="#trust">Качество</a></li>
-<li><a href="#reviews">Отзывы</a></li>
-</ul>
+  <ul>
+    <li><a href="#home">Главная</a></li>
+    <li><a href="#catalog">Каталог</a></li>
+    <li><a href="#trust">Качество</a></li>
+    <li><a href="#reviews">Отзывы</a></li>
+  </ul>
 </nav>
 
 <div class="container" id="home">
-  <!-- ГРИБ НА ГЛАВНОЙ -->
-  <div class="mushroom-box floating" id="static-mushroom">
+  <!-- Основной гриб на главной -->
+  <div class="mushroom-box floating" id="hero-mushroom">
     <div class="cap"></div>
     <div class="stem"></div>
   </div>
   
   <h1 class="reveal">Forest Magic</h1>
-  <p class="reveal">Алтайский микродозинг премиального качества.</p>
-  <div class="btn reveal" onclick="portalTelegram()">В Telegram-бот</div>
+  <p class="hero-p reveal">Погружение в природную чистоту Алтайского леса. Осознанный путь к себе через дары Земли.</p>
+  <div class="btn-main reveal" onclick="portalTelegram()">Открыть Telegram-бот</div>
 
+  <!-- Блок: Природный союзник (6 плиток) -->
   <section id="effects" class="reveal">
     <h2>Природный союзник</h2>
     <div class="grid">
-      <div class="card-simple">☽ Глубокое расслабление</div>
-      <div class="card-simple">✦ Без привычек</div>
-      <div class="card-simple">◉ Стойкость к стрессу</div>
-      <div class="card-simple">❍ Баланс</div>
-      <div class="card-simple">✧ Ясность ума</div>
-      <div class="card-simple">◈ Тишина внутри</div>
+      <div class="card-common">
+        <div class="icon-box">☽</div>
+        <strong>Глубокий сон</strong>
+        <p style="font-size: 14px; opacity: 0.8;">Полное восстановление нервной системы во время отдыха.</p>
+      </div>
+      <div class="card-common">
+        <div class="icon-box">✦</div>
+        <strong>Без привычек</strong>
+        <p style="font-size: 14px; opacity: 0.8;">Мягкое избавление от тяги к деструктивным зависимостям.</p>
+      </div>
+      <div class="card-common">
+        <div class="icon-box">◉</div>
+        <strong>Стойкость</strong>
+        <p style="font-size: 14px; opacity: 0.8;">Непоколебимое спокойствие даже в стрессовых ситуациях.</p>
+      </div>
+      <div class="card-common">
+        <div class="icon-box">❍</div>
+        <strong>Баланс</strong>
+        <p style="font-size: 14px; opacity: 0.8;">Синхронизация работы правого и левого полушарий.</p>
+      </div>
+      <div class="card-common">
+        <div class="icon-box">✧</div>
+        <strong>Ясность</strong>
+        <p style="font-size: 14px; opacity: 0.8;">Чистый поток мыслей без тумана и лишней суеты.</p>
+      </div>
+      <div class="card-common">
+        <div class="icon-box">◈</div>
+        <strong>Тишина</strong>
+        <p style="font-size: 14px; opacity: 0.8;">Остановка изнуряющего внутреннего диалога.</p>
+      </div>
     </div>
   </section>
 
-  <!-- БЛОК СТОЛКНОВЕНИЯ -->
-  <section id="deep-effects">
-    <h2 class="reveal">Две мощи в одном</h2>
-    <div class="collision-wrapper" id="collision-trigger">
-      <div class="crack"></div>
-      <div class="mountain-card card-left">
-        <h3>Ментальное здоровье</h3>
+  <!-- БЛОК СТОЛКНОВЕНИЯ: Две мощи -->
+  <section id="deep-impact">
+    <h2 class="reveal">Слияние Ума и Тела</h2>
+    <div class="collision-container" id="impact-trigger">
+      <div class="crack-line"></div>
+      
+      <!-- Ментальная скала -->
+      <div class="mountain mountain-left">
+        <h3>Психология</h3>
         <ul class="benefit-list">
-          <li><span>✦</span> Ясность памяти и ума</li>
-          <li><span>✦</span> Отказ от зависимостей</li>
-          <li><span>✦</span> Остановка диалога в голове</li>
+          <li><b>✦</b> <strong>Фокус:</strong> Повышение концентрации на главных целях.</li>
+          <li><b>✦</b> <strong>Творчество:</strong> Раскрытие скрытого креативного потенциала.</li>
+          <li><b>✦</b> <strong>Настроение:</strong> Устранение симптомов депрессии и апатии.</li>
+          <li><b>✦</b> <strong>Уверенность:</strong> Твердая опора внутри себя.</li>
         </ul>
       </div>
-      <div class="mountain-card card-right">
-        <h3>Физическое состояние</h3>
+
+      <!-- Физическая скала -->
+      <div class="mountain mountain-right">
+        <h3>Физиология</h3>
         <ul class="benefit-list">
-          <li><span>✦</span> Восстановление фаз сна</li>
-          <li><span>✦</span> Тонус и энергия</li>
-          <li><span>✦</span> Настройка систем организма</li>
+          <li><b>✦</b> <strong>Энергия:</strong> Прощание с синдромом хронической усталости.</li>
+          <li><b>✦</b> <strong>Либидо:</strong> Восстановление природной витальной силы.</li>
+          <li><b>✦</b> <strong>Иммунитет:</strong> Общая стимуляция защитных систем тела.</li>
+          <li><b>✦</b> <strong>Легкость:</strong> Снятие блоков и зажимов в мышцах.</li>
         </ul>
       </div>
     </div>
   </section>
 
+  <!-- КАТАЛОГ В СТИЛЕ МУХОМОРЫЧА -->
   <section id="catalog" class="reveal">
     <h2>Продукция Алтая</h2>
-    <div class="catalog">
-      <div class="product" onclick="portalTelegram()">
-        <div class="product-name">Красный мухомор (Цельный)</div>
-        <div class="product-price">от 1 590 ₽</div>
+    <div class="grid">
+      <!-- Товар 1 -->
+      <div class="product-card" onclick="portalTelegram()">
+        <span class="badge badge-hit">Хит</span>
+        <span class="p-tag">Чистый Алтай</span>
+        <div class="p-title">Красный мухомор<br>(Цельные шляпки)</div>
+        <div class="p-footer">
+          <div class="p-price"><span>1 990 ₽</span> от 1 590 ₽</div>
+          <div class="p-tag">В бот →</div>
+        </div>
       </div>
-      <div class="product" onclick="portalTelegram()">
-        <div class="product-name">Пантерный мухомор (Экстракт)</div>
-        <div class="product-price">3 490 ₽</div>
+      <!-- Товар 2 -->
+      <div class="product-card" onclick="portalTelegram()">
+        <span class="badge badge-sale">Скидка</span>
+        <span class="p-tag">Мощный фокус</span>
+        <div class="p-title">Пантерный мухомор<br>(Экстракт 10:1)</div>
+        <div class="p-footer">
+          <div class="p-price"><span>4 200 ₽</span> 3 450 ₽</div>
+          <div class="p-tag">В бот →</div>
+        </div>
+      </div>
+      <!-- Товар 3 -->
+      <div class="product-card" onclick="portalTelegram()">
+        <span class="p-tag">Курс на месяц</span>
+        <div class="p-title">Микродозинг<br>(60 капсул по 0.35г)</div>
+        <div class="p-footer">
+          <div class="p-price">2 300 ₽</div>
+          <div class="p-tag">В бот →</div>
+        </div>
+      </div>
+      <!-- Товар 4 -->
+      <div class="product-card" onclick="portalTelegram()">
+        <span class="badge badge-hit">New</span>
+        <span class="p-tag">Для сна</span>
+        <div class="p-title">Сбор «Лесная тишина»<br>(Грибы + Травы)</div>
+        <div class="p-footer">
+          <div class="p-price">1 800 ₽</div>
+          <div class="p-tag">В бот →</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <footer style="margin-top:150px; padding-bottom: 50px; font-size:11px; opacity:0.4">
-    Forest Magic © 2025
+  <!-- БЛОК ДОВЕРИЯ -->
+  <section id="trust" class="reveal">
+    <h2>Наши принципы</h2>
+    <div class="grid">
+      <div class="card-common">
+        <div class="icon-box">🏔</div>
+        <h3>Экология</h3>
+        <p>Сбор в глухой тайге Горного Алтая. Вдали от городов и дорог.</p>
+      </div>
+      <div class="card-common">
+        <div class="icon-box">🧪</div>
+        <h3>Технология</h3>
+        <p>Сушка строго при 35-40°C. Сохранение всех активных веществ.</p>
+      </div>
+      <div class="card-common">
+        <div class="icon-box">📦</div>
+        <h3>Сервис</h3>
+        <p>Полная анонимность посылок. Быстрая доставка по всему миру.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ОТЗЫВЫ -->
+  <section id="reviews" class="reveal">
+    <h2>Голоса Леса</h2>
+    <div class="grid">
+      <div class="card-common">
+        <p style="font-style: italic;">«Пропил курс пантерного. Такого фокуса в работе у меня не было никогда. Внутренний диалог просто выключился.»</p>
+        <strong>— Андрей, Москва</strong>
+      </div>
+      <div class="card-common">
+        <p style="font-style: italic;">«Красный мухомор наладил сон за три дня. Стала просыпаться бодрой и счастливой. Спасибо Алтаю!»</p>
+        <strong>— Мария, Новосибирск</strong>
+      </div>
+    </div>
+    <div class="btn-main" style="margin-top: 50px;" onclick="portalReviews()">Читать все отзывы в TG</div>
+  </section>
+
+  <footer style="margin-top: 150px; border-top: 1px solid rgba(255,255,255,0.1); padding: 50px 0; font-size: 11px; opacity: 0.5;">
+    FOREST MAGIC © 2025. ДАРЫ ГЛУБОКОГО АЛТАЯ. <br><br>
+    Информация представлена в ознакомительных целях. Не является лекарством или БАД. <br>
+    Продажа лицам младше 18 лет строго запрещена.
   </footer>
 </div>
 
-<div class="portal" id="portal">
-  <div class="portal-circle"></div>
-  <div class="portal-text">СОЕДИНЕНИЕ...</div>
+<!-- Портал -->
+<div class="portal-screen" id="portal-element">
+  <div class="portal-loader"></div>
+  <p style="margin-top: 30px; letter-spacing: 5px; color: #7fbfa2;">СОЕДИНЕНИЕ С ЛЕСОМ...</p>
 </div>
 
 <script>
-const observer = new IntersectionObserver((entries) => {
+// 1. НАБЛЮДАТЕЛИ (Scroll Reveal)
+const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) entry.target.classList.add('active');
   });
 }, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-// ЛОГИКА УДАРА И ПАДЕНИЯ
-const trigger = document.getElementById('collision-trigger');
-const staticMush = document.getElementById('static-mushroom');
-const fallingMush = document.getElementById('falling-mushroom');
-const body = document.getElementById('main-body');
+// 2. СТОЛКНОВЕНИЕ И ПАДЕНИЕ ГРИБА
+const impactTrigger = document.getElementById('impact-trigger');
+const heroMush = document.getElementById('hero-mushroom');
+const fallingMush = document.getElementById('falling-mushroom-element');
+const body = document.getElementById('master-body');
 
-let hasImpacted = false; // Чтобы анимация сработала только один раз
+let impactDone = false;
 
-const collisionObserver = new IntersectionObserver((entries) => {
+const impactObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
-    if (entry.isIntersecting && !hasImpacted) {
-      hasImpacted = true;
+    if (entry.isIntersecting && !impactDone) {
+      impactDone = true;
       entry.target.classList.add('active-collision');
       
-      // МОМЕНТ КОНТАКТА (через 0.7с)
+      // Момент удара через 0.8с
       setTimeout(() => {
-        // 1. Прячем гриб на главной
-        staticMush.style.opacity = '0';
-        
-        // 2. Запускаем падение "призрачного" гриба сверху
-        fallingMush.classList.add('animate-fall');
-        
-        // 3. Тряска и вспышка
+        // Тряска и Вспышка
         body.classList.add('shake-active');
         body.classList.add('flash-active');
+        
+        // Прячем старый гриб и роняем новый
+        heroMush.style.opacity = '0';
+        fallingMush.classList.add('animate-mushroom-fall');
         
         setTimeout(() => {
           body.classList.remove('shake-active');
           body.classList.remove('flash-active');
         }, 600);
-      }, 700);
+      }, 800);
     }
   });
 }, { threshold: 0.5 });
-collisionObserver.observe(trigger);
+impactObserver.observe(impactTrigger);
 
-window.onscroll = function() {
+// 3. СКРОЛЛ-БАР
+window.onscroll = () => {
   let scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
   document.getElementById("progress-bar").style.width = scrolled + "%";
 };
 
-function portalTelegram(){ showPortal(()=>window.open('https://t.me/Altai_Amanita_bot','_blank')); }
-function showPortal(action){
-  const p=document.getElementById('portal');
+// 4. ПОРТАЛ
+function portalTelegram() { launchPortal(() => window.open('https://t.me/Altai_Amanita_bot', '_blank')); }
+function portalReviews() { launchPortal(() => window.open('https://t.me/REVIEWS_ForestMagic', '_blank')); }
+
+function launchPortal(action) {
+  const p = document.getElementById('portal-element');
   p.classList.add('active');
-  setTimeout(()=>{
+  setTimeout(() => {
     action();
-    setTimeout(()=>p.classList.remove('active'), 1000);
-  }, 1200);
+    setTimeout(() => p.classList.remove('active'), 1000);
+  }, 1300);
 }
 
-for(let i=0;i<30;i++){
- let s=document.createElement('div');
- s.className='spore';
- s.style.left=Math.random()*100+'vw';
- s.style.animationDelay=Math.random()*15+'s';
- document.body.appendChild(s);
+// 5. ГЕНЕРАЦИЯ СПОР
+for(let i=0; i<40; i++) {
+  let spore = document.createElement('div');
+  spore.className = 'spore-particle';
+  spore.style.left = Math.random() * 100 + 'vw';
+  spore.style.animationDuration = (Math.random() * 10 + 10) + 's';
+  spore.style.animationDelay = Math.random() * 15 + 's';
+  document.body.appendChild(spore);
 }
 </script>
+
 </body>
 </html>
