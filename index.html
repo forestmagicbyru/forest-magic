@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>Forest Magic — Алтай</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
 body{
   margin:0;
@@ -43,6 +42,7 @@ nav a{
   text-decoration:none;
   font-size:14px;
   letter-spacing:1px;
+  cursor:pointer;
 }
 
 /* ===== LAYOUT ===== */
@@ -54,15 +54,7 @@ nav a{
   position:relative;
   z-index:3;
 }
-section{margin-top:150px;position:relative}
-section::before{
-  content:"";
-  position:absolute;
-  top:-90px;left:0;right:0;
-  height:90px;
-  background:radial-gradient(circle,rgba(120,220,180,.25),transparent 70%);
-}
-
+section{margin-top:150px}
 h1{font-size:46px;letter-spacing:3px}
 h2{font-size:34px;margin-bottom:30px}
 p{max-width:760px;margin:16px auto;color:#cddfd7}
@@ -105,11 +97,6 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   background:rgba(20,40,30,.5);
   border:1px solid rgba(140,220,180,.25);
   backdrop-filter:blur(6px);
-  transition:.4s;
-}
-.card:hover{
-  transform:translateY(-14px);
-  box-shadow:0 0 70px rgba(120,220,180,.55);
 }
 .icon{
   width:64px;height:64px;
@@ -118,7 +105,6 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   border:1px solid rgba(160,230,190,.4);
   box-shadow:0 0 35px rgba(120,220,180,.7);
   display:flex;align-items:center;justify-content:center;
-  font-size:22px;
 }
 
 /* ===== CATALOG ===== */
@@ -137,12 +123,7 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   display:flex;
   align-items:flex-end;
   cursor:pointer;
-  transition:.4s;
 }
-.product:hover{box-shadow:0 0 70px rgba(120,220,180,.6)}
-
-/* ===== REVIEWS ===== */
-.review{font-size:14px;line-height:1.6}
 
 /* ===== SPORES ===== */
 .spore{
@@ -168,7 +149,7 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   flex-direction:column;
   opacity:0;
   pointer-events:none;
-  transition:opacity .6s ease;
+  transition:.6s;
   z-index:999;
 }
 .portal.active{
@@ -179,24 +160,35 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
   width:150px;height:150px;
   border-radius:50%;
   border:2px solid rgba(140,220,180,.8);
-  box-shadow:0 0 50px rgba(140,220,180,.6),
-             0 0 120px rgba(140,220,180,.5);
-  animation:portalPulse 1.2s ease-in-out infinite;
+  box-shadow:0 0 120px rgba(140,220,180,.6);
+  animation:pulsePortal 1.2s infinite;
 }
-.portal-text{
-  margin-top:28px;
-  font-size:14px;
-  letter-spacing:3px;
-  opacity:.8;
+@keyframes pulsePortal{
+  50%{transform:scale(1.2);opacity:.4}
 }
-@keyframes portalPulse{
-  0%{transform:scale(.8);opacity:.6}
-  50%{transform:scale(1.1);opacity:1}
-  100%{transform:scale(1.6);opacity:0}
+
+/* ===== PROMO OVERLAY ===== */
+.promo-overlay{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(180deg,#030805,#010201);
+  z-index:998;
+  display:none;
+  overflow:auto;
+}
+.promo-overlay.active{display:block}
+.promo-inner{
+  max-width:900px;
+  margin:120px auto;
+  text-align:center;
+}
+.close{
+  margin-top:60px;
+  opacity:.6;
+  cursor:pointer;
 }
 </style>
 </head>
-
 <body>
 
 <nav>
@@ -205,7 +197,7 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 <li><a href="#effects">Эффекты</a></li>
 <li><a href="#catalog">Каталог</a></li>
 <li><a href="#reviews">Отзывы</a></li>
-<li><a href="#promo">Акция</a></li>
+<li><a onclick="openPromo()">Акция</a></li>
 </ul>
 </nav>
 
@@ -218,10 +210,10 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 <section id="effects">
 <h2>Мухомор — природный союзник</h2>
 <div class="grid">
-<div class="card"><div class="icon">☽</div>Глубокое расслабление и восстановление сна</div>
-<div class="card"><div class="icon">✦</div>Снижение тяги к навязчивым привычкам</div>
-<div class="card"><div class="icon">◉</div>Устойчивость к стрессу</div>
-<div class="card"><div class="icon">❍</div>Внутреннее равновесие</div>
+<div class="card"><div class="icon">☽</div>Глубокий сон</div>
+<div class="card"><div class="icon">✦</div>Антистресс</div>
+<div class="card"><div class="icon">◉</div>Фокус</div>
+<div class="card"><div class="icon">❍</div>Баланс</div>
 </div>
 </section>
 
@@ -231,74 +223,54 @@ p{max-width:760px;margin:16px auto;color:#cddfd7}
 <div class="product" onclick="portalTelegram()">Мухомор цельный</div>
 <div class="product" onclick="portalTelegram()">Резаный мухомор</div>
 <div class="product" onclick="portalTelegram()">Микродозинг</div>
-<div class="product" onclick="portalTelegram()">Пантерный</div>
-<div class="product" onclick="portalTelegram()">Экстракт</div>
-<div class="product" onclick="portalTelegram()">Сбор «Лесная тишина»</div>
 </div>
 </section>
 
 <section id="reviews">
 <h2>Отзывы</h2>
-<p>Люди у нас покупают — и вот что они говорят:</p>
-<div class="grid">
-<div class="card review">«Очень мягкое и глубокое состояние.»</div>
-<div class="card review">«Чувствуется бережный подход.»</div>
-<div class="card review">«Спокойствие и тишина внутри.»</div>
-<div class="card review">«Качество на другом уровне.»</div>
-</div>
+<p>Люди у нас покупают — и вот что они говорят</p>
 <div class="btn" onclick="portalReviews()">Больше отзывов</div>
 </section>
+</div>
 
-<section id="promo">
-<h2>Особое предложение</h2>
-<p>
-Время от времени мы открываем доступ  
-к ограниченным наборам для своих.
-</p>
-<div class="grid">
-<div class="card">
-<div class="icon">✶</div>
-<strong>Лесной набор</strong><br><br>
-Ограниченная партия<br>
-Ручная сборка<br>
-Доступ по запросу
-</div>
-<div class="card">
-<div class="icon">☾</div>
-<strong>Тихий путь</strong><br><br>
-Для вечернего ритма<br>
-Осознанный формат
-</div>
-</div>
-<div class="btn" onclick="portalTelegram()">Узнать условия</div>
-</section>
-
-<footer style="margin-top:160px;font-size:12px;opacity:.7">
-Информация носит ознакомительный характер и не является медицинской.
-</footer>
+<!-- АКЦИЯ -->
+<div class="promo-overlay" id="promo">
+  <div class="promo-inner">
+    <h2>Особое предложение</h2>
+    <p>Доступ к ограниченным наборам для своих</p>
+    <div class="grid">
+      <div class="card"><strong>Лесной набор</strong></div>
+      <div class="card"><strong>Тихий путь</strong></div>
+    </div>
+    <div class="btn" onclick="portalTelegram()">Узнать условия</div>
+    <div class="close" onclick="closePromo()">Закрыть</div>
+  </div>
 </div>
 
 <div class="portal" id="portal">
   <div class="portal-circle"></div>
-  <div class="portal-text">Переход…</div>
+  <div>Переход…</div>
 </div>
 
 <script>
 function portalTelegram(){
-  showPortal(()=>window.open('https://t.me/Altai_Amanita_bot','_blank'));
+ showPortal(()=>window.open('https://t.me/Altai_Amanita_bot','_blank'));
 }
 function portalReviews(){
-  showPortal(()=>window.open('https://t.me/REVIEWS_ForestMagic','_blank'));
+ showPortal(()=>window.open('https://t.me/REVIEWS_ForestMagic','_blank'));
 }
 function showPortal(action){
-  const p=document.getElementById('portal');
-  p.classList.add('active');
-  setTimeout(()=>{
-    action();
-    p.classList.remove('active');
-  },1200);
+ const p=document.getElementById('portal');
+ p.classList.add('active');
+ setTimeout(()=>{action();p.classList.remove('active')},1200);
 }
-for(let i=0;i<28;i++){
+function openPromo(){
+ document.getElementById('promo').classList.add('active');
+}
+function closePromo(){
+ document.getElementById('promo').classList.remove('active');
+}
+for(let i=0;i<26;i++){
  let s=document.createElement('div');
  s.className='spore';
  s.style.left=Math.random()*100+'vw';
@@ -306,6 +278,5 @@ for(let i=0;i<28;i++){
  document.body.appendChild(s);
 }
 </script>
-
 </body>
 </html>
