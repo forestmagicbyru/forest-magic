@@ -258,25 +258,41 @@
         ========================================
         */
         /* Мягкий эффект столкновения гор */
-.collision-container { display: flex; justify-content: center; align-items: stretch; perspective: 2000px; position: relative; padding: 80px 0; gap: 0; }
-.mountain { width: 50%; padding: 60px 40px; background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.01) 100%); border: 2px solid rgba(127,191,162,0.2); backdrop-filter: blur(25px); opacity: 0; transition: transform 0.5s ease-out, opacity 0.5s; }
-.mountain-left { border-radius: 40px 0 0 40px; transform: translateX(-150%) rotateY(40deg); border-right: none; }
-.mountain-right { border-radius: 0 40px 40px 0; transform: translateX(150%) rotateY(-40deg); border-left: none; }
+/* ======================================== */
+/* Мягкий эффект столкновения гор (без тряски всей страницы) */
+/* ======================================== */
+.mountain-left, .mountain-right {
+    width: 50%;
+    padding: 60px 40px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.01) 100%);
+    border: 2px solid rgba(127,191,162,0.2);
+    backdrop-filter: blur(25px);
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+    border-radius: 40px 0 0 40px; /* левый по умолчанию */
+}
+
+.mountain-right {
+    border-radius: 0 40px 40px 0;
+    border-left: none;
+}
+
 .active-impact .mountain-left,
 .active-impact .mountain-right {
     opacity: 1;
     transform: translateX(0) rotateY(0);
-    animation: mountain-gentle-shake 0.5s ease-out 1;
+    animation: mountain-gentle-shake 0.6s ease-out 1;
 }
 
 @keyframes mountain-gentle-shake {
-    0% { transform: translateX(0) rotateY(0) translateY(0); }
-    25% { transform: translateX(-3px) rotateY(-1deg) translateY(-3px); }
-    50% { transform: translateX(3px) rotateY(1deg) translateY(-3px); }
-    75% { transform: translateX(-2px) rotateY(-0.5deg) translateY(-1px); }
-    100% { transform: translateX(0) rotateY(0) translateY(0); }
+    0% { transform: translateX(0) rotateY(0); }
+    25% { transform: translateX(-3px) rotateY(-1deg); }
+    50% { transform: translateX(3px) rotateY(1deg); }
+    75% { transform: translateX(-2px) rotateY(-0.5deg); }
+    100% { transform: translateX(0) rotateY(0); }
 }
 
+/* Мягкая трещина */
 .active-impact .crack-glow {
     opacity: 1;
     transform: scaleY(1);
@@ -808,16 +824,9 @@
                     impactTriggered = true;
                     entry.target.classList.add('active-impact');
                     
-                    setTimeout(() => {
-    shakeContainer.classList.add('shake-active'); 
-    bodyElement.classList.add('flash-active');
+                   setTimeout(() => {
     heroMushroom.style.opacity = '0';
     fallingMushroom.classList.add('animate-fall');
-    
-    setTimeout(() => {
-        shakeContainer.classList.remove('shake-active');
-        bodyElement.classList.remove('flash-active');
-    }, 500); // короче, мягче
 }, 1000);
                 }
             });
