@@ -107,8 +107,7 @@
 
     
 <!-- ============================= -->
-<!-- 3. НАВИГАЦИЯ С МЕНЮ ДЛЯ МОБИЛКИ -->
-<!-- ============================= -->
+<!-- НАВИГАЦИЯ -->
 <nav>
     <div class="logo">Forest Magic</div>
     <!-- Кнопка гамбургер для мобильных -->
@@ -124,9 +123,13 @@
 </nav>
 
 <style>
+/* ========================================
+3. НАВИГАЦИЯ (Десктоп + Мобильное меню)
+======================================== */
 nav {
     position: fixed;
-    top: 0; width: 100%;
+    top: 0;
+    width: 100%;
     background: rgba(5,15,10,0.85);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
@@ -136,13 +139,14 @@ nav {
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
+    height: 60px;
 }
 
 nav .logo {
     color: var(--accent);
     font-weight: 700;
     letter-spacing: 2px;
-    font-size: 18px;
+    font-size: 20px;
 }
 
 nav ul {
@@ -150,8 +154,12 @@ nav ul {
     justify-content: center;
     gap: clamp(10px, 4vw, 35px);
     list-style: none;
-    padding: 18px;
+    padding: 0;
     margin: 0;
+}
+
+nav ul li {
+    padding: 0;
 }
 
 nav a {
@@ -187,7 +195,7 @@ nav a:hover {
     }
     nav ul {
         position: absolute;
-        top: 100%;
+        top: 60px;
         left: 0;
         width: 100%;
         flex-direction: column;
@@ -197,7 +205,7 @@ nav a:hover {
         transition: max-height 0.4s ease-in-out;
     }
     nav ul.active {
-        max-height: 500px;
+        max-height: 500px; /* достаточно для всех пунктов */
     }
     nav ul li {
         text-align: center;
