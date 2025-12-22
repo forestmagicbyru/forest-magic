@@ -105,11 +105,25 @@
             animation: mushroom-impact-fall 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
 
-        /* 
-        ========================================
-       /* ========================================
-3. НАВИГАЦИЯ (С МЕНЮ ДЛЯ МОБИЛКИ)
-======================================== */
+    
+<!-- ============================= -->
+<!-- 3. НАВИГАЦИЯ С МЕНЮ ДЛЯ МОБИЛКИ -->
+<!-- ============================= -->
+<nav>
+    <div class="logo">Forest Magic</div>
+    <!-- Кнопка гамбургер для мобильных -->
+    <button id="mobileMenuBtn" class="mobile-menu-btn">☰</button>
+    
+    <ul id="navMenu">
+        <li><a href="#home">Главная</a></li>
+        <li><a href="#effects">Эффекты</a></li>
+        <li><a href="#catalog">Каталог</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contacts">Контакты</a></li>
+    </ul>
+</nav>
+
+<style>
 nav {
     position: fixed;
     top: 0; width: 100%;
@@ -124,10 +138,20 @@ nav {
     padding: 0 20px;
 }
 
+nav .logo {
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 18px;
+}
+
 nav ul {
-    display: flex; justify-content: center;
+    display: flex;
+    justify-content: center;
     gap: clamp(10px, 4vw, 35px);
-    list-style: none; padding: 18px; margin: 0;
+    list-style: none;
+    padding: 18px;
+    margin: 0;
 }
 
 nav a {
@@ -140,7 +164,11 @@ nav a {
     opacity: 0.8;
 }
 
-nav a:hover { opacity: 1; color: var(--accent); text-shadow: 0 0 10px var(--accent); }
+nav a:hover {
+    opacity: 1;
+    color: var(--accent);
+    text-shadow: 0 0 10px var(--accent);
+}
 
 /* Кнопка гамбургер */
 .mobile-menu-btn {
@@ -152,6 +180,7 @@ nav a:hover { opacity: 1; color: var(--accent); text-shadow: 0 0 10px var(--acce
     cursor: pointer;
 }
 
+/* Мобильная версия */
 @media screen and (max-width: 768px) {
     .mobile-menu-btn {
         display: block;
@@ -168,25 +197,14 @@ nav a:hover { opacity: 1; color: var(--accent); text-shadow: 0 0 10px var(--acce
         transition: max-height 0.4s ease-in-out;
     }
     nav ul.active {
-        max-height: 500px; /* достаточно для всех пунктов */
+        max-height: 500px;
     }
     nav ul li {
         text-align: center;
         padding: 12px 0;
     }
-}<nav>
-    <div class="logo">Forest Magic</div>
-    <!-- Кнопка гамбургер для мобильных -->
-    <button id="mobileMenuBtn" class="mobile-menu-btn">☰</button>
-    
-    <ul id="navMenu">
-        <li><a href="#home">Главная</a></li>
-        <li><a href="#effects">Эффекты</a></li>
-        <li><a href="#catalog">Каталог</a></li>
-        <li><a href="#faq">FAQ</a></li>
-        <li><a href="#contacts">Контакты</a></li>
-    </ul>
-</nav>
+}
+</style>
 
 <script>
 const mobileBtn = document.getElementById('mobileMenuBtn');
