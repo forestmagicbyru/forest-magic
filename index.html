@@ -996,6 +996,27 @@ for (let i = 0; i < 50; i++) {
                 item.classList.toggle('active');
             });
         });
-    </script>
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    const catalogGrid = document.querySelector('#catalog .grid');
+    if (catalogGrid) {
+        const newYearCard = document.createElement('div');
+        newYearCard.className = 'product-card';
+        newYearCard.innerHTML = `
+            <div class="product-img-box">
+                <img src="new_year_special.jpg" alt="Новогодняя акция">
+            </div>
+            <span class="p-tag">Новогодняя акция</span>
+            <div class="p-title">Новогодний Бум<br>(Amanita Muscaria)</div>
+            <div class="p-desc">Специальная праздничная серия для особого настроения. Ограниченная партия!</div>
+            <div class="p-price-row">
+                <div class="p-price"><small>от</small>1 490 ₽</div>
+                <div class="btn-buy">Купить</div>
+            </div>
+        `;
+        catalogGrid.appendChild(newYearCard);
+    }
+});
+</script>
 </body>
 </html>
