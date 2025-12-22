@@ -423,6 +423,93 @@
             border-top: 1px solid rgba(255,255,255,0.05);
             font-size: 12px; opacity: 0.4; text-align: center; line-height: 2;
         }
+
+        /* 
+        ========================================
+        9. FAQ SECTION (MUKHOMORYCH STYLE)
+        ========================================
+        */
+        .faq-section {
+            max-width: 900px;
+            margin: 150px auto 0;
+            text-align: left;
+            padding: 0 20px;
+        }
+
+        .faq-container {
+            margin-top: 50px;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid rgba(127, 191, 162, 0.15);
+            margin-bottom: 10px;
+            transition: var(--transition);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 25px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: clamp(16px, 2vw, 20px);
+            font-weight: 600;
+            text-align: left;
+            transition: 0.3s;
+        }
+
+        .faq-question:hover {
+            color: var(--accent);
+        }
+
+        .faq-icon {
+            width: 24px;
+            height: 24px;
+            position: relative;
+            flex-shrink: 0;
+            margin-left: 20px;
+        }
+
+        .faq-icon::before, .faq-icon::after {
+            content: "";
+            position: absolute;
+            background-color: var(--accent);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .faq-icon::before { width: 100%; height: 2px; }
+        .faq-icon::after { width: 2px; height: 100%; }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text-dim);
+            font-size: 15px;
+            line-height: 1.7;
+            padding: 0 10px;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding-bottom: 30px;
+        }
+
+        .faq-item.active .faq-icon::after {
+            transform: translate(-50%, -50%) rotate(90deg);
+            opacity: 0;
+        }
+        
+        .faq-item.active .faq-question {
+            color: var(--accent);
+        }
     </style>
 </head>
 <body id="master-body">
@@ -444,7 +531,7 @@
                 <li><a href="#effects">Эффекты</a></li>
                 <li><a href="#catalog">Каталог</a></li>
                 <li><a href="#trust">Качество</a></li>
-                <li><a href="#reviews">Отзывы</a></li>
+                <li><a href="#faq">FAQ</a></li>
             </ul>
         </nav>
 
@@ -523,12 +610,10 @@
                 </div>
             </section>
 
-            <!-- КАТАЛОГ (С ЦЕНАМИ "ОТ" И ОПИСАНИЕМ) -->
+            <!-- КАТАЛОГ -->
             <section id="catalog" class="reveal">
                 <h2>Дары Глубокого Леса</h2>
                 <div class="grid">
-                    
-                    <!-- 1 -->
                     <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
                         <span class="badge badge-hit">Хит месяца</span>
                         <div class="product-img-box"><img src="red_whole.jpg" alt="Мухомор Красный"></div>
@@ -541,7 +626,6 @@
                         </div>
                     </div>
 
-                    <!-- 2 -->
                     <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
                         <span class="badge badge-limited">Best Seller</span>
                         <div class="product-img-box"><img src="panther_whole.jpg" alt="Мухомор Пантерный"></div>
@@ -554,7 +638,6 @@
                         </div>
                     </div>
 
-                    <!-- 3 -->
                     <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
                         <div class="product-img-box"><img src="red_caps.jpg" alt="Капсулы Красного"></div>
                         <span class="p-tag">Микродозинг 60 шт</span>
@@ -566,7 +649,6 @@
                         </div>
                     </div>
 
-                    <!-- 4 -->
                     <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
                         <span class="badge badge-hit">Must Have</span>
                         <div class="product-img-box"><img src="panther_caps.jpg" alt="Капсулы Пантерного"></div>
@@ -579,7 +661,6 @@
                         </div>
                     </div>
 
-                    <!-- 5 -->
                     <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
                         <span class="badge badge-limited">Эксклюзив</span>
                         <div class="product-img-box"><img src="new_year_boom.jpg" alt="Новогодний Бум"></div>
@@ -592,7 +673,6 @@
                         </div>
                     </div>
 
-                    <!-- 6 -->
                     <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
                         <span class="badge badge-sale">Новинка</span>
                         <div class="product-img-box"><img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?q=80&w=500&auto=format&fit=crop" alt="Январский Микс"></div>
@@ -604,7 +684,6 @@
                             <div class="btn-buy">Купить</div>
                         </div>
                     </div>
-
                 </div>
             </section>
 
@@ -626,6 +705,61 @@
                         <div class="icon-round">📦</div>
                         <h3>Приватность</h3>
                         <p style="font-size: 14px; opacity: 0.8;">Полностью анонимная доставка. Никто не узнает содержимое посылки.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- СЕКЦИЯ FAQ -->
+            <section id="faq" class="reveal faq-section">
+                <h2>Частые Вопросы</h2>
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <button class="faq-question">Что такое микродозинг? <span class="faq-icon"></span></button>
+                        <div class="faq-answer">
+                            Микродозинг — это употребление сверхмалых доз гриба (0.3–1г), которые не вызывают измененных состояний сознания. Работа идет на уровне нейропластичности, помогая мозгу справляться со стрессом и тревожностью.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">Вызывает ли это привыкание? <span class="faq-icon"></span></button>
+                        <div class="faq-answer">
+                            Нет, мухомор не вызывает физической или психологической зависимости. Напротив, его часто используют для мягкого отказа от вредных привычек (алкоголя, никотина).
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">Как правильно принимать? <span class="faq-icon"></span></button>
+                        <div class="faq-answer">
+                            Классическая схема: 1 капсула утром натощак и вечером за 1 час до сна. Курс обычно длится 1 месяц, после чего делается перерыв. Инструкция идет в комплекте.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">Безопасно ли это для здоровья? <span class="faq-icon"></span></button>
+                        <div class="faq-answer">
+                            При соблюдении дозировок — абсолютно. Наши грибы проходят сушку при 35°C, что преобразует иботановую кислоту в полезный мусцимол. Главное — не превышать меру.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">Как быстро я почувствую эффект? <span class="faq-icon"></span></button>
+                        <div class="faq-answer">
+                            Улучшение сна заметно с первой недели. Повышение концентрации и общее спокойствие становятся стабильными через 10-14 дней регулярного приема.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">Можно ли совмещать с алкоголем? <span class="faq-icon"></span></button>
+                        <div class="faq-answer">
+                            Мы рекомендуем отказаться от алкоголя. Микродозинг направлен на очищение сознания, а алкоголь действует в обратном направлении, обнуляя результаты.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">Почему именно Алтайский гриб? <span class="faq-icon"></span></button>
+                        <div class="faq-answer">
+                            Высокогорье и чистота дикой тайги позволяют грибам накапливать максимальное количество активных веществ без вредных примесей из почвы.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">Это законно? <span class="faq-icon"></span></button>
+                        <div class="faq-answer">
+                            Да, на территории РФ мухомор не входит в список запрещенных веществ. Его сбор, хранение и реализация полностью законны.
+                        </div>
                     </div>
                 </div>
             </section>
@@ -658,7 +792,7 @@
             <p style="margin-top: 30px; letter-spacing: 5px; color: var(--accent); font-size: 12px; font-weight: 800;">ВХОДИМ В ТРАНС...</p>
         </div>
 
-    </div> <!-- Конец shake-wrapper -->
+    </div>
 
     <script>
         // Анимация появления при скролле
@@ -670,39 +804,31 @@
 
         document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-        // ЭФФЕКТ СТОЛКНОВЕНИЯ И ТРЯСКИ (ИСПРАВЛЕННЫЙ)
+        // ЭФФЕКТ СТОЛКНОВЕНИЯ И ТРЯСКИ
         const impactTrigger = document.getElementById('impact-trigger');
         const heroMushroom = document.getElementById('hero-mushroom');
         const fallingMushroom = document.getElementById('falling-mushroom');
-        const shakeContainer = document.getElementById('shake-container'); // Трясем обертку
+        const shakeContainer = document.getElementById('shake-container');
         const bodyElement = document.getElementById('master-body');
 
         let impactTriggered = false;
 
         const impactObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                // threshold 0.2 означает, что эффект сработает сразу как только 20% секции появится
                 if (entry.isIntersecting && !impactTriggered) {
                     impactTriggered = true;
                     entry.target.classList.add('active-impact');
                     
-                    // Запуск тряски через небольшую задержку (когда скалы сойдутся)
                     setTimeout(() => {
-                        // Добавляем классы тряски и вспышки
                         shakeContainer.classList.add('shake-active');
                         bodyElement.classList.add('flash-active');
-                        
-                        // Прячем главный гриб и запускаем падение "ударного" гриба
                         heroMushroom.style.opacity = '0';
                         fallingMushroom.classList.add('animate-fall');
                         
-                        // Удаляем тряску после завершения анимации (через 0.7с)
                         setTimeout(() => {
                             shakeContainer.classList.remove('shake-active');
                             bodyElement.classList.remove('flash-active');
                         }, 700);
-                        
-                        console.log("Forest Magic: Impact Triggered!"); // Для проверки в консоли
                     }, 1000); 
                 }
             });
@@ -710,7 +836,7 @@
 
         impactObserver.observe(impactTrigger);
 
-        // Полоса прогресса сверху
+        // Полоса прогресса
         window.onscroll = () => {
             let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -728,7 +854,7 @@
             }, 1200);
         }
 
-        // Пыльца/Споры на фоне
+        // Пыльца/Споры
         for(let i = 0; i < 50; i++) {
             let spore = document.createElement('div');
             spore.className = 'spore';
@@ -738,6 +864,20 @@
             spore.style.opacity = Math.random() * 0.5;
             document.body.appendChild(spore);
         }
+
+        // Логика FAQ (Аккордеон)
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                
+                // Закрыть другие, если нужно
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    if (otherItem !== item) otherItem.classList.remove('active');
+                });
+
+                item.classList.toggle('active');
+            });
+        });
     </script>
 </body>
 </html>
