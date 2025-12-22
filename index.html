@@ -560,13 +560,24 @@
             animation: portal-ring-pulse 1.5s infinite;
         }
         @keyframes portal-ring-pulse { 0% { transform: scale(0.8); opacity: 0.5; } 100% { transform: scale(1.8); opacity: 0; } }
-        .spore {
-            position: fixed; width: 2px; height: 2px;
-            background: rgba(200, 255, 230, 0.3);
-            border-radius: 50%; animation: spore-movement 15s linear infinite;
-            z-index: -1; pointer-events: none;
-        }
-        @keyframes spore-movement { from { transform: translateY(110vh); opacity: 0; } 10% { opacity: 1; } to { transform: translateY(-10vh); opacity: 0; } }
+       .spore {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: rgba(255, 255, 150, 0.8);
+    border-radius: 50%;
+    animation: spore-movement 12s linear infinite;
+    z-index: 10;
+    pointer-events: none;
+}
+
+@keyframes spore-movement {
+    0% { transform: translateY(110vh) translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    50% { transform: translateY(50vh) translateX(20px); opacity: 0.6; }
+    100% { transform: translateY(-10vh) translateX(-20px); opacity: 0; }
+}
+
 
         @media (max-width: 768px) {
             .collision-container { flex-direction: column; }
@@ -961,16 +972,19 @@
 }
 
 
-        // Пыльца/Споры
-        for(let i = 0; i < 50; i++) {
-            let spore = document.createElement('div');
-            spore.className = 'spore';
-            spore.style.left = Math.random() * 100 + 'vw';
-            spore.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            spore.style.animationDelay = Math.random() * 20 + 's';
-            spore.style.opacity = Math.random() * 0.5;
-            document.body.appendChild(spore);
-        }
+        // Пыльца/Светлячки
+document.addEventListener('DOMContentLoaded', () => {
+    for(let i = 0; i < 50; i++) {
+        const spore = document.createElement('div');
+        spore.className = 'spore';
+        spore.style.left = Math.random() * 100 + 'vw';
+        spore.style.width = (1 + Math.random() * 2) + 'px';
+        spore.style.height = spore.style.width;
+        spore.style.animationDuration = (10 + Math.random() * 10) + 's';
+        spore.style.animationDelay = (Math.random() * 20) + 's';
+        document.body.appendChild(spore);
+    }
+});
 
         // Логика FAQ (Аккордеон)
         document.querySelectorAll('.faq-question').forEach(button => {
