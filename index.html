@@ -692,13 +692,13 @@
                 </div>
             </section>
 
-           <!-- КАТАЛОГ -->
+          <!-- КАТАЛОГ -->
 <section id="catalog" class="reveal">
     <h2>Дары Глубокого Леса</h2>
     <div class="grid">
         <!-- 1 - Шляпки Красного -->
         <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
-            <span class="p-tag" style="color: red;">Новый год</span>
+            <span class="p-tag new-year-badge" onclick="alert('С Новым годом! 🎄')">Новый год</span>
             <div class="product-img-box"><img src="red_whole.jpg" alt="Мухомор Красный"></div>
             <span class="p-tag">Ручной Сбор 2024</span>
             <div class="p-title">Мухомор Красный<br>(Цельные шляпки)</div>
@@ -711,7 +711,7 @@
 
         <!-- 2 - Шляпки Пантерного -->
         <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
-            <span class="p-tag" style="color: red;">Новый год</span>
+            <span class="p-tag new-year-badge" onclick="alert('С Новым годом! 🎄')">Новый год</span>
             <div class="product-img-box"><img src="panther_whole.jpg" alt="Мухомор Пантерный"></div>
             <span class="p-tag">Горный Алтай</span>
             <div class="p-title">Мухомор Пантерный<br>(Цельные шляпки)</div>
@@ -724,7 +724,8 @@
 
         <!-- 3 - Капсулы Красного -->
         <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
-            <span class="p-tag" style="color: red;">Новый год</span>
+            <span class="p-tag new-year-badge" onclick="alert('С Новым годом! 🎄')">Новый год</span>
+            <span class="badge badge-hit" style="top: 10px; left: 10px;">Хит — выбирают</span>
             <div class="product-img-box"><img src="red_caps.jpg" alt="Капсулы Красного"></div>
             <span class="p-tag">Микродозинг 60 шт</span>
             <div class="p-title">Капсулы Красного<br>(Amanita Muscaria)</div>
@@ -737,7 +738,8 @@
 
         <!-- 4 - Капсулы Пантерного -->
         <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
-            <span class="p-tag" style="color: red;">Новый год</span>
+            <span class="p-tag new-year-badge" onclick="alert('С Новым годом! 🎄')">Новый год</span>
+            <span class="badge badge-hit" style="top: 10px; left: 10px;">Хит — выбирают</span>
             <div class="product-img-box"><img src="panther_caps.jpg" alt="Капсулы Пантерного"></div>
             <span class="p-tag">Микродозинг 60 шт</span>
             <div class="p-title">Капсулы Пантерного<br>(Amanita Muscaria)</div>
@@ -750,7 +752,7 @@
 
         <!-- 5 - Новогодний Бум -->
         <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
-            <span class="p-tag" style="color: red;">Новый год</span>
+            <span class="p-tag new-year-badge" onclick="alert('С Новым годом! 🎄')">Новый год</span>
             <div class="product-img-box"><img src="new_year_boom.jpg" alt="Новогодний Бум"></div>
             <span class="p-tag">Специальное Издание</span>
             <div class="p-title">Новогодний Бум<br>(Amanita Muscaria)</div>
@@ -763,7 +765,7 @@
 
         <!-- 6 - Специальные Капсулы -->
         <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
-            <span class="p-tag" style="color: red;">Новый год</span>
+            <span class="p-tag new-year-badge" onclick="alert('С Новым годом! 🎄')">Новый год</span>
             <div class="product-img-box"><img src="special_caps.jpg" alt="Специальные Капсулы"></div>
             <span class="p-tag">Лимитированная серия</span>
             <div class="p-title">Специальные Капсулы<br>(Amanita Muscaria)</div>
@@ -776,6 +778,45 @@
     </div>
 </section>
 
+<style>
+/* Новый стиль для новогоднего бейджа */
+.new-year-badge {
+    display: inline-block;
+    font-weight: 900;
+    color: #ff3c3c;
+    background: rgba(255, 60, 60, 0.1);
+    padding: 6px 12px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+    margin-bottom: 8px;
+}
+.new-year-badge:hover {
+    transform: translateY(-4px) scale(1.05);
+    color: #fff;
+    background: #ff4d4d;
+    box-shadow: 0 4px 20px rgba(255, 0, 0, 0.5);
+}
+
+/* Дополнительно можно задать положение для бейджей "Хит" */
+.product-card .badge-hit {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: gold;
+    color: #000;
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+</style>
             <!-- ГАРАНТИИ -->
             <section id="trust" class="reveal">
                 <h2>Алтайский Знак Качества</h2>
