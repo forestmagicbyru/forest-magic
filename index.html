@@ -383,7 +383,88 @@
 
         /* 
         ========================================
-        8. ДОПОЛНИТЕЛЬНЫЕ ЭЛЕМЕНТЫ
+        8. FAQ SECTION (MUKHOMORYCH STYLE)
+        ========================================
+        */
+        .faq-section {
+            max-width: 900px;
+            margin: 150px auto 0;
+            text-align: left;
+            padding: 0 20px;
+        }
+        .faq-container { margin-top: 50px; }
+        .faq-item { border-bottom: 1px solid rgba(127, 191, 162, 0.15); margin-bottom: 10px; transition: var(--transition); }
+        .faq-question {
+            width: 100%; padding: 25px 10px; display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; background: none; border: none; color: #fff; font-size: clamp(16px, 2vw, 20px);
+            font-weight: 600; text-align: left; transition: 0.3s;
+        }
+        .faq-question:hover { color: var(--accent); }
+        .faq-icon { width: 24px; height: 24px; position: relative; flex-shrink: 0; margin-left: 20px; }
+        .faq-icon::before, .faq-icon::after { content: ""; position: absolute; background-color: var(--accent); top: 50%; left: 50%; transform: translate(-50%, -50%); transition: 0.4s; }
+        .faq-icon::before { width: 100%; height: 2px; }
+        .faq-icon::after { width: 2px; height: 100%; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); color: var(--text-dim); font-size: 15px; line-height: 1.7; padding: 0 10px; }
+        .faq-item.active .faq-answer { max-height: 500px; padding-bottom: 30px; }
+        .faq-item.active .faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
+        .faq-item.active .faq-question { color: var(--accent); }
+
+        /* 
+        ========================================
+        9. КОНТАКТЫ (BUTTONS BLOCK)
+        ========================================
+        */
+        .contact-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 700px;
+            margin: 60px auto;
+        }
+        .contact-btn-large {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 25px 35px;
+            border-radius: 24px;
+            background: rgba(127,191,162,0.05);
+            border: 1px solid rgba(127,191,162,0.15);
+            color: #fff;
+            text-decoration: none;
+            transition: 0.4s cubic-bezier(0.2, 0.6, 0.2, 1);
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+        .contact-btn-large:hover {
+            background: rgba(127,191,162,0.12);
+            border-color: var(--accent);
+            transform: translateX(10px);
+            box-shadow: -10px 0 30px rgba(127,191,162,0.1);
+        }
+        .contact-icon {
+            font-size: 30px;
+            margin-right: 25px;
+            width: 50px; height: 50px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(127,191,162,0.1);
+            border-radius: 15px;
+            color: var(--accent);
+        }
+        .contact-info b { display: block; font-size: 18px; margin-bottom: 4px; }
+        .contact-info span { font-size: 13px; color: var(--text-dim); opacity: 0.8; }
+        
+        /* Стрелочка справа */
+        .contact-btn-large::after {
+            content: "→"; position: absolute; right: 30px; top: 50%;
+            transform: translateY(-50%); font-size: 24px; color: var(--accent);
+            opacity: 0; transition: 0.3s;
+        }
+        .contact-btn-large:hover::after { opacity: 1; right: 20px; }
+
+        /* 
+        ========================================
+        10. ДОПОЛНИТЕЛЬНЫЕ ЭЛЕМЕНТЫ
         ========================================
         */
         .portal-overlay {
@@ -393,14 +474,12 @@
             transition: 0.8s ease-in-out; z-index: 5000;
         }
         .portal-overlay.active { opacity: 1; pointer-events: all; }
-
         .portal-ring {
             width: 180px; height: 180px; border-radius: 50%;
             border: 2px solid var(--accent);
             animation: portal-ring-pulse 1.5s infinite;
         }
         @keyframes portal-ring-pulse { 0% { transform: scale(0.8); opacity: 0.5; } 100% { transform: scale(1.8); opacity: 0; } }
-
         .spore {
             position: fixed; width: 2px; height: 2px;
             background: rgba(200, 255, 230, 0.3);
@@ -416,99 +495,14 @@
             .grid { grid-template-columns: 1fr; }
             h1 { font-size: 40px; }
             .product-card { padding: 20px; }
+            .contact-btn-large { padding: 20px; }
+            .contact-btn-large::after { display: none; }
         }
 
         footer {
             margin-top: 150px; padding: 80px 20px;
             border-top: 1px solid rgba(255,255,255,0.05);
             font-size: 12px; opacity: 0.4; text-align: center; line-height: 2;
-        }
-
-        /* 
-        ========================================
-        9. FAQ SECTION (MUKHOMORYCH STYLE)
-        ========================================
-        */
-        .faq-section {
-            max-width: 900px;
-            margin: 150px auto 0;
-            text-align: left;
-            padding: 0 20px;
-        }
-
-        .faq-container {
-            margin-top: 50px;
-        }
-
-        .faq-item {
-            border-bottom: 1px solid rgba(127, 191, 162, 0.15);
-            margin-bottom: 10px;
-            transition: var(--transition);
-        }
-
-        .faq-question {
-            width: 100%;
-            padding: 25px 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: clamp(16px, 2vw, 20px);
-            font-weight: 600;
-            text-align: left;
-            transition: 0.3s;
-        }
-
-        .faq-question:hover {
-            color: var(--accent);
-        }
-
-        .faq-icon {
-            width: 24px;
-            height: 24px;
-            position: relative;
-            flex-shrink: 0;
-            margin-left: 20px;
-        }
-
-        .faq-icon::before, .faq-icon::after {
-            content: "";
-            position: absolute;
-            background-color: var(--accent);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .faq-icon::before { width: 100%; height: 2px; }
-        .faq-icon::after { width: 2px; height: 100%; }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            color: var(--text-dim);
-            font-size: 15px;
-            line-height: 1.7;
-            padding: 0 10px;
-        }
-
-        .faq-item.active .faq-answer {
-            max-height: 500px;
-            padding-bottom: 30px;
-        }
-
-        .faq-item.active .faq-icon::after {
-            transform: translate(-50%, -50%) rotate(90deg);
-            opacity: 0;
-        }
-        
-        .faq-item.active .faq-question {
-            color: var(--accent);
         }
     </style>
 </head>
@@ -519,7 +513,6 @@
         <div id="progress-bar"></div>
         <div class="bg-fix"></div>
 
-        <!-- Падающий гриб (срабатывает при столкновении скал) -->
         <div id="falling-mushroom" class="mushroom-box">
             <div class="cap"></div>
             <div class="stem"></div>
@@ -530,8 +523,8 @@
                 <li><a href="#home">Главная</a></li>
                 <li><a href="#effects">Эффекты</a></li>
                 <li><a href="#catalog">Каталог</a></li>
-                <li><a href="#trust">Качество</a></li>
                 <li><a href="#faq">FAQ</a></li>
+                <li><a href="#contacts">Контакты</a></li>
             </ul>
         </nav>
 
@@ -582,12 +575,11 @@
                 </div>
             </section>
 
-            <!-- СТОЛКНОВЕНИЕ СКАЛ (ТРЯСКА ЗДЕСЬ) -->
+            <!-- СТОЛКНОВЕНИЕ СКАЛ -->
             <section id="deep-impact">
                 <h2 class="reveal">Глобальный Трансфер</h2>
                 <div class="collision-container" id="impact-trigger">
                     <div class="crack-glow"></div>
-                    
                     <div class="mountain mountain-left">
                         <h3>Дух (Mind)</h3>
                         <ul class="benefit-list">
@@ -597,7 +589,6 @@
                             <li><span>✦</span> <strong>Интуиция:</strong> Глубокое понимание процессов.</li>
                         </ul>
                     </div>
-
                     <div class="mountain mountain-right">
                         <h3>Тело (Body)</h3>
                         <ul class="benefit-list">
@@ -614,6 +605,7 @@
             <section id="catalog" class="reveal">
                 <h2>Дары Глубокого Леса</h2>
                 <div class="grid">
+                    <!-- 1 -->
                     <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
                         <span class="badge badge-hit">Хит месяца</span>
                         <div class="product-img-box"><img src="red_whole.jpg" alt="Мухомор Красный"></div>
@@ -625,7 +617,7 @@
                             <div class="btn-buy">Купить</div>
                         </div>
                     </div>
-
+                    <!-- 2 -->
                     <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
                         <span class="badge badge-limited">Best Seller</span>
                         <div class="product-img-box"><img src="panther_whole.jpg" alt="Мухомор Пантерный"></div>
@@ -637,7 +629,7 @@
                             <div class="btn-buy">Купить</div>
                         </div>
                     </div>
-
+                    <!-- 3 -->
                     <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
                         <div class="product-img-box"><img src="red_caps.jpg" alt="Капсулы Красного"></div>
                         <span class="p-tag">Микродозинг 60 шт</span>
@@ -645,42 +637,6 @@
                         <div class="p-desc">Удобный формат для офиса и поездок. Точная дозировка в каждой капсуле. Курс на месяц.</div>
                         <div class="p-price-row">
                             <div class="p-price"><small>от</small>1 890 ₽</div>
-                            <div class="btn-buy">Купить</div>
-                        </div>
-                    </div>
-
-                    <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
-                        <span class="badge badge-hit">Must Have</span>
-                        <div class="product-img-box"><img src="panther_caps.jpg" alt="Капсулы Пантерного"></div>
-                        <span class="p-tag">Микродозинг 60 шт</span>
-                        <div class="p-title">Капсулы Пантерного<br>(Amanita Pantherina)</div>
-                        <div class="p-desc">Максимальная концентрация для решения сложных когнитивных задач. Бодрость и фокус на 100%.</div>
-                        <div class="p-price-row">
-                            <div class="p-price"><small>от</small>2 490 ₽</div>
-                            <div class="btn-buy">Купить</div>
-                        </div>
-                    </div>
-
-                    <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
-                        <span class="badge badge-limited">Эксклюзив</span>
-                        <div class="product-img-box"><img src="new_year_boom.jpg" alt="Новогодний Бум"></div>
-                        <span class="p-tag">Подарочный Сет</span>
-                        <div class="p-title">Новогодний Бум<br>(Red + Panther)</div>
-                        <div class="p-desc">Комбо из двух видов грибов в крафтовой упаковке. Магический подарок для себя и близких.</div>
-                        <div class="p-price-row">
-                            <div class="p-price"><small>от</small>4 200 ₽</div>
-                            <div class="btn-buy">Купить</div>
-                        </div>
-                    </div>
-
-                    <div class="product-card" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
-                        <span class="badge badge-sale">Новинка</span>
-                        <div class="product-img-box"><img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?q=80&w=500&auto=format&fit=crop" alt="Январский Микс"></div>
-                        <span class="p-tag">Relax Formula</span>
-                        <div class="p-title">Январский Микс<br>(Детокс и сон)</div>
-                        <div class="p-desc">Специальный состав для очистки организма и глубокого ментального расслабления.</div>
-                        <div class="p-price-row">
-                            <div class="p-price"><small>от</small>2 150 ₽</div>
                             <div class="btn-buy">Купить</div>
                         </div>
                     </div>
@@ -709,7 +665,7 @@
                 </div>
             </section>
 
-            <!-- СЕКЦИЯ FAQ -->
+            <!-- FAQ SECTION -->
             <section id="faq" class="reveal faq-section">
                 <h2>Частые Вопросы</h2>
                 <div class="faq-container">
@@ -764,6 +720,41 @@
                 </div>
             </section>
 
+            <!-- КОНТАКТЫ -->
+            <section id="contacts" class="reveal">
+                <h2>Связь с Тайгой</h2>
+                <p class="hero-p">Мы всегда на связи, чтобы помочь вам в путешествии к себе. Выберите удобный способ взаимодействия.</p>
+                
+                <div class="contact-grid">
+                    <!-- Заказ -->
+                    <a href="javascript:void(0)" class="contact-btn-large" onclick="openPortal('https://t.me/Altai_Amanita_bot')">
+                        <div class="contact-icon">🛒</div>
+                        <div class="contact-info">
+                            <b>Оформить заказ</b>
+                            <span>Актуальный каталог и быстрый бот-заказа</span>
+                        </div>
+                    </a>
+
+                    <!-- Консультация -->
+                    <a href="javascript:void(0)" class="contact-btn-large" onclick="openPortal('https://t.me/Konstantin_krohin')">
+                        <div class="contact-icon">💬</div>
+                        <div class="contact-info">
+                            <b>Личная консультация</b>
+                            <span>Задать вопрос Константину (Поддержка 24/7)</span>
+                        </div>
+                    </a>
+
+                    <!-- Канал -->
+                    <a href="javascript:void(0)" class="contact-btn-large" onclick="openPortal('https://t.me/FoRest_maGic1')">
+                        <div class="contact-icon">🌲</div>
+                        <div class="contact-info">
+                            <b>Наше Сообщество</b>
+                            <span>Свежие посты, акции и розыгрыши в канале</span>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
             <!-- ОТЗЫВЫ -->
             <section id="reviews" class="reveal">
                 <h2>Голоса Леса</h2>
@@ -786,7 +777,6 @@
             </footer>
         </div>
 
-        <!-- ОКНО ПОРТАЛА -->
         <div class="portal-overlay" id="portal-ui">
             <div class="portal-ring"></div>
             <p style="margin-top: 30px; letter-spacing: 5px; color: var(--accent); font-size: 12px; font-weight: 800;">ВХОДИМ В ТРАНС...</p>
@@ -869,12 +859,9 @@
         document.querySelectorAll('.faq-question').forEach(button => {
             button.addEventListener('click', () => {
                 const item = button.parentElement;
-                
-                // Закрыть другие, если нужно
                 document.querySelectorAll('.faq-item').forEach(otherItem => {
                     if (otherItem !== item) otherItem.classList.remove('active');
                 });
-
                 item.classList.toggle('active');
             });
         });
