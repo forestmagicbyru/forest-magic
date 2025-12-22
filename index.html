@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Forest Magic — Сила Алтайской Тайги </title>
+    <title>Forest Magic — Сила Алтайской Тайги | Магический Микродозинг</title>
     
     <style>
         /* 
@@ -105,123 +105,37 @@
             animation: mushroom-impact-fall 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
 
-    
-<!-- ============================= -->
-<!-- НАВИГАЦИЯ -->
-<nav>
-    <div class="logo">Forest Magic</div>
-    <!-- Кнопка гамбургер для мобильных -->
-    <button id="mobileMenuBtn" class="mobile-menu-btn">☰</button>
-    
-    <ul id="navMenu">
-        <li><a href="#home">Главная</a></li>
-        <li><a href="#effects">Эффекты</a></li>
-        <li><a href="#catalog">Каталог</a></li>
-        <li><a href="#faq">FAQ</a></li>
-        <li><a href="#contacts">Контакты</a></li>
-    </ul>
-</nav>
+        /* 
+        ========================================
+        3. НАВИГАЦИЯ
+        ========================================
+        */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            background: rgba(5,15,10,0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 500;
+            border-bottom: 1px solid rgba(127,191,162,0.1);
+        }
+        nav ul {
+            display: flex; justify-content: center;
+            gap: clamp(10px, 4vw, 35px);
+            list-style: none; padding: 18px; margin: 0;
+        }
+        nav a {
+            color: #cfe6dc;
+            text-decoration: none;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: 0.3s;
+            opacity: 0.8;
+        }
+        nav a:hover { opacity: 1; color: var(--accent); text-shadow: 0 0 10px var(--accent); }
 
-<style>
-/* ========================================
-3. НАВИГАЦИЯ (Десктоп + Мобильное меню)
-======================================== */
-nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: rgba(5,15,10,0.85);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    z-index: 500;
-    border-bottom: 1px solid rgba(127,191,162,0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    height: 60px;
-}
-
-nav .logo {
-    color: var(--accent);
-    font-weight: 700;
-    letter-spacing: 2px;
-    font-size: 20px;
-}
-
-nav ul {
-    display: flex;
-    justify-content: center;
-    gap: clamp(10px, 4vw, 35px);
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-nav ul li {
-    padding: 0;
-}
-
-nav a {
-    color: #cfe6dc;
-    text-decoration: none;
-    font-size: 13px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    transition: 0.3s;
-    opacity: 0.8;
-}
-
-nav a:hover {
-    opacity: 1;
-    color: var(--accent);
-    text-shadow: 0 0 10px var(--accent);
-}
-
-/* Кнопка гамбургер */
-.mobile-menu-btn {
-    display: none;
-    font-size: 28px;
-    background: none;
-    border: none;
-    color: var(--accent);
-    cursor: pointer;
-}
-
-/* Мобильная версия */
-@media screen and (max-width: 768px) {
-    .mobile-menu-btn {
-        display: block;
-    }
-    nav ul {
-        position: absolute;
-        top: 60px;
-        left: 0;
-        width: 100%;
-        flex-direction: column;
-        background: rgba(5,15,10,0.95);
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.4s ease-in-out;
-    }
-    nav ul.active {
-        max-height: 500px; /* достаточно для всех пунктов */
-    }
-    nav ul li {
-        text-align: center;
-        padding: 12px 0;
-    }
-}
-</style>
-
-<script>
-const mobileBtn = document.getElementById('mobileMenuBtn');
-const navMenu = document.getElementById('navMenu');
-
-mobileBtn.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-});
-</script>
+        /* 
         ========================================
         4. ГЕРОЙ-СЕКЦИЯ (HERO)
         ========================================
@@ -701,7 +615,7 @@ mobileBtn.addEventListener('click', () => {
             </div>
             
             <h1 class="reveal">Forest Magic</h1>
-            <p class="hero-p reveal"><p class="hero-p reveal">Вдохни лес, почувствуй силу природы, найди свой внутренний баланс.</p>
+            <p class="hero-p reveal">Премиальный Алтайский микродозинг. Путь к внутренней тишине через чистоту дикой природы.</p>
             <div class="btn-cta reveal" onclick="openPortal('https://t.me/Altai_Amanita_bot')">Войти в Обитель</div>
 
             <!-- СЕКЦИЯ ЭФФЕКТОВ -->
