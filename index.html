@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Forest Magic — Сила Алтайской Тайги | Магический Микродозинг</title>
+    <title>Forest Magic — Сила Алтайской Тайги </title>
     
     <style>
         /* 
@@ -972,19 +972,19 @@
 }
 
 
-        // Пыльца/Светлячки
-document.addEventListener('DOMContentLoaded', () => {
-    for(let i = 0; i < 50; i++) {
-        const spore = document.createElement('div');
-        spore.className = 'spore';
-        spore.style.left = Math.random() * 100 + 'vw';
-        spore.style.width = (1 + Math.random() * 2) + 'px';
-        spore.style.height = spore.style.width;
-        spore.style.animationDuration = (10 + Math.random() * 10) + 's';
-        spore.style.animationDelay = (Math.random() * 20) + 's';
-        document.body.appendChild(spore);
-    }
-});
+       // Пыльца/споры
+for (let i = 0; i < 50; i++) {
+    let spore = document.createElement('div');
+    spore.className = 'spore';
+    spore.style.left = Math.random() * 100 + 'vw';
+    spore.style.width = spore.style.height = (Math.random() * 3 + 2) + 'px'; // 2-5px
+    spore.style.background = 'rgba(200, 255, 230, ' + (0.5 + Math.random() * 0.5) + ')'; // ярче
+    spore.style.animationDuration = (5 + Math.random() * 5) + 's'; // 5-10s
+    spore.style.animationDelay = Math.random() * 2 + 's'; // 0-2s
+    spore.style.zIndex = '1'; // выше фона
+    document.body.appendChild(spore);
+}
+
 
         // Логика FAQ (Аккордеон)
         document.querySelectorAll('.faq-question').forEach(button => {
